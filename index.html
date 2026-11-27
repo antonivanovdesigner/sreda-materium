@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Среда MATERIUM</title>
+<meta name="description" content="Годовая программа для предпринимателей и создателей: превратить опыт и идеи в востребованные проекты, найти союзников и зарабатывать на том, что интересно.">
+<link rel="stylesheet" href="orb.css">
+<style>
+/*
+VOICE: тихо и чисто, как у Apple и Нечто: одна мысль на экран, крупные заголовки, много воздуха
+IDEA: Среда — шар из множества шаров-людей; ваш замысел выпадает из него, проходит год и встраивается в большую Среду
+PICTURE: живой шар на canvas в начале и в финале; между ними — шар-проводник
+COLOUR and TYPE: светлый тёплый серый, оранжевый — шар, кнопки и ключевые слова; финал заливается зелёным; Bluescreens + Plumb
+LAYOUT: один фон, блоки разделяет воздух; длинные тексты раскрываются по выбору, ничего не обрезано
+*/
+@font-face{font-family:'Plumb';src:url(fonts/plumb-regular.woff) format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'Plumb';src:url(fonts/plumb-medium.woff) format('woff');font-weight:500;font-display:swap}
+@font-face{font-family:'Plumb';src:url(fonts/plumb-bold.woff) format('woff');font-weight:700;font-display:swap}
+@font-face{font-family:'Bluescreens';src:url(fonts/bluescreens.woff) format('woff');font-weight:400;font-display:swap}
+:root{color-scheme:only light;--bg:#f2f2f0;--card:#fff;--ink:#1b1b1b;--mute:#58585d;--line:rgba(27,27,27,.1);--or:#ff4e00;--gr:#02432f;--pad:clamp(20px,6vw,160px);--hh:72px;--sp:clamp(96px,9vw,180px);--ease:cubic-bezier(.2,.7,.1,1)}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:var(--hh)}
+body{margin:0;background:var(--bg);transition:background-color .2s linear;color:var(--ink);font:500 17px/1.5 'Plumb',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+button{font:inherit;color:inherit}
+.in{max-width:1600px;margin:0 auto;padding:0 var(--pad)}
+.sec{padding:var(--sp) 0 0}
+.h{font-family:'Bluescreens',Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:.86;margin:0;font-size:clamp(56px,9vw,220px);text-wrap:balance}
+.h2{font-family:'Bluescreens',Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:.9;margin:0;font-size:clamp(36px,4vw,96px);text-wrap:balance}
+.h em,.h2 em{font-style:normal;color:var(--or)}
+.lab{font-weight:700;font-size:clamp(13px,.9vw,18px);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.lead{font-weight:500;font-size:clamp(19px,1.5vw,30px);line-height:1.38;color:var(--mute);max-width:28em;text-wrap:pretty}
+.big{font-weight:700;font-size:clamp(28px,3.2vw,68px);line-height:1.12;letter-spacing:-.02em;text-wrap:balance;margin:0}
+.txt{font-weight:500;font-size:clamp(17px,1.2vw,22px);line-height:1.5;color:var(--mute);text-wrap:pretty}
+.head{display:grid;gap:clamp(16px,1.6vw,32px);max-width:1180px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:clamp(52px,3.6vw,72px);padding:0 clamp(26px,2.2vw,44px);border-radius:999px;border:0;background:var(--or);color:#fff;font:700 clamp(16px,1.05vw,21px) 'Plumb',sans-serif;cursor:pointer;white-space:nowrap;transition:transform .4s var(--ease),background .3s,box-shadow .4s}
+.btn:hover{transform:scale(1.03);box-shadow:0 14px 34px -12px rgba(255,78,0,.55)}
+.btn.q{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(27,27,27,.22)}
+.btn.q:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
+:focus-visible{outline:2px solid var(--or);outline-offset:4px;border-radius:6px}
+.dots{display:grid;gap:12px}
+.dots li{position:relative;padding-left:22px}
+.dots li:before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--ink);opacity:.3}
+.why{padding:clamp(20px,1.8vw,32px) clamp(22px,2vw,36px);border-radius:clamp(18px,1.6vw,28px);background:var(--card);color:var(--ink);font-size:clamp(16px,1.2vw,23px);line-height:1.45;box-shadow:0 1px 2px rgba(0,0,0,.03),0 30px 60px -44px rgba(0,0,0,.25)}
+.why b{display:block;font-size:clamp(12px,.8vw,15px);letter-spacing:.08em;text-transform:uppercase;color:var(--or);margin-bottom:8px}
+/* текст, который проявляется по словам при прокрутке */
+.wd{color:#cfcfcb;transition:color .35s}
+.wd.on{color:var(--ink)}
+em .wd{color:#f6cdb8}
+em .wd.on{color:var(--or)}
+[data-rv] em{font-style:normal}
+/* стрелки */
+.arr{width:clamp(48px,3.4vw,60px);height:clamp(48px,3.4vw,60px);border-radius:50%;border:0;background:transparent;box-shadow:inset 0 0 0 1.5px rgba(27,27,27,.2);display:grid;place-items:center;cursor:pointer;transition:box-shadow .3s,background .3s,color .3s,opacity .3s}
+.arr:hover{background:var(--ink);color:#fff;box-shadow:none}
+.arr:disabled{opacity:.3;pointer-events:none}
+.arr svg{width:40%;height:40%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* шапка: только логотип и бургер */
+.hd{position:fixed;inset:0 0 auto;z-index:60;height:var(--hh);transition:background .4s,box-shadow .4s,opacity .4s}
+.hd.s{background:rgba(242,242,240,.72);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);box-shadow:0 1px 0 var(--line)}
+.hd.dk{background:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.hd.dk img{filter:invert(1)}
+.hd.dk .burg i{background:#fff}
+.hd .in{height:100%;display:flex;align-items:center;justify-content:space-between}
+.hd img{height:30px;width:auto;transition:filter .4s}
+.burg{width:48px;height:48px;border:0;background:none;cursor:pointer;display:grid;place-content:center;gap:7px;padding:0}
+.burg i{display:block;width:26px;height:2px;background:var(--ink);border-radius:2px;transition:transform .5s var(--ease),background .4s}
+body.mo .burg i{background:var(--ink)}
+body.mo .hd img{filter:none}
+body.mo .burg i:first-child{transform:translateY(4.5px) rotate(45deg)}
+body.mo .burg i:last-child{transform:translateY(-4.5px) rotate(-45deg)}
+.menu{position:fixed;inset:0;z-index:55;background:rgba(242,242,240,.92);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);display:flex;align-items:center;opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility .5s}
+body.mo .menu{opacity:1;visibility:visible}
+.menu nav{display:flex;flex-direction:column;gap:4px}
+.menu nav a{font-family:'Bluescreens';text-transform:uppercase;font-size:clamp(44px,7vw,120px);line-height:.95;opacity:0;transform:translateY(30px);transition:opacity .6s var(--ease),transform .6s var(--ease),color .2s}
+.menu nav a:hover{color:var(--or)}
+body.mo .menu nav a{opacity:1;transform:none}
+.menu .btn{margin-top:clamp(28px,3vw,56px)}
+
+/* 1. первый экран */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.gls{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity 1.4s var(--ease) .3s}
+.gls.on{opacity:1}
+.gls canvas{position:absolute;inset:0;width:100%;height:100%}
+.gls .fr{position:absolute;inset:0;background:#fff;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.gls .rim{display:none}
+.hero.glass .ttl{color:transparent!important;mix-blend-mode:normal!important}
+.hero .ttl{position:absolute;left:0;right:0;top:40%;transform:translateY(-50%);z-index:3;pointer-events:none;text-align:center;font-size:clamp(96px,19vw,460px);line-height:.8;color:rgba(168,50,0,.66);mix-blend-mode:multiply;white-space:nowrap}
+.hero .foot{position:absolute;left:0;right:0;bottom:clamp(32px,6vh,80px);z-index:3;text-align:center;padding:0 20px;display:grid;justify-items:center;gap:clamp(20px,2.2vw,34px)}
+.hero .sub{font-weight:500;font-size:clamp(21px,2vw,38px);line-height:1.2;letter-spacing:-.01em;white-space:nowrap}
+.hero .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hero .btns .btn{width:100%;min-width:clamp(220px,15vw,290px)}
+.hero .slot{position:absolute;width:20px;height:20px;transform:translate(-50%,-50%);pointer-events:none}
+
+/* 1б. о программе */
+.intro .big{max-width:20em}
+.can{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(32px,4vw,96px);margin-top:clamp(64px,6vw,120px)}
+.can li{display:grid;grid-template-columns:28px 1fr;gap:16px;padding:clamp(22px,1.8vw,34px) 0;border-top:1px solid var(--line);font-size:clamp(17px,1.3vw,25px);line-height:1.42}
+.can li i{width:22px;height:22px;margin-top:.15em;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff 0,#ffc7a6 22%,#ff7a3a 58%,#d9480b 100%);box-shadow:0 6px 14px -6px rgba(255,78,0,.6)}
+.can li em{font-style:normal;font-weight:700;color:var(--or)}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.2vw,24px);margin-top:clamp(56px,5vw,100px)}
+.fact{background:var(--card);border-radius:clamp(20px,1.8vw,32px);padding:clamp(24px,2.2vw,44px);display:flex;flex-direction:column;justify-content:space-between;gap:28px;min-height:clamp(180px,14vw,280px);box-shadow:0 1px 2px rgba(0,0,0,.03),0 40px 80px -50px rgba(0,0,0,.22)}
+.fact b{font-family:'Bluescreens';font-weight:400;font-size:clamp(64px,6vw,140px);line-height:.8;text-transform:uppercase}
+.cta{display:flex;justify-content:center;margin-top:clamp(40px,4vw,72px)}
+.fact span{font-size:clamp(17px,1.2vw,23px);line-height:1.35;font-weight:500}
+
+/* 2. переход: одна большая фраза на экран */
+.mani{padding:var(--sp) 0 0;text-align:center}
+.mani .big{font-size:clamp(32px,4.4vw,96px);max-width:14em;margin:0 auto;line-height:1.08}
+.mani .slot{display:block;width:clamp(48px,4vw,80px);height:clamp(48px,4vw,80px);margin:0 auto clamp(28px,3vw,56px)}
+
+/* 3. для кого: слева список ситуаций, справа раскрытие (на телефоне — аккордеон на месте) */
+.sxs{margin-top:clamp(48px,5vw,100px)}
+.hb{all:unset;box-sizing:border-box;display:grid;grid-template-columns:clamp(40px,3vw,56px) 1fr 40px;gap:14px;align-items:center;width:100%;padding:clamp(18px,1.6vw,28px) clamp(18px,1.6vw,28px);border-radius:clamp(18px,1.6vw,28px);background:rgba(255,255,255,.4);box-shadow:inset 0 0 0 1.5px var(--line);cursor:pointer;transition:background .4s,box-shadow .4s,transform .5s var(--ease)}
+.hb:hover{background:#fff}
+.hb:focus-visible{outline:2px solid var(--or);outline-offset:4px}
+.hb .n{font-family:'Bluescreens';font-size:clamp(30px,2.4vw,48px);line-height:.8;color:#c4c4c0;transition:color .4s}
+.hb b{font-weight:700;font-size:clamp(17px,1.3vw,25px);line-height:1.2;letter-spacing:-.01em;color:var(--mute);text-wrap:balance;transition:color .4s}
+.hb i{width:40px;height:40px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;font-style:normal;transition:transform .5s var(--ease),background .4s,color .4s,box-shadow .4s}
+.sx.on .hb{background:#fff;box-shadow:0 0 0 2px var(--or),0 30px 60px -44px rgba(0,0,0,.3)}
+.sx.on .hb .n{color:var(--or)}
+.sx.on .hb b{color:var(--ink)}
+.sx.on .hb i{background:var(--or);color:#fff;box-shadow:none}
+.bdi{background:#fff;border-radius:clamp(24px,2.2vw,40px);padding:clamp(26px,2.6vw,52px);box-shadow:0 1px 2px rgba(0,0,0,.03),0 40px 80px -50px rgba(0,0,0,.25);display:grid;gap:clamp(16px,1.4vw,24px)}
+.bdh{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.bdh .art{position:relative;width:clamp(76px,6vw,110px);aspect-ratio:1;flex:none}
+.bdh .art svg{width:100%;height:100%;display:block}
+.bdh .art .slot{position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%)}
+.chk{display:grid;gap:12px;font-size:clamp(17px,1.2vw,22px);line-height:1.42}
+.chk li{display:grid;grid-template-columns:22px 1fr;gap:12px}
+.chk li:before{content:"";width:22px;height:22px;margin-top:.1em;border-radius:50%;background:rgba(255,78,0,.12) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff4e00' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/12px no-repeat}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.more>div{overflow:hidden}
+.more .chk{padding-top:12px}
+.sx.all .more{grid-template-rows:1fr}
+.mt{all:unset;box-sizing:border-box;justify-self:start;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--or);cursor:pointer;padding:6px 0}
+.mt svg{transition:transform .4s var(--ease)}
+.sx.all .mt svg{transform:rotate(180deg)}
+.bdi .why{background:var(--bg);box-shadow:none}
+.bdi .why .btn{margin-top:clamp(16px,1.4vw,24px)}
+@media (min-width:1001px){
+ .sxs{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);grid-template-rows:repeat(4,auto) 1fr;column-gap:clamp(24px,3vw,64px);row-gap:10px;align-items:start}
+ .sx{display:contents}
+ .sx .hb{grid-column:1;grid-row:var(--r)}
+ .sx .hb i{transform:rotate(0)}
+ .sx .bd{grid-column:2;grid-row:1/span 5;opacity:0;visibility:hidden;transform:translateX(18px);transition:opacity .5s var(--ease),transform .5s var(--ease),visibility .5s}
+ .sx.on .bd{opacity:1;visibility:visible;transform:none}
+}
+@media (max-width:1000px){
+ .sx+.sx{margin-top:10px}
+ .sx .hb i{transform:rotate(90deg)}
+ .sx.on .hb i{transform:rotate(-90deg)}
+ .sx .bd{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+ .sx .bd>div{overflow:hidden}
+ .sx.on .bd{grid-template-rows:1fr}
+ .sx .bdi{margin-top:10px;padding:22px 20px}
+}
+/* 4. что получите: сетка карточек */
+.gg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.2vw,24px);margin-top:clamp(48px,5vw,100px)}
+.gc{background:var(--card);border-radius:clamp(24px,2.2vw,40px);padding:clamp(26px,2.4vw,48px);display:flex;flex-direction:column;gap:clamp(14px,1.2vw,20px);box-shadow:0 1px 2px rgba(0,0,0,.03),0 40px 80px -50px rgba(0,0,0,.22)}
+.gc .n{display:flex;justify-content:space-between;align-items:center}
+.gc .n span{font-family:'Bluescreens';font-size:clamp(52px,4.4vw,96px);line-height:.8;color:var(--or)}
+.gc .n svg{width:clamp(56px,4.2vw,80px);height:clamp(56px,4.2vw,80px)}
+.gc h3{font-weight:700;font-size:clamp(22px,1.7vw,34px);line-height:1.15;letter-spacing:-.01em;margin:clamp(8px,1vw,20px) 0 0;text-wrap:balance}
+.quote{padding:var(--sp) 0 0}
+.quote .big{font-size:clamp(32px,4.4vw,96px);max-width:16em;line-height:1.08}
+.quote .btn{margin-top:clamp(36px,3.6vw,64px)}
+
+/* 5. программа */
+.venn{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(40px,6vw,140px);align-items:center;margin-top:clamp(56px,6vw,120px)}
+.venn .pic{position:relative;width:100%;max-width:640px;justify-self:center}
+.venn svg{width:100%;height:auto;display:block;overflow:visible}
+.venn svg text{font-family:'Plumb',sans-serif}
+.venn .slot{position:absolute;left:50%;top:44.6%;width:11%;aspect-ratio:1;transform:translate(-50%,-50%)}
+.venn .c{transition:transform 1.6s var(--ease),opacity 1.2s}
+.venn .c1{transform:translate(-70px,-40px)}.venn .c2{transform:translate(70px,-40px)}.venn .c3{transform:translate(0,70px)}
+.venn .c{opacity:0}
+.venn .t{opacity:0;transition:opacity 1s 1s}
+.venn .pic.in-v .c{transform:none;opacity:1}
+.venn .pic.in-v .t{opacity:1}
+.venn .cap{display:grid;gap:clamp(18px,1.6vw,28px)}
+.venn .cap .big{font-size:clamp(26px,2.6vw,54px)}
+.venn .legend{display:grid;gap:10px;font-size:clamp(15px,1.05vw,20px);color:var(--mute)}
+.venn .legend li{display:flex;gap:12px;align-items:center}
+.venn .legend i{width:14px;height:14px;border-radius:50%;flex:none}
+/* сезоны */
+.seasons{margin-top:var(--sp)}
+.seasons .top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.seasons .nav2{display:flex;gap:10px;flex:none}
+.stabs{position:relative;display:flex;margin:clamp(48px,5vw,96px) 0 clamp(36px,3.4vw,64px);overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+.stabs::-webkit-scrollbar{display:none}
+.stabs .ln{position:static;flex:none;width:0;height:0}
+#sFill{position:absolute;left:0;bottom:0;height:3px;width:0;border-radius:3px;background:var(--or);transition:left .6s var(--ease),width .6s var(--ease);z-index:1}
+.stabs .slot{position:absolute;bottom:0;width:clamp(36px,2.8vw,52px);aspect-ratio:1;transform:translate(-50%,50%);transition:left .6s var(--ease);z-index:2}
+.st-b{all:unset;box-sizing:border-box;flex:1 1 0;min-width:0;display:grid;gap:8px;align-content:start;padding:0 clamp(16px,2vw,40px) clamp(22px,2vw,32px) 0;box-shadow:inset 0 -1.5px 0 var(--line);cursor:pointer;scroll-snap-align:start;transition:color .3s}
+.st-b span{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#a3a3a0;transition:color .3s}
+.st-b b{font-weight:700;font-size:clamp(17px,1.35vw,26px);line-height:1.2;color:#9a9a97;text-wrap:balance;transition:color .3s}
+.st-b:hover b,.st-b:hover span{color:var(--ink)}
+.st-b:focus-visible{outline:2px solid var(--or);outline-offset:4px}
+.st-b.on span{color:var(--or)}
+.st-b.on b{color:var(--ink)}
+.sbox{background:#fff;border-radius:clamp(26px,2.6vw,48px);padding:clamp(22px,3vw,60px) clamp(22px,3.4vw,68px) clamp(28px,3.4vw,68px);margin-top:clamp(40px,4vw,80px);box-shadow:0 1px 2px rgba(0,0,0,.03),0 50px 100px -60px rgba(0,0,0,.28)}
+.sbox .stabs{margin:0 0 clamp(32px,3vw,56px)}
+.sbox .why{background:var(--bg);box-shadow:none}
+.pane>div:first-child .btn{margin-top:clamp(28px,2.6vw,48px)}
+.panes{display:grid}
+.pane{grid-area:1/1;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,120px);opacity:0;visibility:hidden;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease),visibility .6s}
+.pane.on{opacity:1;visibility:visible;transform:none}
+.pane .h2{margin:0 0 clamp(14px,1.2vw,22px);font-size:clamp(34px,3.4vw,80px)}
+.pane>div:first-child{display:flex;flex-direction:column;align-items:flex-start}
+.pane .dots{font-size:clamp(16px,1.15vw,22px);line-height:1.45;color:var(--ink);gap:14px}
+.pane .why{margin-top:clamp(20px,1.8vw,32px)}
+.pane .nx{all:unset;box-sizing:border-box;margin-top:clamp(28px,2.6vw,48px);display:inline-flex;align-items:center;gap:14px;text-align:left;font-weight:700;font-size:clamp(16px,1.1vw,20px);cursor:pointer}
+.pane .nx i{flex:none;width:48px;height:48px;border-radius:50%;background:var(--or);color:#fff;display:grid;place-items:center;font-style:normal;transition:transform .4s var(--ease)}
+.pane .nx:hover i{transform:translateX(4px)}
+.pane .nx .t{display:grid;gap:2px;line-height:1.25}
+.pane .nx small{font-size:.9em;color:var(--mute);font-weight:500}
+/* форматы месяца: заголовок слева, спокойный список справа */
+.month{margin-top:var(--sp)}
+.mg{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,6vw,140px);align-items:start}
+.mh{position:sticky;top:calc(var(--hh) + 48px)}
+.fl{list-style:none;margin:0;padding:0}
+.fr{display:grid;grid-template-columns:clamp(56px,4.6vw,84px) minmax(0,1fr);gap:clamp(18px,2.2vw,40px);padding:clamp(26px,2.4vw,44px) 0;border-top:1px solid var(--line)}
+.fr:last-child{border-bottom:1px solid var(--line)}
+.fr .ic{width:100%;aspect-ratio:1}
+.fr h4{margin:0 0 10px;font-weight:700;font-size:clamp(21px,1.7vw,32px);line-height:1.15;letter-spacing:-.01em;text-wrap:balance}
+.fr h4 small{display:block;font-weight:500;color:var(--mute);font-size:.62em;margin-top:6px;letter-spacing:0}
+.fr .tag{display:inline-block;margin-bottom:12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:99px;background:var(--or);color:#fff}
+/* приложение — телефон из Ассамблеи: заголовок сверху, текст слева и справа, телефон с плашками в центре */
+.app{margin-top:var(--sp)}
+.apph{text-align:center;display:grid;justify-items:center;gap:clamp(14px,1.4vw,24px)}
+.appg{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:clamp(80px,9vw,200px);align-items:center;margin-top:clamp(48px,5vw,100px)}
+.appg .big{font-size:clamp(22px,1.9vw,40px)}
+.phs{position:relative;text-align:left}
+.chip{position:absolute;z-index:3;display:flex;align-items:center;gap:10px;padding:12px 18px 12px 12px;border-radius:99px;background:rgba(255,255,255,.62);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);box-shadow:inset 0 0 0 1px rgba(255,255,255,.8),0 20px 40px -24px rgba(0,0,0,.35);font-weight:700;font-size:clamp(15px,1.1vw,20px);white-space:nowrap;animation:chipF 6s ease-in-out infinite}
+.chip i{width:22px;height:22px;border-radius:50%;flex:none}
+.chip:nth-child(2){animation-delay:-1.5s}.chip:nth-child(3){animation-delay:-3s}.chip:nth-child(4){animation-delay:-4.5s}
+@keyframes chipF{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.c-a{left:-46%;top:14%}.c-b{right:-48%;top:32%}.c-c{left:-58%;top:60%}.c-d{right:-40%;top:78%}
+.ph{--w:clamp(250px,17vw,340px);position:relative;width:var(--w);aspect-ratio:9/19;border-radius:calc(var(--w)*.1588);padding:calc(var(--w)*.0294);background:linear-gradient(145deg,#4a4d4f,#1b1c1d 40%,#2c2e2f 70%,#0d0d0d);box-shadow:0 0 0 1.5px #000,0 60px 90px -20px rgba(0,0,0,.45),inset 0 0 0 2px rgba(255,255,255,.08);transform:rotate(4deg)}
+.ph:before,.ph:after{content:"";position:absolute;width:calc(var(--w)*.0118);border-radius:2px;background:#2a2b2c}
+.ph:before{left:calc(var(--w)*-.0118);top:22%;height:9%}
+.ph:after{right:calc(var(--w)*-.0118);top:28%;height:14%}
+.ph__scr{position:relative;height:100%;border-radius:calc(var(--w)*.1294);background:#ebebeb;overflow:hidden;padding:calc(var(--w)*.0412) calc(var(--w)*.0412) 0;display:flex;flex-direction:column;gap:calc(var(--w)*.0265)}
+.ph__bar{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:calc(var(--w)*.0382);padding:calc(var(--w)*.0059) calc(var(--w)*.0294) 0}
+.ph__bar i{width:calc(var(--w)*.2706);height:calc(var(--w)*.0765);border-radius:calc(var(--w)*.0412);background:#000}
+.ph__bar b{display:flex;gap:calc(var(--w)*.0088);align-items:flex-end}
+.ph__bar b span{width:calc(var(--w)*.0118);border-radius:1px;background:var(--ink)}
+.ph__logo{height:calc(var(--w)*.0471);width:auto;align-self:center;margin:calc(var(--w)*.0118) 0 calc(var(--w)*.0059)}
+.ph__card{display:grid;grid-template-columns:calc(var(--w)*.1) 1fr calc(var(--w)*.0235);gap:calc(var(--w)*.0294);align-items:center;padding:calc(var(--w)*.0294);border-radius:calc(var(--w)*.0412);background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.05);opacity:0;animation:maIn 9s infinite}
+.ph__card:nth-of-type(2){animation-delay:.25s}
+.ph__card:nth-of-type(3){animation-delay:.5s}
+.ph__card:nth-of-type(4){animation-delay:1.6s}
+.ph__card svg{width:calc(var(--w)*.1);height:calc(var(--w)*.1);padding:calc(var(--w)*.0235);border-radius:calc(var(--w)*.0265);background:var(--gr);stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.ph__card b{display:block;font-size:calc(var(--w)*.0412);line-height:1.1}
+.ph__card small{display:block;font-size:calc(var(--w)*.0324);line-height:1.25;color:rgba(25,25,25,.6);margin-top:calc(var(--w)*.0059)}
+.ph__card em{font-style:normal;font-size:calc(var(--w)*.0412);color:rgba(25,25,25,.4)}
+.ph__match{margin-top:calc(var(--w)*.0059);padding:calc(var(--w)*.0382) calc(var(--w)*.0353) calc(var(--w)*.0412);border-radius:calc(var(--w)*.0471);background:var(--gr);color:#fff;opacity:0;animation:maIn 9s .9s infinite}
+.ph__match p{font-weight:700;font-size:calc(var(--w)*.0309);letter-spacing:.04em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.ph__pair{position:relative;height:calc(var(--w)*.1941);margin-top:calc(var(--w)*.0294)}
+.ph__pair img{position:absolute;top:0;width:calc(var(--w)*.1941);height:calc(var(--w)*.1941);border-radius:50%;object-fit:cover;background:#ebebeb;border:calc(var(--w)*.0088) solid var(--gr)}
+.ph__pair img:first-child{left:8%;animation:maL 9s infinite}
+.ph__pair img:last-of-type{right:8%;animation:maR 9s infinite}
+.ph__pair .slot{position:absolute;left:50%;top:50%;width:calc(var(--w)*.0647);height:calc(var(--w)*.0647);transform:translate(-50%,-50%);z-index:2}
+.ph__cap{display:flex;justify-content:space-between;margin-top:calc(var(--w)*.0235);font-size:calc(var(--w)*.0309);color:rgba(255,255,255,.8)}
+.ph__people{padding:calc(var(--w)*.0353);border-radius:calc(var(--w)*.0412);background:#fff;opacity:0;animation:maIn 9s 1.3s infinite}
+.ph__people p{font-weight:700;font-size:calc(var(--w)*.0309);letter-spacing:.04em;text-transform:uppercase;color:rgba(25,25,25,.55)}
+.ph__people div{display:flex;margin-top:calc(var(--w)*.0235)}
+.ph__people img,.ph__people span{width:calc(var(--w)*.1118);height:calc(var(--w)*.1118);border-radius:50%;object-fit:cover;background:#ebebeb;border:calc(var(--w)*.0059) solid #fff;margin-right:calc(var(--w)*-.0265)}
+.ph__people span{display:grid;place-items:center;background:var(--or);color:#fff;font-weight:700;font-size:calc(var(--w)*.0412)}
+@keyframes maIn{0%,4%{opacity:0;transform:translateY(12px)}10%,92%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes maL{0%,20%{transform:translateX(0)}40%,92%{transform:translateX(38%)}100%{transform:translateX(0)}}
+@keyframes maR{0%,20%{transform:translateX(0)}40%,92%{transform:translateX(-38%)}100%{transform:translateX(0)}}
+
+/* 6. Advisory Board */
+.feat{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,110px);align-items:center;margin-top:clamp(48px,5vw,100px)}
+.feat>img{width:100%;aspect-ratio:1;object-fit:cover;object-position:50% 25%;border-radius:clamp(18px,1.6vw,30px)}
+.feat .h2{font-size:clamp(44px,5vw,120px);margin:10px 0 clamp(18px,1.6vw,28px)}
+.feat .dots{margin-top:clamp(18px,1.6vw,28px);color:var(--mute);font-size:clamp(16px,1.1vw,21px)}
+.idea{display:grid;grid-template-columns:clamp(56px,4vw,72px) 1fr;gap:16px;align-items:center;padding:14px 18px 14px 14px;border-radius:20px;background:#fff;font-size:clamp(16px,1.15vw,22px);line-height:1.4;box-shadow:0 30px 60px -44px rgba(0,0,0,.3)}
+.idea span{aspect-ratio:1;border-radius:50%;background:var(--bg);display:grid;place-items:center;overflow:hidden}
+.idea img{width:72%;height:72%;object-fit:contain}
+.sk{flex:0 0 clamp(260px,21vw,340px);scroll-snap-align:start;display:flex;flex-direction:column;gap:12px}
+.sk .ph1{position:relative;aspect-ratio:1;border-radius:clamp(14px,1.2vw,22px);overflow:hidden;background:#e7e7e4}
+.sk .ph1 img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;filter:grayscale(1);transition:filter .8s var(--ease),transform .8s var(--ease)}
+.sk:hover .ph1 img{filter:none;transform:scale(1.02)}
+.sk .loc{position:absolute;left:12px;top:12px;font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.85)}
+.sk h3{font-family:'Bluescreens';font-weight:400;text-transform:uppercase;font-size:clamp(26px,2vw,42px);line-height:.9;margin:6px 0 0}
+.sk .idea{font-size:clamp(14px,.95vw,17px);padding:10px 12px 10px 10px;grid-template-columns:44px 1fr;gap:12px;border-radius:16px}
+.sk .rg{font-size:clamp(14px,.95vw,17px);line-height:1.4;color:var(--mute)}
+/* 7. результаты: карусель из 12 историй */
+.ks-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.ks-top .nav2{display:flex;gap:10px;flex:none}
+.ks{display:flex;gap:clamp(16px,1.6vw,32px);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-top:clamp(48px,5vw,100px);padding:0 var(--pad) 8px;scroll-padding:0 var(--pad)}
+.ks::-webkit-scrollbar{display:none}
+.kc{flex:0 0 clamp(270px,23vw,380px);scroll-snap-align:start;display:flex;flex-direction:column}
+.kc .pic{position:relative;aspect-ratio:4/5;border-radius:clamp(14px,1.2vw,22px);overflow:hidden;background:#e7e7e4}
+.kc .pic img.ph0{width:100%;height:100%;object-fit:cover;object-position:50% 25%;filter:grayscale(1) contrast(.95);transition:filter .8s var(--ease),transform .8s var(--ease)}
+.kc:hover .pic img.ph0{filter:none;transform:scale(1.02)}
+.kc .pic .disc{position:absolute;left:50%;top:46%;width:62%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%)}
+.kc .pic img.obj{position:absolute;left:50%;top:50%;width:74%;height:74%;object-fit:contain;transform:translate(-50%,-50%);filter:drop-shadow(0 24px 30px rgba(0,0,0,.18));transition:transform .8s var(--ease)}
+.kc:hover .pic img.obj{transform:translate(-50%,-52%) scale(1.03)}
+.kc .pic.av{background:#ececE9}
+.kc .pic.av img.obj{filter:grayscale(1) contrast(.92) drop-shadow(0 24px 30px rgba(0,0,0,.14))}
+.kc h3{font-family:'Bluescreens';font-weight:400;text-transform:uppercase;font-size:clamp(26px,2vw,44px);line-height:.9;margin:18px 0 6px}
+.kc .role{font-size:clamp(14px,.95vw,17px);color:var(--mute);line-height:1.35;margin-bottom:14px;min-height:2.7em}
+.ba{display:flex;flex-direction:column;flex:1;font-size:clamp(15px,1vw,18px);line-height:1.4}
+.ba span{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:99px;margin-bottom:8px}
+.b0{padding:14px 16px 16px;border-radius:16px 16px 0 0;background:rgba(27,27,27,.045);color:var(--mute)}
+.b0 span{box-shadow:inset 0 0 0 1px rgba(27,27,27,.18);color:var(--mute)}
+.b1{position:relative;flex:1;padding:22px 16px 18px;border-radius:0 0 16px 16px;background:#fff;color:var(--ink);font-weight:500;box-shadow:0 30px 50px -40px rgba(0,0,0,.3)}
+.b1:before{content:"";position:absolute;left:16px;top:-14px;width:28px;height:28px;border-radius:50%;background:var(--or) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M6 13l6 6 6-6'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 0 0 4px var(--bg)}
+.b1 span{background:var(--or);color:#fff}
+
+/* 8. автор */
+.author .grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,6vw,160px);align-items:center}
+.author img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;border-radius:clamp(14px,1.4vw,26px)}
+.author .h{margin:14px 0 10px}
+.author .role{font-weight:700;font-size:clamp(18px,1.4vw,28px);color:var(--or);margin-bottom:clamp(24px,2.4vw,48px)}
+.author blockquote{margin:0 0 clamp(20px,2vw,36px);font-weight:700;font-size:clamp(22px,2vw,44px);line-height:1.2;letter-spacing:-.01em;text-wrap:balance}
+.author .dots{margin-top:clamp(20px,1.8vw,32px);font-size:clamp(16px,1.1vw,21px);line-height:1.45}
+
+/* 9. тарифы */
+.tar .head{margin:0 auto;text-align:center;justify-items:center}
+.tar .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.4vw,28px);max-width:1240px;margin:clamp(56px,6vw,120px) auto 0}
+.card{background:var(--card);border-radius:clamp(24px,2.2vw,40px);padding:clamp(32px,3vw,60px);display:flex;flex-direction:column;gap:clamp(20px,1.8vw,32px);box-shadow:0 1px 2px rgba(0,0,0,.03),0 40px 80px -50px rgba(0,0,0,.22)}
+.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.card h3{font-family:'Bluescreens';font-weight:400;text-transform:uppercase;font-size:clamp(48px,4.4vw,104px);line-height:.86;margin:0}
+.card .dur{font-weight:700;color:var(--mute)}
+.card .dots{flex:1;font-size:clamp(16px,1.1vw,21px);line-height:1.45}
+.card .row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:clamp(20px,1.8vw,32px);border-top:1px solid var(--line);flex-wrap:wrap}
+.card .row b{display:block;font-size:clamp(20px,1.5vw,28px)}
+.card .row small{display:block;color:var(--mute);font-size:14px}
+.card.ac{box-shadow:0 0 0 1.5px var(--ink),0 40px 80px -50px rgba(0,0,0,.22)}
+.faq{margin-top:var(--sp);text-align:left}
+.faq .acc{margin-top:clamp(40px,4vw,80px)}
+.faq .head{margin:0;text-align:left;justify-items:start;max-width:none}
+.acc li{border-top:1px solid var(--line)}
+.acc li:last-child{border-bottom:1px solid var(--line)}
+.acc .tg{all:unset;box-sizing:border-box;display:grid;grid-template-columns:1fr 44px;gap:20px;align-items:center;width:100%;padding:clamp(20px,1.6vw,30px) 0;cursor:pointer}
+.acc .tg b{font-weight:700;font-size:clamp(19px,1.7vw,32px);line-height:1.22;letter-spacing:-.01em}
+.acc .tg:hover b{color:var(--or)}
+.acc .tg i{width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--line);position:relative;transition:background .4s}
+.acc .tg i:before,.acc .tg i:after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.5px;background:var(--ink);transform:translate(-50%,-50%)}
+.acc .tg i:after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .5s var(--ease)}
+.acc .d{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.acc .d>div{overflow:hidden}
+.acc .d p{padding-bottom:clamp(22px,1.8vw,32px);font-size:clamp(17px,1.25vw,23px);line-height:1.45;color:var(--mute);max-width:42em}
+.acc li.on i{background:var(--ink)}
+.acc li.on i:before{background:#fff}
+.acc li.on i:after{transform:translate(-50%,-50%) rotate(0);background:#fff}
+.acc li.on .d{grid-template-rows:1fr}
+
+/* 10. финал */
+.fin{height:260vh;position:relative}
+.fin .st{position:sticky;top:0;height:100svh;overflow:hidden;color:var(--ink)}
+.fin .st:before{content:"";position:absolute;left:50%;top:52%;width:min(130vw,1500px);aspect-ratio:1.25;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(120,214,168,.34),rgba(60,150,110,.16) 45%,rgba(2,67,47,0) 100%);opacity:var(--gl,0);pointer-events:none;z-index:0}
+.fin canvas{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.fin .slot{position:absolute;left:50%;top:48%;width:20px;height:20px;transform:translate(-50%,-50%)}
+.fin .ttl{position:absolute;left:0;right:0;top:10%;z-index:1;margin:0;text-align:center;color:#fff;font-size:clamp(76px,14vw,360px);line-height:.84;white-space:nowrap;opacity:0;transform:translateY(30px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease);text-shadow:0 10px 60px rgba(0,30,20,.35)}
+.fin .bar{position:absolute;left:50%;bottom:clamp(32px,6vh,80px);z-index:3;width:min(92vw,820px);transform:translate(-50%,30px);opacity:0;transition:opacity 1s var(--ease),transform 1s var(--ease);text-align:center}
+.fin.on .ttl{opacity:1;transform:none}
+.fin.on .bar{opacity:1;transform:translate(-50%,0)}
+.fin .bar p{color:#fff;font-weight:700;font-size:clamp(20px,1.7vw,34px);line-height:1.25;margin-bottom:8px;text-wrap:balance}
+.fin .bar p+p{color:rgba(255,255,255,.75);font-weight:400;font-size:clamp(17px,1.3vw,26px);margin-bottom:clamp(20px,2vw,32px)}
+footer{padding:40px 0 48px;color:rgba(255,255,255,.6);font-size:15px;background:var(--gr)}
+footer .in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+footer img{height:40px;width:auto;filter:invert(1);opacity:.85}
+footer nav{display:flex;gap:24px;flex-wrap:wrap}
+
+/* появления */
+[data-r]{opacity:0;transform:translateY(48px);filter:blur(10px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease),filter 1.2s var(--ease);transition-delay:var(--d,0s)}
+[data-r].in-v{opacity:1;transform:none;filter:none}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.14em 0 .06em;margin:-.14em 0 -.06em}
+.w>span{display:inline-block;transform:translateY(105%);transition:transform 1.1s var(--ease);transition-delay:var(--d,0s)}
+.in-v .w>span{transform:none}
+.hslot{display:inline-block;width:.5em;height:.5em;vertical-align:.06em;margin-left:.2em}
+.role .hslot{width:1.6em;height:1.6em;vertical-align:-.45em}
+.mk{box-decoration-break:clone;-webkit-box-decoration-break:clone}
+body.cl .mk{background:none}
+.note{position:fixed;left:16px;bottom:16px;z-index:70;display:flex;gap:10px;align-items:center;max-width:340px;padding:10px 14px;border-radius:14px;background:rgba(27,27,27,.9);color:#fff;font-size:13px;line-height:1.35;backdrop-filter:blur(10px)}
+.note button{background:none;border:0;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:4px 6px}
+#maLoad .ml-veil{background:var(--bg)!important}
+
+@media (max-width:1000px){
+ .gg{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .tar .grid{grid-template-columns:1fr;max-width:620px}
+ .venn,.pane,.spn{grid-template-columns:1fr}.venn .pic{max-width:520px}
+ .appg{grid-template-columns:1fr;gap:clamp(48px,8vw,80px);justify-items:center;text-align:center}.appg .big,.appg .lead{max-width:30em}
+ .c-a{left:-30%}.c-b{right:-30%}.c-c{left:-26%}.c-d{right:-24%}
+ .st-b{flex:0 0 min(62vw,260px)}
+ .sbox{padding:20px 18px 26px;border-radius:24px}
+ .mg{grid-template-columns:1fr}.mh{position:relative;top:0}
+}
+@media (max-width:800px){
+ .hero .sub{white-space:normal;max-width:15em}
+ [data-rv]{text-wrap:pretty}.intro .big,.quote .big,.mani .big{font-size:26px;line-height:1.18}
+ .hero .ttl{white-space:normal;font-size:27vw;line-height:.82;top:38%}
+ .author .grid,.feat{grid-template-columns:1fr}.feat>img{max-width:440px}.author img{max-width:440px}
+ .ppl,.can{grid-template-columns:1fr}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.fact{min-height:0;gap:16px;padding:20px}.fact b{font-size:44px}.fact span{font-size:15px}
+}
+@media (max-width:600px){
+ .hero .btns{grid-template-columns:1fr;width:100%;max-width:340px}.hero .btns .btn{min-width:0}
+ .gg{display:block}.gc{position:sticky;top:calc(var(--hh) + 14px + var(--i)*12px);margin-bottom:18px;padding:22px;box-shadow:0 -12px 40px -24px rgba(0,0,0,.28),0 1px 2px rgba(0,0,0,.04)}.gc:last-child{margin-bottom:0}.gc .n span{font-size:44px}.gc .n svg{width:48px;height:48px}
+ .chip{font-size:14px;padding:9px 14px 9px 9px}.chip i{width:18px;height:18px}.c-a{left:-14%;top:10%}.c-b{right:-14%;top:30%}.c-c{left:-16%;top:60%}.c-d{right:-12%;top:80%}
+ .note{right:16px;max-width:none}
+ .ph{--w:min(270px,70vw)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}[data-r]{opacity:1;transform:none;filter:none}.w>span{transform:none}.wd{color:var(--ink)}em .wd{color:var(--or)}.fin{height:auto}.fin .st{position:relative}.ph *{opacity:1!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <radialGradient id="gM" cx="35%" cy="28%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#e6e5e2"/><stop offset="1" stop-color="#b6b5b1"/></radialGradient>
+  <radialGradient id="gP" cx="35%" cy="28%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#ffb48a"/><stop offset="1" stop-color="#ff5a12"/></radialGradient>
+  <radialGradient id="gG" cx="35%" cy="28%" r="80%"><stop offset="0" stop-color="#bfeedd"/><stop offset=".55" stop-color="#3f9b74"/><stop offset="1" stop-color="#02432f"/></radialGradient>
+</defs></svg>
+
+<style data-ma-loader>
+/* заставка загрузки (Оля 25.10): шар как на сайте, вокруг орбита с зелёными и оранжевыми планетами; шар каплей падает в страницу,
+   от точки падения по первому экрану идёт настоящая рябь (SVG-смещение), на слабых телефонах — без смещения */
+#maLoad{position:fixed;inset:0;z-index:2147483000;pointer-events:auto}
+#maLoad.go{pointer-events:none}
+#maLoad .ml-veil{position:absolute;inset:0;background:#ebebeb}
+#maLoad .ml-sys{position:absolute;left:50%;top:50%;width:210px;height:210px;margin:-105px 0 0 -105px}
+/* шар — тот же, что ведёт по сайту (стили скопированы из слоя шара) */
+#maLoad .ml-orb{position:absolute;left:50%;top:50%;width:80px;height:80px;margin:-40px 0 0 -40px}
+#maLoad .sl-orb__halo{position:absolute;inset:-40%;border-radius:50%;background:radial-gradient(circle,rgba(255,150,90,.2) 0,rgba(255,170,120,.09) 38%,rgba(255,190,150,0) 66%);transition:opacity .8s,transform .8s}
+#maLoad .sl-orb__glass{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:rgba(255,250,246,.3);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),inset -10px -14px 30px rgba(150,70,20,.1),inset 8px 10px 24px rgba(255,255,255,.45),0 18px 40px rgba(60,20,0,.12);transition:filter .8s}
+#maLoad .sl-orb__aura{position:absolute;inset:-6%;will-change:transform;animation:ml-spin 24s linear infinite;transition:opacity .8s,transform .8s}
+#maLoad .sl-orb__aura i{position:absolute;border-radius:50%;will-change:transform}
+#maLoad .sl-orb__aura i:nth-child(1){left:6%;top:14%;width:70%;height:70%;background:radial-gradient(circle,rgba(255,150,90,.7) 0,rgba(255,160,110,.32) 42%,rgba(255,180,140,0) 70%);animation:ml-flow1 8s ease-in-out infinite alternate}
+#maLoad .sl-orb__aura i:nth-child(2){left:30%;top:24%;width:60%;height:60%;background:radial-gradient(circle,rgba(255,226,160,.85) 0,rgba(255,214,150,.35) 42%,rgba(255,220,170,0) 70%);animation:ml-flow2 10s ease-in-out infinite alternate}
+#maLoad .sl-orb__aura i:nth-child(3){left:18%;top:44%;width:58%;height:58%;background:radial-gradient(circle,rgba(255,120,130,.5) 0,rgba(255,140,140,.2) 42%,rgba(255,160,150,0) 70%);animation:ml-flow3 12s ease-in-out infinite alternate}
+#maLoad .sl-orb__aura i:nth-child(4){left:36%;top:40%;width:40%;height:40%;background:radial-gradient(circle,rgba(255,250,235,.9) 0,rgba(255,240,215,.35) 45%,rgba(255,240,220,0) 72%);animation:ml-flow4 7s ease-in-out infinite alternate}
+#maLoad .sl-orb__shine{position:absolute;inset:0;border-radius:50%;z-index:2;box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),inset 0 -6px 18px rgba(255,236,220,.45),inset 0 0 26px rgba(255,248,240,.35);background:radial-gradient(ellipse 22% 12% at 30% 18%,rgba(255,255,255,.85),rgba(255,255,255,0) 70%),radial-gradient(ellipse 30% 14% at 66% 84%,rgba(255,255,255,.35),rgba(255,255,255,0) 70%);pointer-events:none}
+@keyframes ml-flow1{0%{transform:translate(-24%,16%) scale(.9)}50%{transform:translate(14%,-20%) scale(1.25)}100%{transform:translate(26%,10%) scale(1)}}
+@keyframes ml-flow2{0%{transform:translate(18%,-18%) scale(1.15)}50%{transform:translate(-26%,12%) scale(.85)}100%{transform:translate(-6%,24%) scale(1.1)}}
+@keyframes ml-flow3{0%{transform:translate(22%,10%) scale(.85)}50%{transform:translate(-18%,-24%) scale(1.25)}100%{transform:translate(10%,-10%) scale(1)}}
+@keyframes ml-flow4{0%{transform:translate(-26%,-18%) scale(.8)}100%{transform:translate(22%,16%) scale(1.25)}}
+#maLoad .sl-orb__glass{background:radial-gradient(circle at 50% 56%,rgba(255,150,95,.75) 0,rgba(255,180,130,.62) 45%,rgba(255,222,200,.7) 75%)}
+/* орбита с планетами — как у шара на сайте, плюс оранжевые (Оля 25.10) */
+#maLoad .ml-ring{position:absolute;left:50%;top:50%;width:140px;height:140px;margin:-70px 0 0 -70px;border-radius:50%;border:1.5px solid rgba(25,25,25,.14);animation:ml-spin 14s linear infinite}
+#maLoad .ml-ring i{position:absolute;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6fd1a8,#02432f 70%);box-shadow:0 0 10px rgba(111,209,168,.6);transition:left .42s cubic-bezier(.55,0,.85,.35),top .42s cubic-bezier(.55,0,.85,.35),transform .42s,opacity .42s}
+#maLoad .ml-ring i.o{background:radial-gradient(circle at 35% 30%,#ffc59c,#ff4e00 70%);box-shadow:0 0 10px rgba(255,120,50,.6)}
+#maLoad .ml-ring--2{width:200px;height:200px;margin:-100px 0 0 -100px;animation-duration:22s;animation-direction:reverse;border-color:rgba(25,25,25,.1)}   /* вторая орбита — шире и в обратную сторону */
+@keyframes ml-spin{to{transform:rotate(360deg)}}
+/* падение: планеты сходятся в шар, шар уходит «вниз от нас» */
+#maLoad.join .ml-ring{animation-play-state:paused;border-color:rgba(25,25,25,0);transition:border-color .3s}
+#maLoad.join .ml-ring i{left:50%!important;top:50%!important;transform:scale(.3);opacity:0}
+#maLoad .ml-orb{transition:transform .3s cubic-bezier(.6,0,.9,.3),filter .3s,opacity .3s}
+#maLoad.join .ml-orb{transform:scale(1.08)}
+#maLoad.drop .ml-orb{transform:scale(.16);filter:brightness(.75);opacity:.85}
+/* блики гребней волн поверх страницы */
+#maLoad .ml-shade{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background-size:100% 100%;mix-blend-mode:overlay;opacity:0;pointer-events:none}
+#maLoad .ml-crater{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;opacity:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(0,0,0,.28) 0,rgba(0,0,0,.12) 40%,rgba(0,0,0,0) 70%)}
+@media (prefers-reduced-motion:reduce){#maLoad{display:none}}
+</style><div id="maLoad" aria-hidden="true"><div class="ml-veil"></div><div class="ml-crater"></div><div class="ml-shade"></div><div class="ml-sys"><div class="ml-ring"><i style="left:50.0%;top:0.0%"></i><i class="o" style="left:93.3%;top:75.0%"></i><i style="left:6.7%;top:75.0%"></i></div><div class="ml-ring ml-ring--2"><i class="o" style="left:93.3%;top:25.0%"></i><i style="left:50.0%;top:100.0%"></i><i class="o" style="left:6.7%;top:25.0%"></i></div><div class="ml-orb"><div class="sl-orb__halo"></div><div class="sl-orb__glass"><div class="sl-orb__aura"><i></i><i></i><i></i><i></i></div><div class="sl-orb__shine"></div></div></div></div></div><script data-ma-loader>
+(function(){
+  // сайт только светлый: Chrome и Samsung на Android сами затемняют страницу в тёмной теме — шар становится бурым (проверка 27.10)
+  document.documentElement.style.colorScheme='only light';
+  var el=document.getElementById('maLoad'); if(!el) return;
+  // Тильда на компьютере прячет всю страницу (.t-records{opacity:0}) до конца загрузки своих скриптов —
+  // заставка уходит из её обёртки прямо в body, иначе её не видно до последней секунды (Оля 25.10)
+  if(document.body && el.parentNode!==document.body) document.body.appendChild(el);
+  // её скрытие страницы снимаем сразу: экран и так закрыт заставкой, ждать скриптов Тильды незачем (у Оли это растягивало заставку)
+  var _rec=document.getElementById('allrecords'); if(_rec) _rec.classList.add('t-records_visible');
+  var seen=false; try{ seen=sessionStorage.getItem('maLoadSeen')==='1'; sessionStorage.setItem('maLoadSeen','1'); }catch(e){}
+  if(seen || (window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)){ el.parentNode.removeChild(el); return; }
+  // слабое устройство — рябь без искажения страницы
+  var weak=(navigator.hardwareConcurrency||8)<=4 || (navigator.deviceMemory&&navigator.deviceMemory<=3);
+  var t0=Date.now(), done=false;
+
+  // карта волны: радиальное смещение (R,G) и блики (оттенок серого); пакет волн у внешнего края, внутри спокойно
+  function maps(N){ var c=document.createElement('canvas'); c.width=c.height=N; var x=c.getContext('2d'), d=x.createImageData(N,N), s=document.createElement('canvas'); s.width=s.height=N; var sx=s.getContext('2d'), sd=sx.createImageData(N,N), h=N/2;
+    for(var j=0;j<N;j++) for(var i=0;i<N;i++){ var dx=(i-h)/h, dy=(j-h)/h, u=Math.sqrt(dx*dx+dy*dy), k=(j*N+i)*4, f=0, g=0;
+      if(u<1&&u>0.001){ var env=Math.max(0,Math.sin(Math.PI*Math.min(1,Math.max(0,(u-0.35)/0.65)))), ph=(1-u)*Math.PI*2*3.2;
+        f=Math.sin(ph)*env*Math.pow(u,0.6); g=Math.cos(ph)*env; }
+      d.data[k]=128+127*f*dx/(u||1); d.data[k+1]=128+127*f*dy/(u||1); d.data[k+2]=128; d.data[k+3]=255;
+      var l=128+110*g; sd.data[k]=sd.data[k+1]=sd.data[k+2]=l; sd.data[k+3]=u<1? Math.round(255*Math.min(1,(1-u)*8)) : 0; }
+    x.putImageData(d,0,0); sx.putImageData(sd,0,0); return [c.toDataURL('image/png'), s.toDataURL('image/png')]; }
+
+  function finish(){ if(done) return; done=true;
+    var wait=Math.max(0,900-(Date.now()-t0));
+    setTimeout(function(){ el.classList.add('join');
+      setTimeout(function(){ el.classList.add('drop'); setTimeout(splash,300); },420); },wait); }
+
+  function splash(){
+    el.classList.add('go'); var sys=el.querySelector('.ml-sys'); sys.style.transition='opacity .2s'; sys.style.opacity='0';
+    var veil=el.querySelector('.ml-veil'), shade=el.querySelector('.ml-shade'), crater=el.querySelector('.ml-crater');
+    var W=innerWidth, H=innerHeight, cx=W/2, cy=H/2, RMAX=Math.hypot(W,H)*0.62, D=1500, m=maps(weak?96:192);
+    shade.style.backgroundImage='url('+m[1]+')';
+    // искажение первого экрана: фильтр на секцию #top (не на всю страницу — иначе огромный буфер)
+    var tgt=weak? null : document.getElementById('top'), fe=null, fd=null, svg=null, ox=0, oy=0;
+    if(tgt){ var ns='http://www.w3.org/2000/svg', r=tgt.getBoundingClientRect(); ox=r.left; oy=r.top;
+      svg=document.createElementNS(ns,'svg'); svg.setAttribute('width','0'); svg.setAttribute('height','0'); svg.style.position='absolute';
+      svg.innerHTML='<filter id="maRipple" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="0" y="0" width="'+Math.ceil(r.width)+'" height="'+Math.ceil(Math.min(r.height,H))+'" color-interpolation-filters="sRGB">'+
+        '<feImage id="maRipImg" preserveAspectRatio="none" result="m"/><feDisplacementMap id="maRipD" in="SourceGraphic" in2="m" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>';
+      document.body.appendChild(svg); fe=svg.querySelector('#maRipImg'); fd=svg.querySelector('#maRipD');
+      fe.setAttribute('href',m[0]); fe.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href',m[0]);
+      tgt.style.filter='url(#maRipple)'; }
+    var t1=performance.now();
+    (function step(now){ var k=Math.min(1,(now-t1)/D), e=1-Math.pow(1-k,2.2), R=40+e*RMAX, amp=(weak?0:34)*Math.pow(1-k,1.6);
+      // провал в первые 150 мс, потом воронка выталкивается — дальше только волны
+      var c1=Math.min(1,(now-t1)/150), cr=k<.25? (c1<1? c1 : Math.max(0,1-(k-.1)/.15)) : 0; crater.style.opacity=cr.toFixed(2); crater.style.transform='scale('+(1+e*2)+')';
+      var hole=Math.max(0,R*0.78), soft=50+e*160;
+      veil.style.webkitMaskImage=veil.style.maskImage='radial-gradient(circle at 50% 50%,transparent '+Math.max(0,hole-soft)+'px,#000 '+hole+'px)';
+      shade.style.width=shade.style.height=(2*R)+'px'; shade.style.margin=(-R)+'px 0 0 '+(-R)+'px'; shade.style.opacity=(0.32*Math.pow(1-k,1.2)).toFixed(3);
+      if(fe){ fe.setAttribute('x',(cx-ox-R).toFixed(1)); fe.setAttribute('y',(cy-oy-R).toFixed(1)); fe.setAttribute('width',(2*R).toFixed(1)); fe.setAttribute('height',(2*R).toFixed(1)); fd.setAttribute('scale',amp.toFixed(2)); }
+      if(k<1) requestAnimationFrame(step); else clean(); })(t1);
+    function clean(){ if(tgt) tgt.style.filter=''; if(svg&&svg.parentNode) svg.parentNode.removeChild(svg); if(el.parentNode) el.parentNode.removeChild(el); }
+    setTimeout(clean,D+800);
+  }
+  setTimeout(finish,2200);   // дольше ~2 с никого не держим
+  function ready(){ var p=[]; if(document.fonts&&document.fonts.ready) p.push(document.fonts.ready);
+    var img=document.querySelector('.sl-hero img, .ma-hero img'); if(img&&!img.complete) p.push(new Promise(function(r){ img.addEventListener('load',r); img.addEventListener('error',r); }));
+    (window.Promise? Promise.all(p) : {then:function(f){f();}}).then(finish); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',ready); else ready();
+})();
+</script>
+
+<header class="hd" id="hd"><div class="in">
+  <a href="#top" aria-label="MATERIUM"><img src="img/logo-mark.svg" alt="MATERIUM"></a>
+  <button class="burg" id="burg" type="button" aria-label="Меню" aria-expanded="false"><i></i><i></i></button>
+</div></header>
+<div class="menu" id="menu"><div class="in">
+  <nav>
+    <a href="#who" style="transition-delay:.05s">Для кого</a>
+    <a href="#gain" style="transition-delay:.1s">Что получите</a>
+    <a href="#program" style="transition-delay:.15s">Программа</a>
+    <a href="#people" style="transition-delay:.2s">Люди Среды</a>
+    <a href="#results" style="transition-delay:.25s">Результаты</a>
+    <a href="#price" style="transition-delay:.3s">Тарифы</a>
+  </nav>
+  <a class="btn" href="#price">Присоединиться к&nbsp;Среде</a>
+</div></div>
+
+<main>
+<!-- 1. ПЕРВЫЙ ЭКРАН -->
+<section class="hero" id="top">
+  <h1 class="h ttl" data-split>Среда Materium</h1>
+  <div class="gls" id="gls" aria-hidden="true"><canvas class="sh"></canvas><div class="fr"></div><canvas class="rim"></canvas></div>
+  <canvas id="cv" aria-hidden="true"></canvas>
+  <div class="slot" id="heroSlot" data-orb></div>
+  <div class="foot">
+    <p class="sub" data-r style="--d:.6s">Создавайте то, во&nbsp;что верите, с&nbsp;теми, с&nbsp;кем вам по&nbsp;пути</p>
+    <div class="btns" data-r style="--d:.8s"><a class="btn" href="#price">Присоединиться к&nbsp;Среде</a><a class="btn q" href="#program">Программа</a></div>
+  </div>
+</section>
+
+<!-- 1б. О ПРОГРАММЕ -->
+<section class="intro sec"><div class="in">
+  <p class="big" data-rv>ГОДОВАЯ ПРОГРАММА для&nbsp;предпринимателей и&nbsp;создателей, которые хотят <em>превратить свой опыт и&nbsp;идеи в&nbsp;востребованные проекты</em>, <em>найти союзников</em> и&nbsp;<em>зарабатывать на&nbsp;том, что действительно интересно</em> им и&nbsp;нужно людям</p>
+  <h2 class="h2" id="introH" data-split style="margin-top:clamp(64px,6vw,120px);font-size:clamp(40px,4.4vw,104px)">В&nbsp;<em>Среде</em> вы&nbsp;сможете</h2>
+  <ul class="can" style="margin-top:clamp(16px,1.4vw,26px)">
+    <li data-r><i></i><span>Найти своё направление и&nbsp;понять, какую ценность вы&nbsp;можете создавать для&nbsp;других на&nbsp;ближайшие 5–10&nbsp;лет</span></li>
+    <li data-r style="--d:.08s"><i></i><span>Проверять идеи на&nbsp;практике и&nbsp;получать чёткую стратегию их&nbsp;монетизации в&nbsp;предпринимательском окружении, которое не&nbsp;купишь за&nbsp;деньги</span></li>
+    <li data-r><i></i><span>Найти «своих», чей опыт, связи и&nbsp;ресурсы кратно усилят ваши. <em>1+1=11&nbsp;— это про&nbsp;Среду</em></span></li>
+    <li data-r style="--d:.08s"><i></i><span>Понять, как продвигать свой продукт, коммуницировать с&nbsp;аудиторией и&nbsp;клиентами и&nbsp;выходить на&nbsp;новые рынки в&nbsp;условиях кризиса</span></li>
+  </ul>
+  <div class="facts">
+    <div class="fact" data-r><b>12</b><span>месяцев участия</span></div>
+    <div class="fact" data-r style="--d:.1s"><b>4</b><span>сезона</span></div>
+    <div class="fact" data-r style="--d:.2s"><b>Онлайн</b><span>Встречи с&nbsp;Марисабель и&nbsp;спикерами мирового уровня</span></div>
+    <div class="fact" data-r style="--d:.3s"><b>Офлайн</b><span>Резиденции на&nbsp;Бали и&nbsp;в&nbsp;Угличе, однодневный кемп на&nbsp;Бали в&nbsp;январе</span></div>
+  </div>
+  <div class="cta" data-r><a class="btn q" href="#program">Программа Среды</a></div>
+</div></section>
+
+<!-- 2. ПЕРЕХОД -->
+<section class="mani"><div class="in">
+  <div class="slot" data-orb></div><h2 class="big" data-rv>С&nbsp;кем вы&nbsp;будете создавать <em>свой следующий год?</em></h2>
+</div></section>
+
+<!-- 3. ДЛЯ КОГО -->
+<section class="who sec" id="who"><div class="in">
+  <div class="head">
+    <p class="lab" data-r>Для кого</p>
+    <h2 class="h" data-split><em>Среда</em> точно для&nbsp;вас, если…</h2>
+    <p class="lead" data-r>Выберите ситуацию, в&nbsp;которой узнаёте себя. В&nbsp;Среду можно прийти с&nbsp;действующим бизнесом, новой идеей или&nbsp;вопросом о&nbsp;том, что создавать дальше.</p>
+  </div>
+  <div class="sxs" id="sxs" data-r></div>
+</div></section>
+
+<!-- 4. ЧТО ПОЛУЧИТЕ -->
+<section class="sec" id="gain"><div class="in">
+  <div class="head"><p class="lab" data-r>Результат</p><h2 class="h" id="gainH" data-split>Что вы&nbsp;получите в&nbsp;<em>Среде</em></h2></div>
+  <div class="gg" id="gTrack"></div>
+</div></section>
+
+<section class="quote"><div class="in">
+  <p class="big" data-rv><em>Аутентичность</em> помогает быть понятным другим. Из&nbsp;совместного опыта рождается <em>доверие</em>, из&nbsp;доверия&nbsp;— <em>сотрудничество</em>, а&nbsp;из&nbsp;сотрудничества могут вырасти <em>проекты, влияние и&nbsp;новые деньги</em></p>
+  <div data-r><a class="btn" href="#program">Посмотреть программу</a></div>
+</div></section>
+
+<!-- 5. ПРОГРАММА -->
+<section class="sec" id="program"><div class="in">
+  <div class="head">
+    <p class="lab" data-r>Программа</p>
+    <h2 class="h" data-split>Что внутри <em>Среды</em></h2>
+    <p class="lead" data-r>Год, в&nbsp;котором вы&nbsp;сделаете свой проект востребованным, пойдёте в&nbsp;медийность и&nbsp;масштаб в&nbsp;сильнейшем окружении людей, которое не&nbsp;купишь за&nbsp;деньги</p>
+  </div>
+  <div class="venn">
+    <div class="pic" data-r>
+      <svg viewBox="0 0 600 560" role="img" aria-label="Три ДНК метода MATERIUM: ДНК человека, ДНК эпохи, ДНК бизнеса; в пересечении — MATERIUM, материализация">
+        <g style="mix-blend-mode:multiply">
+          <circle class="c c1" cx="225" cy="210" r="172" fill="rgba(27,27,27,.045)" stroke="#1b1b1b" stroke-opacity=".28" stroke-width="1.5"/>
+          <circle class="c c2" cx="375" cy="210" r="172" fill="rgba(2,67,47,.07)" stroke="#02432f" stroke-opacity=".55" stroke-width="1.5"/>
+          <circle class="c c3" cx="300" cy="340" r="172" fill="rgba(255,78,0,.08)" stroke="#ff4e00" stroke-opacity=".6" stroke-width="1.5"/>
+        </g>
+        <g class="t" text-anchor="middle" fill="#1b1b1b">
+          <text x="160" y="150" font-size="21" font-weight="700" letter-spacing="1">ДНК</text><text x="160" y="176" font-size="21" font-weight="700" letter-spacing="1">ЧЕЛОВЕКА</text>
+          <text x="160" y="208" font-size="16" fill="#76767a">Аутентичность</text><text x="160" y="230" font-size="16" fill="#76767a">Таланты</text>
+          <text x="440" y="150" font-size="21" font-weight="700" letter-spacing="1" fill="#02432f">ДНК</text><text x="440" y="176" font-size="21" font-weight="700" letter-spacing="1" fill="#02432f">ЭПОХИ</text>
+          <text x="440" y="208" font-size="16" fill="#76767a">Время</text><text x="440" y="230" font-size="16" fill="#76767a">Возможности</text>
+          <text x="300" y="440" font-size="21" font-weight="700" letter-spacing="1" fill="#d14000">ДНК БИЗНЕСА</text>
+          <text x="300" y="472" font-size="16" fill="#76767a">Продукт · Экономика</text><text x="300" y="494" font-size="16" fill="#76767a">Ценность</text>
+          <text x="300" y="300" font-size="17" font-weight="700" letter-spacing="1.5">MATERIUM</text><text x="300" y="320" font-size="13" fill="#76767a">Материализация</text>
+        </g>
+      </svg>
+      <div class="slot" data-orb data-obj data-st="3"></div>
+    </div>
+    <div class="cap" data-r style="--d:.15s">
+      <p class="lab">Три ДНК метода MATERIUM</p>
+      <p class="big">Аутентичность человека × потребности времени × жизнеспособная бизнес-модель</p>
+      <ul class="legend">
+        <li><i style="background:#c9c9c6"></i>ДНК человека&nbsp;— аутентичность, таланты</li>
+        <li><i style="background:#2f8a63"></i>ДНК эпохи&nbsp;— время, возможности</li>
+        <li><i style="background:#ff7a3a"></i>ДНК бизнеса&nbsp;— продукт, экономика, ценность</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="seasons" id="seasons">
+    <div class="top">
+      <div class="head"><p class="lab" data-r>Маршрут года</p><h2 class="h2" data-split style="font-size:clamp(48px,6vw,150px)">4&nbsp;сезона <em>Среды</em> MATERIUM</h2></div>
+    </div>
+    <div class="sbox" data-r>
+    <div class="stabs" id="stabs" role="tablist" aria-label="Сезоны">
+      <div class="ln"><i id="sFill"></i></div>
+      <div class="slot" id="sSlot" data-orb data-obj></div>
+    </div>
+    <div class="panes" id="panes"></div>
+    </div>
+  </div>
+
+  <div class="month"><div class="mg">
+    <div class="head mh">
+      <p class="lab" data-r>Ритм</p>
+      <h2 class="h2" id="monthH" data-split style="font-size:clamp(52px,6vw,150px)">Как устроена работа в&nbsp;течение каждого месяца</h2>
+      <p class="lead" data-r>Вас ждут:</p>
+    </div>
+    <ol class="fl" id="bento"></ol>
+  </div></div>
+
+  <div class="app">
+    <div class="apph"><p class="lab" data-r>Между встречами</p><h2 class="h" data-split>Приложение <em>MATERIUM</em></h2></div>
+    <div class="appg">
+      <p class="big" data-r>Ваш профиль, идеи и&nbsp;знакомства остаются в&nbsp;одном пространстве, чтобы взаимодействие продолжалось между встречами.</p>
+      <div class="phs"><span class="chip c-a"><i style="background:radial-gradient(circle at 35% 30%,#fff,#ffb48a 55%,#ff5a12)"></i>Идеи</span><span class="chip c-b"><i style="background:radial-gradient(circle at 35% 30%,#bfeedd,#3f9b74 55%,#02432f)"></i>Ценности</span><span class="chip c-c"><i style="background:radial-gradient(circle at 35% 30%,#fff,#e6e5e2 55%,#b6b5b1)"></i>Компетенции</span><span class="chip c-d"><i style="background:radial-gradient(circle at 35% 30%,#fff,#ffb48a 55%,#ff5a12)"></i>Ресурсы</span>
+<div class="phw" data-r style="--d:.15s"><div class="ph" aria-hidden="true"><div class="ph__scr">
+      <div class="ph__bar">9:41<i></i><b><span style="height:6px"></span><span style="height:8px"></span><span style="height:10px"></span></b></div>
+      <img class="ph__logo" src="img/logo-mark.svg" alt="">
+      <div class="ph__card"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 8h6M9 12h6M9 16h3"/></svg><div><b>Мой профиль</b><small>опыт, ценности, ресурсы</small></div><em>›</em></div>
+      <div class="ph__card"><svg viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/></svg><div><b>Мои идеи</b><small>обсуждаем и&nbsp;развиваем</small></div><em>›</em></div>
+      <div class="ph__card"><svg viewBox="0 0 24 24"><path d="M5 12h12M13 6l6 6-6 6"/></svg><div><b>Знакомства</b><small>участники Среды</small></div><em>›</em></div>
+      <div class="ph__match"><p>Новое знакомство</p><div class="ph__pair"><img src="img/aud-1.webp" alt=""><div class="slot" id="appSlot" data-orb></div><img src="img/aud-3.webp" alt=""></div><div class="ph__cap"><span>мой замысел</span><span>опыт участника</span></div></div>
+      <div class="ph__people"><p>Участники Среды</p><div><img src="img/aud-2.webp" alt=""><img src="img/aud-4.webp" alt=""><img src="img/aud-5.webp" alt=""><img src="img/aud-7.webp" alt=""><span>+</span></div></div>
+      <div class="ph__card"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4zM4 11h16M9 4v5M15 4v5"/></svg><div><b>События</b><small>практикумы, лекторий, ассамблеи</small></div><em>›</em></div>
+    </div></div></div></div>
+      <p class="lead" data-r>Технология приложения развивается вместе со&nbsp;Средой. Её&nbsp;задача&nbsp;— помогать участникам находить друг друга по&nbsp;идеям, ценностям, компетенциям и&nbsp;ресурсам.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 6. ADVISORY BOARD -->
+<section class="sec" id="people">
+  <div class="in">
+    <div class="head">
+      <p class="lab" data-r>Спикеры</p>
+      <h2 class="h" id="advH" data-split>Advisory Board <em>Среды</em></h2>
+      <p class="lead" data-r>Мы&nbsp;соединяем вас с&nbsp;теми, кто строил большое: от&nbsp;Третьяковской галереи до&nbsp;агрохолдинга на&nbsp;45&nbsp;000 гектаров. Их&nbsp;взгляд на&nbsp;вашу идею проявит её&nbsp;масштаб и&nbsp;карту нелинейных ходов</p>
+    </div>
+    <article class="feat" data-r>
+      <img src="img/ppl-tregulova.webp" alt="Зельфира Трегулова">
+      <div>
+        <p class="lab" style="color:var(--or)">Хедлайнер</p>
+        <h3 class="h2">Зельфира Трегулова</h3>
+        <div class="idea"><span><img src="img/idea-tregulova.webp" alt=""></span><p>Поможет увидеть масштаб идеи и&nbsp;понять, как представить её&nbsp;так, чтобы привлечь аудиторию, партнёров и&nbsp;деньги.</p></div>
+        <ul class="dots"><li>Искусствовед, куратор масштабных международных выставочных проектов</li><li>Создательница первых в&nbsp;России выставок-блокбастеров</li><li>Экс-генеральный директор Третьяковской галереи</li></ul>
+      </div>
+    </article>
+  </div>
+  <div class="in ks-top" style="margin-top:clamp(56px,5vw,96px)"><p class="lab">Ещё 9&nbsp;экспертов</p><div class="nav2"><button class="arr" type="button" id="aPrev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button class="arr" type="button" id="aNext" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
+  <div class="ks" id="adv" tabindex="0" aria-label="Advisory Board" style="margin-top:clamp(20px,2vw,32px)"></div>
+</section>
+
+<!-- 7. РЕЗУЛЬТАТЫ -->
+<section class="sec" id="results">
+  <div class="in ks-top">
+    <div class="head"><p class="lab" data-r>Результаты</p><h2 class="h" id="casesH" data-split>Что говорят люди <em>MATERIUM</em></h2></div>
+    <div class="nav2"><button class="arr" type="button" id="kPrev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button class="arr" type="button" id="kNext" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+  </div>
+  <div class="ks" id="ks" tabindex="0" aria-label="Истории участников"></div>
+</section>
+
+<!-- 8. АВТОР -->
+<section class="author sec" id="author"><div class="in grid">
+  <img src="img/marisabel-team.webp" alt="Марисабель" data-r>
+  <div>
+    <p class="lab" data-r>Создатель <em style="font-style:normal;color:var(--or)">Среды</em></p>
+    <h2 class="h" data-split>Марисабель</h2>
+    <p class="role" data-r>Визионер. Креатор. Продюсер.</p>
+    <blockquote data-r>«Моя задача&nbsp;— создавать среду для&nbsp;раскрытия вашей гениальности. Среду, где мы&nbsp;питаем друг друга, развиваемся, делаем новые проекты и&nbsp;вместе поддерживаем друг друга»</blockquote>
+    <p class="lead" data-r style="--d:.1s">Создатель культурных проектов федерального и&nbsp;международного масштаба. 13&nbsp;лет создаёт проекты, которые начинаются с&nbsp;образа будущего.</p>
+    <ul class="dots" data-r style="--d:.15s">
+      <li>Основательница LAB&nbsp;ABC&nbsp;— лаборатории стратегии, культуры и&nbsp;будущего</li>
+      <li>В&nbsp;2021–2024 годах&nbsp;— ведущая и&nbsp;креативный продюсер программы «Культурный код» Школы управления СКОЛКОВО</li>
+      <li>Автор лаборатории и&nbsp;метода MATERIUM</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- 9. ТАРИФЫ -->
+<section class="tar sec" id="price" style="padding-bottom:var(--sp)"><div class="in">
+  <div class="head">
+    <p class="lab" data-r>Тарифы</p>
+    <h2 class="h" id="priceH" data-split>Выберите формат участия</h2>
+  </div>
+  <div class="grid">
+    <div class="card" data-r>
+      <div class="top"><h3>Сезон</h3><span class="dur">3&nbsp;месяца</span></div>
+      <p class="txt" style="color:var(--ink)">Для тех, кто хочет познакомиться с&nbsp;методом и&nbsp;людьми, выбрать задачу и&nbsp;начать работу в&nbsp;Среде.</p>
+      <p class="lab">Что входит</p>
+      <ul class="dots">
+        <li>Диагностика на&nbsp;входе и&nbsp;рекомендации для&nbsp;работы со&nbsp;своей задачей</li>
+        <li>Практикумы, лекторий и&nbsp;игровые форматы в&nbsp;течение оплаченного периода</li>
+        <li>Участие в&nbsp;шестёрке и&nbsp;протоколы самостоятельных встреч</li>
+        <li>Индивидуальные практики и&nbsp;дневник</li>
+        <li>Доступ к&nbsp;приложению MATERIUM на&nbsp;срок участия</li>
+        <li>Повторная диагностика по&nbsp;итогам трёх месяцев</li>
+      </ul>
+      <div class="row"><div><b class="mk">Цена уточняется</b><small class="mk">Условия рассрочки и&nbsp;минимальный платёж&nbsp;— скоро</small></div><a class="btn q" href="#join">Войти на&nbsp;сезон</a></div>
+    </div>
+    <div class="card ac" data-r style="--d:.12s">
+      <div class="top"><h3>Год</h3><span class="dur">12&nbsp;месяцев</span></div>
+      <p class="txt" style="color:var(--ink)">Годовое участие: все четыре сезона и&nbsp;время, чтобы узнать друг друга и&nbsp;попробовать сотрудничество.</p>
+      <p class="lab">Что входит</p>
+      <ul class="dots">
+        <li>Всё, что предусмотрено сезонным участием, в&nbsp;течение 12&nbsp;месяцев</li>
+        <li>Работа с&nbsp;темами всех четырёх сезонов и&nbsp;возможность возвращаться к&nbsp;ним под&nbsp;свою задачу</li>
+        <li>Несколько циклов проверки гипотез, обратной связи и&nbsp;доработки проекта</li>
+        <li>Повторная диагностика в&nbsp;конце каждого сезона</li>
+        <li>Продолжительное взаимодействие с&nbsp;участниками: время узнать друг друга и&nbsp;попробовать сотрудничество</li>
+      </ul>
+      <div class="row"><div><b class="mk">Цена уточняется</b><small class="mk">Условия рассрочки и&nbsp;минимальный платёж&nbsp;— скоро</small></div><a class="btn" href="#join">Присоединиться на&nbsp;год</a></div>
+    </div>
+  </div>
+  <div class="faq">
+    <div class="head"><p class="lab" data-r>Вопросы</p><h2 class="h" data-split id="faqH">FAQ</h2></div>
+    <ul class="acc" id="faq" data-r style="--d:.1s"></ul>
+  </div>
+</div></section>
+
+<!-- 10. ФИНАЛ -->
+<section class="fin" id="join"><div class="st">
+  <h2 class="h ttl">Дом без&nbsp;границ</h2>
+  <canvas id="cv2" aria-hidden="true"></canvas>
+  <div class="slot" id="finSlot" data-orb></div>
+  <div class="bar">
+    <p>Создавайте то, во&nbsp;что верите, с&nbsp;теми, с&nbsp;кем вам по&nbsp;пути</p>
+    <p>Среда MATERIUM&nbsp;= дом, у&nbsp;которого нет границ</p>
+    <a class="btn" href="#price">Выбрать участие</a>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="in">
+  <img src="img/logo.svg" alt="MATERIUM — лаборатория лидеров будущего">
+  <nav><a href="#top">Политика</a><a href="#top">Оферта</a><a href="#top">Написать куратору</a></nav>
+  <span>© 2026 MATERIUM</span>
+</div></footer>
+
+<div class="sl-orb" id="slOrb" data-state="0" aria-hidden="true">
+  <div class="sl-orb__orb"><i style="left:50%;top:0"></i><i style="left:100%;top:50%"></i><i style="left:50%;top:100%"></i><i style="left:0;top:50%"></i><i style="left:85%;top:15%"></i></div>
+  <div class="sl-orb__halo"></div>
+  <div class="sl-orb__glass"><div class="sl-orb__aura"><i></i><i></i><i></i><i></i></div><div class="sl-orb__ic" id="slIc"></div><div class="sl-orb__shine"></div></div>
+</div>
+
+<script>
+{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cl=x=>Math.max(0,Math.min(1,x)),sm=k=>k*k*(3-2*k);
+const li=a=>a.map(x=>`<li>${x}</li>`).join('');
+const ARR='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+/* шапка и меню */
+const hd=$('#hd'),burg=$('#burg');
+const menu=o=>{document.body.classList.toggle('mo',o);burg.setAttribute('aria-expanded',o)};
+burg.addEventListener('click',()=>menu(!document.body.classList.contains('mo')));
+$$('#menu a').forEach(a=>a.addEventListener('click',()=>menu(false)));
+addEventListener('keydown',e=>{if(e.key==='Escape')menu(false)});
+
+/* ДЛЯ КОГО */
+const WHO=[
+ {t:'Вы&nbsp;построили бизнес, но&nbsp;хотите вернуть себе жизнь',a:'hub',p:['Большинство вопросов команды по-прежнему проходят через&nbsp;вас.','Вы&nbsp;боитесь отпустить контроль: кажется, без&nbsp;вашего участия всё развалится.','Даже в&nbsp;отпуске&nbsp;— с&nbsp;телефоном, на&nbsp;связи и&nbsp;в&nbsp;бесконечных согласованиях.','На&nbsp;новые идеи, близких и&nbsp;собственные интересы постоянно не&nbsp;хватает времени.','Вы&nbsp;умеете справляться с&nbsp;трудностями, но&nbsp;устали каждый раз вытягивать всё на&nbsp;себе.','Всё чаще возникает вопрос: «Я&nbsp;хотел создать бизнес ради свободы, почему теперь вся моя жизнь&nbsp;— работа в&nbsp;найме у&nbsp;самого себя?»'],
+  w:'Пересмотреть свою роль в&nbsp;бизнесе, делегировать операционку команде, найти сильные кадры и&nbsp;получить опыт от&nbsp;собственников бизнеса с&nbsp;оборотами на&nbsp;миллионы долларов.'},
+ {t:'Вы&nbsp;многого достигли, но&nbsp;больше не&nbsp;понимаете, ради чего двигаться дальше',a:'peak',p:['Привычные цели достигнуты, они не&nbsp;приносят радости, а&nbsp;истинно ваших, новых&nbsp;— нет.','Ещё один запуск или&nbsp;рост оборота уже не&nbsp;вызывают интереса.','Вы&nbsp;чувствуете, что можете больше, но&nbsp;пока не&nbsp;понимаете, в&nbsp;чём это «больше» заключается.','Накопили опыт в&nbsp;разных сферах и&nbsp;не&nbsp;знаете, как соединить его в&nbsp;одной идее, которая будет востребована.','Прежняя профессия или&nbsp;бизнес стали тесными, но&nbsp;бросать всё и&nbsp;начинать с&nbsp;нуля не&nbsp;хочется.','Хочется создать проект, который будет важен лично вам и&nbsp;принесёт пользу другим.'],
+  w:'Исследовать свои таланты, ценности и&nbsp;новые ориентиры на&nbsp;ближайшие 5–10&nbsp;лет, выбрать новое направление и&nbsp;понять, как монетизировать его на&nbsp;практике прямо сейчас.'},
+ {t:'У&nbsp;вас есть идея, но&nbsp;она так и&nbsp;не&nbsp;стала прибыльным бизнесом',a:'idea',p:['Вы&nbsp;давно обдумываете замысел, но&nbsp;постоянно откладываете первый шаг.','Сложно объяснить другим, что именно вы&nbsp;хотите создать.','Непонятно, кому нужен будущий продукт и&nbsp;за&nbsp;что люди будут платить.','После чужой критики и&nbsp;негативного опыта вы&nbsp;сомневаетесь, стоит&nbsp;ли вообще продолжать.','Попали в&nbsp;капкан перфекционизма и&nbsp;доводите идею до&nbsp;совершенства, хотя ещё не&nbsp;проверили её&nbsp;с&nbsp;потенциальными клиентами.','За&nbsp;плечами&nbsp;— много обучений, но&nbsp;вы&nbsp;так и&nbsp;не&nbsp;переходите к&nbsp;последовательным действиям, которые принесут медийность, масштаб и&nbsp;деньги.'],
+  w:'Оформить идею в&nbsp;востребованный продукт, найти сильных людей в&nbsp;команду, обрести крутых партнёров или&nbsp;инвесторов, получить практическую стратегию монетизации и&nbsp;дорожную карту к&nbsp;желаемой точке&nbsp;Б.'},
+ {t:'Есть крутой проект, но&nbsp;для&nbsp;масштаба не&nbsp;хватает людей и&nbsp;ресурсов',a:'net',p:['Вы&nbsp;видите, как развивать проект, но&nbsp;собственных компетенций уже недостаточно.','Приходится разбираться во&nbsp;всём самостоятельно.','Нужны партнёры, но&nbsp;непонятно, кого искать и&nbsp;как оценить совместимость.','Сложно объяснить ценность проекта людям, которых хотите привлечь.','Понимаете, что роль основателя должна меняться, но&nbsp;пока не&nbsp;знаете как, и&nbsp;остаётесь рабочей лошадкой.','Вы&nbsp;выросли, а&nbsp;ваше окружение нет. Не&nbsp;знаете, где искать сильных и&nbsp;«своих».'],
+  w:'Понять, как развивать проект на&nbsp;ближайшие 5–10&nbsp;лет, найти сильных людей в&nbsp;команду, обрести новых партнёров или&nbsp;инвесторов, получить бесценный опыт собственников бизнеса с&nbsp;вашей точкой&nbsp;Б&nbsp;— на&nbsp;практике.'}
+];
+const pt=(a,r)=>[(200+r*Math.cos(a)).toFixed(1),(200+r*Math.sin(a)).toFixed(1)];
+const ART={
+ hub:()=>{let h='';for(let k=0;k<9;k++){const a=k/9*Math.PI*2-Math.PI/2,[x,y]=pt(a,140);h+=`<path d="M200 200 L${x} ${y}" stroke="#ff4e00" stroke-opacity=".35" stroke-width="2"/>`}for(let k=0;k<9;k++){const a=k/9*Math.PI*2-Math.PI/2,[x,y]=pt(a,140);h+=`<circle cx="${x}" cy="${y}" r="22" fill="url(#gM)"/>`}return h},
+ peak:()=>{let h='<path d="M40 340 L360 340" stroke="#1b1b1b" stroke-opacity=".12" stroke-width="2"/>';[[60,290],[130,240],[200,190],[270,140]].forEach(([x,y],i)=>{h+=`<rect x="${x}" y="${y}" width="58" height="${340-y}" rx="6" fill="url(#gM)" opacity="${.55+i*.12}"/>`});h+='<g fill="none" stroke="#1b1b1b" stroke-opacity=".3" stroke-dasharray="4 7" stroke-width="2"><circle cx="330" cy="70" r="34"/><circle cx="262" cy="46" r="16"/></g>';return h},
+ idea:()=>'<ellipse cx="200" cy="352" rx="76" ry="9" fill="#000" opacity=".05"/><path d="M144 350 L158 292 L242 292 L256 350 Z" fill="none" stroke="#1b1b1b" stroke-opacity=".3" stroke-dasharray="5 6" stroke-width="2"/><path d="M200 244 L200 286" stroke="#1b1b1b" stroke-opacity=".25" stroke-dasharray="4 6" stroke-width="2"/><g fill="none" stroke="#ff4e00" stroke-opacity=".45" stroke-width="2"><circle cx="200" cy="190" r="62"/><circle cx="200" cy="190" r="98" stroke-dasharray="3 8"/></g>',
+ net:()=>{let h='<circle cx="200" cy="200" r="132" fill="none" stroke="#1b1b1b" stroke-opacity=".1" stroke-width="2"/>';const f=[0,2,5];for(let k=0;k<8;k++){const a=k/8*Math.PI*2-Math.PI/2,[x,y]=pt(a,132);h+=f.includes(k)?`<circle cx="${x}" cy="${y}" r="27" fill="url(#${k===2?'gG':'gM'})"/>`:`<circle cx="${x}" cy="${y}" r="25" fill="none" stroke="#1b1b1b" stroke-opacity=".3" stroke-dasharray="4 6" stroke-width="2"/>`}return h}
+};
+const sxs=$('#sxs'),DN='<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+sxs.innerHTML=WHO.map((s,i)=>`<div class="sx" style="--r:${i+1}"><button class="hb" type="button" aria-expanded="false"><span class="n">0${i+1}</span><b>${s.t}</b><i>${ARR}</i></button><div class="bd"><div><div class="bdi"><div class="bdh"><p class="lab">Узнаёте себя?</p><span class="art"><svg viewBox="0 0 400 400" aria-hidden="true">${ART[s.a]()}</svg></span></div><ul class="chk">${li(s.p.slice(0,3))}</ul><div class="more"><div><ul class="chk">${li(s.p.slice(3))}</ul></div></div><button class="mt" type="button">Ещё ${s.p.length-3} признака ${DN}</button><div class="why"><b>Зачем вам Среда</b>${s.w}<div><a class="btn" href="#price">Присоединиться к&nbsp;Среде</a></div></div></div></div></div></div>`).join('');
+const SX=$$('.sx'),wSlot=document.createElement('div');wSlot.className='slot';wSlot.setAttribute('data-orb','');
+const mobW=()=>innerWidth<=1000;
+const pickSit=(i,user)=>{const L=SX[i],mob=mobW(),open=mob&&user&&L.classList.contains('on')?-1:i;
+ SX.forEach((x,j)=>{x.classList.toggle('on',j===open);x.firstChild.setAttribute('aria-expanded',j===open)});
+ if(open>=0)SX[open].querySelector('.art').appendChild(wSlot);
+ if(mob&&user&&open>=0)setTimeout(()=>{const t=L.getBoundingClientRect().top;if(t<70||t>innerHeight*.5)scrollBy({top:t-90,behavior:reduce?'auto':'smooth'})},reduce?0:280)};
+SX.forEach((x,i)=>{x.querySelector('.hb').addEventListener('click',()=>pickSit(i,true));x.querySelector('.mt').addEventListener('click',e=>{const a=x.classList.toggle('all');e.currentTarget.innerHTML=(a?'Свернуть ':'Ещё '+(WHO[i].p.length-3)+' признака ')+DN})});
+pickSit(0);
+
+/* ЧТО ПОЛУЧИТЕ — горизонтальный скролл */
+const GI=[
+ '<circle cx="40" cy="40" r="22" fill="url(#gP)"/><circle cx="40" cy="40" r="34" fill="none" stroke="#ff4e00" stroke-opacity=".35" stroke-width="1.5"/>',
+ '<path d="M14 58h52" stroke="#1b1b1b" stroke-opacity=".15" stroke-width="1.5"/><circle cx="26" cy="46" r="10" fill="url(#gM)"/><circle cx="54" cy="30" r="14" fill="url(#gP)"/><path d="M34 42l10-8" stroke="#1b1b1b" stroke-opacity=".3" stroke-dasharray="3 4" stroke-width="1.5"/>',
+ '<circle cx="28" cy="48" r="14" fill="url(#gM)"/><circle cx="52" cy="48" r="14" fill="url(#gM)"/><circle cx="40" cy="26" r="14" fill="url(#gP)"/>',
+ (()=>{let h='';for(let k=0;k<6;k++){const a=k/6*Math.PI*2;h+=`<circle cx="${(40+24*Math.cos(a)).toFixed(1)}" cy="${(40+24*Math.sin(a)).toFixed(1)}" r="8" fill="url(#${k%3?'gM':'gG'})"/>`}return h+'<circle cx="40" cy="40" r="10" fill="url(#gP)"/>'})(),
+ '<circle cx="26" cy="40" r="16" fill="url(#gM)"/><circle cx="54" cy="40" r="16" fill="url(#gP)" opacity=".9"/>',
+ '<path d="M12 62 C30 60 34 30 66 18" fill="none" stroke="#1b1b1b" stroke-opacity=".25" stroke-dasharray="3 5" stroke-width="1.5"/><circle cx="14" cy="62" r="6" fill="url(#gM)"/><circle cx="64" cy="18" r="12" fill="url(#gP)"/>'
+];
+const GAIN=[
+ ['Свой талант как&nbsp;основу проекта','Исследуете, в&nbsp;чём ваша сильная сторона, что вам интересно создавать и&nbsp;какую задачу других людей вы&nbsp;можете решить. Сформулируете направление, которое опирается на&nbsp;ваш опыт и&nbsp;аутентичность, и&nbsp;получите стратегию, благодаря которой сможете зарабатывать самые большие деньги в&nbsp;вашей жизни.'],
+ ['Проверку идеи до&nbsp;больших вложений','В&nbsp;окружении предпринимателей и&nbsp;визионеров вы&nbsp;покажете пилотные идеи продукта, получите обратную связь и&nbsp;проверите предположения о&nbsp;ценности продукта ещё до&nbsp;вложений. Увидите, что стоит развивать, что изменить и&nbsp;какие вопросы ещё нужно проверить с&nbsp;клиентами.'],
+ ['Способы монетизации','Рассмотрите, кто может платить за&nbsp;ваш продукт, за&nbsp;что именно и&nbsp;в&nbsp;каком формате. Проверите бизнес-гипотезы и&nbsp;наметите путь от&nbsp;идеи к&nbsp;продукту и&nbsp;дальнейшему развитию бизнеса.'],
+ ['Людей и&nbsp;ресурсы для&nbsp;реализации','Определите, какого опыта, связей, площадок или&nbsp;других ресурсов вам не&nbsp;хватает. Будете знакомиться с&nbsp;участниками и&nbsp;обсуждать, какой вклад каждый может внести в&nbsp;совместный проект.'],
+ ['Навык договариваться','На&nbsp;практике научитесь объяснять свой замысел, слышать других и&nbsp;обсуждать условия сотрудничества. Во&nbsp;встречах с&nbsp;сильным окружением, шестёрках и&nbsp;игровых лабораториях попробуете разные способы общения и&nbsp;перенесёте полезные решения в&nbsp;работу.'],
+ ['Понятный маршрут на&nbsp;5–10&nbsp;лет','Зафиксируете исходную точку, выберете задачу и&nbsp;будете двигаться через практику, обсуждение и&nbsp;новые действия, опираясь на&nbsp;опыт людей с&nbsp;вашей точкой&nbsp;Б.']
+];
+const gT=$('#gTrack');
+gT.innerHTML=GAIN.map((g,i)=>`<article class="gc" data-r style="--d:${(i%3*.08).toFixed(2)}s;--i:${i}"><div class="n"><span>0${i+1}</span><svg viewBox="0 0 80 80" aria-hidden="true">${GI[i]}</svg></div><h3>${g[0]}</h3><p class="txt">${g[1]}</p></article>`).join('');
+
+/* СЕЗОНЫ */
+const SEAS=[
+ {n:'Аутентичность и&nbsp;гениальность',s:'Понять, что вы&nbsp;хотите создавать и&nbsp;на&nbsp;какие свои способности можете опереться.',p:['Исследование талантов, опыта и&nbsp;собственной ключевой компетенции, которая ляжет в&nbsp;основу востребованного продукта','«Фильтр аутентичности»: как выбирать подходящие идеи, проекты и&nbsp;предложения, которые будут актуальны в&nbsp;ближайшие 5–10&nbsp;лет','Исследование ядра личности: что принесёт вам медийность, аудиторию и&nbsp;масштаб','Практики внимания: как замечать собственные решения и&nbsp;причины, по&nbsp;которым вы&nbsp;их&nbsp;принимаете','Диагностика ролей и&nbsp;выбор навыков для&nbsp;развития'],w:'Сформулируете своё направление, которое сделаете востребованным в&nbsp;2027 году, и&nbsp;критерии, по&nbsp;которым будете выбирать проекты и&nbsp;партнёров.'},
+ {n:'Большая идея и&nbsp;продукт',s:'Придать замыслу форму, которая станет востребована.',p:['Насмотренность и&nbsp;сильное окружение как источники новых решений','Креативная концепция «я&nbsp;+&nbsp;время»: связь собственного замысла с&nbsp;происходящим вокруг. Поможет сделать продукт востребованным и&nbsp;прибыльным даже в&nbsp;условиях кризиса','Исследование большой идеи и&nbsp;её&nbsp;ценности для&nbsp;других: опираем идею на&nbsp;материю и&nbsp;реальные запросы людей','Тест первых прототипов до&nbsp;вложений: определите точки роста продукта и&nbsp;сделаете продукт, который поможет вам стать лидером в&nbsp;своей нише','Проверка гипотез, определение платящих сегментов и&nbsp;истинных потребностей вашей целевой аудитории'],w:'Создаёте концепцию продукта на&nbsp;стыке миссии, вашей аутентичности и&nbsp;истинного запроса людей, за&nbsp;решение которого вам будут платить.'},
+ {n:'Деньги и&nbsp;продюсирование',s:'',p:['Экономика создателей: за&nbsp;что люди готовы платить именно вам','Способы монетизации и&nbsp;проверка бизнес-гипотез','Как создать MVP&nbsp;— минимальную версию продукта для&nbsp;проверки спроса, без&nbsp;вложений и&nbsp;инвестиций','Первый выход на&nbsp;рынок и&nbsp;анализ обратной связи','Продюсирование: как соединять людей, ресурсы и&nbsp;действия вокруг проекта','Дорожная карта развития: как превратить идею в&nbsp;работающий бизнес и&nbsp;сделать этот бизнес масштабным'],w:'Получите стратегию продвижения и&nbsp;монетизации вашего продукта в&nbsp;условиях кризиса, которую сможете реализовать прямо сейчас, опираясь на&nbsp;опыт предпринимателей с&nbsp;вашей точкой&nbsp;Б.'},
+ {n:'Культурный капитал',s:'',p:['Расширить круг идей и&nbsp;людей, на&nbsp;которые вы&nbsp;можете опереться в&nbsp;построении продукта с&nbsp;большой миссией','Культура, искусство и&nbsp;новые картины мира как источники проектных решений','Насмотренность и&nbsp;способность замечать возможности за&nbsp;пределами своей отрасли','Новые формы сотрудничества на&nbsp;пересечении бизнеса, культуры и&nbsp;творчества в&nbsp;окружении людей, в&nbsp;которое невозможно попасть случайно','Долгосрочный взгляд: какие проекты и&nbsp;образ жизни вы&nbsp;хотите создавать и&nbsp;монетизировать в&nbsp;ближайшие 5–10&nbsp;лет'],w:'Находите новых партнёров и&nbsp;единомышленников для&nbsp;развития своего проекта, чтобы создавать новое и&nbsp;востребованное вместе, усиливая друг друга.'}
+];
+const stabs=$('#stabs');
+stabs.insertAdjacentHTML('beforeend',SEAS.map((s,i)=>`<button class="st-b" type="button" role="tab" aria-selected="false"><span>Сезон ${i+1}</span><b>${s.n}</b></button>`).join(''));
+$('#panes').innerHTML=SEAS.map((s,i)=>`<div class="pane" role="tabpanel" aria-label="Сезон ${i+1}"><div><h3 class="h2">${s.n}</h3>${s.s?`<p class="lead">${s.s}</p>`:''}<a class="btn" href="#price">Попасть в&nbsp;Среду</a></div><div><ul class="dots">${li(s.p)}</ul><div class="why"><b>С&nbsp;чем работаете</b>${s.w}</div></div></div>`).join('');
+const sb=$$('.st-b'),panes=$$('.pane'),sFill=$('#sFill'),sSlot=$('#sSlot');let sCur=0;
+const ink=i=>{const b=sb[i],t=b.querySelector('b');const w=Math.min(b.offsetWidth-8,t.scrollWidth||b.offsetWidth);sFill.style.left=b.offsetLeft+'px';sFill.style.width=w+'px';sSlot.style.left=(b.offsetLeft+w)+'px'};
+const season=(i,fromBtn)=>{sCur=i;sb.forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-selected',j===i)});panes.forEach((p,j)=>p.classList.toggle('on',j===i));ink(i);stabs.scrollTo({left:Math.max(0,sb[i].offsetLeft-24),behavior:reduce?'auto':'smooth'});
+ if(fromBtn){const t=$('#stabs').getBoundingClientRect().top;if(t<0)scrollBy({top:t-100,behavior:reduce?'auto':'smooth'})}};
+sb.forEach((b,i)=>b.addEventListener('click',()=>season(i)));
+stabs.addEventListener('keydown',e=>{if(e.key==='ArrowRight')season(Math.min(3,sCur+1));if(e.key==='ArrowLeft')season(Math.max(0,sCur-1))});
+season(0);addEventListener('resize',()=>season(sCur));
+
+/* ФОРМАТЫ МЕСЯЦА */
+const ring=(n,r,cx,cy,rad,f)=>{let h='';for(let k=0;k<n;k++){const a=k/n*Math.PI*2-Math.PI/2;h+=`<circle cx="${(cx+rad*Math.cos(a)).toFixed(1)}" cy="${(cy+rad*Math.sin(a)).toFixed(1)}" r="${r}" fill="url(#${f(k)})"/>`}return h};
+const FMT=[
+ {t:'Воркшопы с&nbsp;Марисабель',x:'Исследуете тему месяца и&nbsp;применяете её&nbsp;к&nbsp;своей задаче. После встречи у&nbsp;вас остаются материал для&nbsp;самостоятельной работы и&nbsp;вопросы для&nbsp;обсуждения в&nbsp;группе.',c:'w2',i:'<circle cx="60" cy="60" r="30" fill="url(#gP)"/><circle cx="60" cy="60" r="46" fill="none" stroke="#ff4e00" stroke-opacity=".3" stroke-width="1.5"/>'+ring(8,5,60,60,46,k=>'gM')},
+ {t:'Лекторий MATERIUM',x:'Встречаетесь с&nbsp;приглашёнными экспертами и&nbsp;рассматриваете свою задачу через культуру, предпринимательство и&nbsp;опыт других дисциплин.',i:'<circle cx="60" cy="60" r="22" fill="url(#gM)"/><circle cx="60" cy="60" r="40" fill="none" stroke="#1b1b1b" stroke-opacity=".15" stroke-width="1.5"/><circle cx="60" cy="20" r="8" fill="url(#gP)"/>'},
+ {t:'Игровые лаборатории',x:'Прокачиваете роли, которые вам рекомендуется усилить в&nbsp;результате входной диагностики. Проверяете варианты действий в&nbsp;игровой ситуации, прежде чем переносить их&nbsp;в&nbsp;свой проект.',i:'<circle cx="42" cy="60" r="22" fill="url(#gM)"/><circle cx="78" cy="60" r="22" fill="url(#gP)"/>'},
+ {t:'Еженедельные встречи «шестёрки»',x:'Группа «своих» на&nbsp;сезон, с&nbsp;которой вы&nbsp;вместе работаете над&nbsp;продуктом, позиционированием, тестом гипотез, стратегией и&nbsp;конкретными шагами.',c:'w2 gr',tag:'Каждую неделю',i:ring(6,14,60,60,34,k=>k?'gM':'gP')},
+ {t:'Индивидуальные практики и&nbsp;дневник',x:'Фиксируете наблюдения, проверяете выбранные действия и&nbsp;замечаете, что меняется в&nbsp;проекте и&nbsp;собственных решениях.',i:'<rect x="30" y="18" width="50" height="70" rx="8" fill="#fff" stroke="#1b1b1b" stroke-opacity=".2" stroke-width="1.5"/><path d="M42 38h26M42 50h26M42 62h16" stroke="#1b1b1b" stroke-opacity=".25" stroke-width="2" stroke-linecap="round"/><circle cx="82" cy="84" r="14" fill="url(#gP)"/>'},
+ {t:'Участие в&nbsp;Ассамблеях',x:'Представляете результат работы за&nbsp;сезон и&nbsp;формулируете запрос к&nbsp;экспертам и&nbsp;участникам, где получаете обратную связь для&nbsp;следующего шага.',c:'w2',i:'<circle cx="60" cy="60" r="18" fill="url(#gP)"/>'+ring(10,7,60,60,40,k=>k%3?'gM':'gG')}
+];
+$('#bento').innerHTML=FMT.map((f,i)=>`<li class="fr" data-r><svg class="ic" viewBox="0 0 120 120" aria-hidden="true">${f.i}</svg><div>${f.tag?`<span class="tag">${f.tag}</span>`:''}<h4>${f.t}${f.s?`<small>${f.s}</small>`:''}</h4><p class="txt">${f.x}</p></div></li>`).join('');
+
+/* ADVISORY BOARD — данные Ассамблеи */
+const ADV=[
+ ['ppl-anikina3.webp','anikina','Евгения Аникина','Дубай','Сооснователь EntSpace&nbsp;— экосистемы для&nbsp;компаний с&nbsp;оборотом от&nbsp;$1&nbsp;млн до&nbsp;$100&nbsp;млн. Архитектор предпринимательских образовательных программ, в&nbsp;том числе «СКОЛКОВО Практикум»','Поможет увидеть в&nbsp;вашей идее бизнес-логику, реакцию людей и&nbsp;слабые места, которые важно проверить.'],
+ ['ppl-komarov.webp','komarov','Алексей Комаров','Дубай','Сооснователь EntSpace. Стратег по&nbsp;развитию бизнеса. Экс-ведущий проектной работы и&nbsp;игрового режима «СКОЛКОВО Практикум»','Поможет определить, на&nbsp;каком этапе находится ваша идея и&nbsp;какой следующий ход приведёт её&nbsp;к&nbsp;росту.'],
+ ['ppl-nedostoev.webp','nedostoev','Павел Недостоев','Москва','Художник, креатор и&nbsp;предприниматель. Сооснователь PANTERRA, DEPARTAMENT, EVENT&nbsp;MBA, «Юности&nbsp;83» и&nbsp;Fonoteca Listening Bar','Поможет сохранить авторскую силу идеи, сделав её&nbsp;понятной аудитории и&nbsp;жизнеспособной для&nbsp;бизнеса.'],
+ ['ppl-savchenko.webp','savchenko','Анастасия Савченко','Москва','Заместитель директора Департамента внешних коммуникаций Минпросвещения России','Поможет увидеть, как идея может стать значимой для&nbsp;большего числа людей и&nbsp;получить развитие через образование.'],
+ ['ppl-german.webp','german','Анна Герман','Москва','Предприниматель, совладелец и&nbsp;директор агрохолдинга «Дары Малиновки». Развила бизнес от&nbsp;300 до&nbsp;45&nbsp;000 гектаров','Посмотрит на&nbsp;идею как на&nbsp;будущую систему: на&nbsp;чём она заработает и&nbsp;что позволит ей&nbsp;расти годами.'],
+ ['ppl-ivanov2.webp','ivanov','Пётр Иванов','Красноярск','Предприниматель из&nbsp;Красноярска, основатель VISUVA&nbsp;S2&nbsp;— внедорожного суперкара','Поможет увидеть первый реальный ход от&nbsp;смелой гипотезы к&nbsp;продукту и&nbsp;людям, готовым в&nbsp;него поверить.'],
+ ['ppl-shorgin.webp','shorgin','Георгий Шоргин','Москва','Креативный директор, куратор и&nbsp;стратег. Создавал проекты для&nbsp;Hermès, Cartier, Chanel, ЦУМа и&nbsp;«Цветного»','Поможет найти идее выразительную форму и&nbsp;стратегию воплощения, не&nbsp;потеряв её&nbsp;оригинальности.'],
+ ['ppl-solo.webp','solo','Татьяна Соло','Санкт-Петербург','Предприниматель и&nbsp;энергокоуч, основатель Школы энергокоучинга, автор книг','Поможет увидеть, хватит&nbsp;ли автору идеи фокуса, энергии и&nbsp;способности вовлечь других.'],
+ ['ppl-gerankin.webp','gerankin','Евгений Геранькин','Санкт-Петербург','Предприниматель и&nbsp;цифровой психолог, основатель Института цифровой психологии','Поможет увидеть, как собрать вокруг своей идеи сообщество и&nbsp;создать модель монетизации.']
+];
+$('#adv').innerHTML=ADV.map(p=>`<article class="sk"><div class="ph1"><img src="img/${p[0]}" alt="${p[2]}" loading="lazy"><span class="loc">${p[3]}</span></div><h3>${p[2]}</h3><div class="idea"><span><img src="img/idea-${p[1]}.webp" alt="" loading="lazy"></span><p>${p[5]}</p></div><p class="rg">${p[4]}</p></article>`).join('');
+const carousel=(ks,pv,nx)=>{const step=()=>ks.firstElementChild.offsetWidth+24;const upd=()=>{pv.disabled=ks.scrollLeft<4;nx.disabled=ks.scrollLeft>ks.scrollWidth-ks.clientWidth-4};
+ pv.addEventListener('click',()=>ks.scrollBy({left:-step(),behavior:reduce?'auto':'smooth'}));nx.addEventListener('click',()=>ks.scrollBy({left:step(),behavior:reduce?'auto':'smooth'}));
+ ks.addEventListener('scroll',upd,{passive:true});ks.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nx.click();if(e.key==='ArrowLeft')pv.click()});upd();addEventListener('resize',upd)};
+carousel($('#adv'),$('#aPrev'),$('#aNext'));
+
+/* РЕЗУЛЬТАТЫ: 12 историй; у кого нет фото — мраморный объект на круге */
+const K=[
+ {f:'k09.webp',n:'Пётр Иванов',r:'основатель компании Visuva',a:'Локальный предприниматель из&nbsp;Красноярска',b:'Федеральный визионер, который объединяет людей, капитал и&nbsp;технологии. Закрыл сделку на&nbsp;140&nbsp;млн&nbsp;₽'},
+ {f:'k07.webp',n:'Вера Прадченко',r:'основательница доставки еды и&nbsp;сети ресторанов «Важная рыба», Санкт-Петербург',a:'Полностью отождествляла себя с&nbsp;бизнесом',b:'Поставила себя в&nbsp;центр жизни, вышла из&nbsp;операционного управления и&nbsp;создаёт новую форму самореализации'},
+ {f:'k10.webp',n:'Гульнара Оспанова',r:'сооснователь бюро ландшафтного дизайна',a:'Успешная предпринимательница',b:'Создательница национального Парка скульптур в&nbsp;Казахстане. Масштаб проектов вырос в&nbsp;4&nbsp;раза'},
+ {f:'k08.webp',n:'Нелли Гранд',r:'серийный предприниматель, пять бизнесов',a:'Реализовала все материальные цели',b:'Проектирует вторую половину жизни через баланс материального и&nbsp;духовного, вышла из&nbsp;кризиса достигатора'},
+ {o:'idea-b-mobius.webp',d:'#ff6a1f',n:'Наталья Вычегжанина',r:'руководитель закрытого бизнес-сообщества «Альфа-Групп»',a:'Объединяла людей вокруг статуса и&nbsp;профессиональных интересов',b:'Архитектор сообщества с&nbsp;культурной идентичностью, использует культурное проектирование'},
+ {o:'idea-b-tower.webp',d:'#0b4a36',n:'Анна Димова',r:'основательница нескольких компаний',a:'Интуитивно соединяла бизнес и&nbsp;творчество',b:'Визионер, мыслящий категориями среды и&nbsp;культурного влияния. Создала «Лабораторию визионеров»'},
+ {o:'idea-balayants.webp',d:'#ff6a1f',n:'Вадим Балаянц',r:'основатель клубного посёлка «Искона Парк»',a:'Истощение и&nbsp;потеря веры в&nbsp;собственное видение',b:'Вернул внутреннюю опору, автор социально-экономической модели «Арктория», разрабатывает IT-платформу для&nbsp;сообществ'},
+ {o:'idea-tyurina.webp',d:'#0b4a36',n:'Алина Тюрина',r:'предприниматель, инвестор',a:'Глубокий переход и&nbsp;кризис смыслов',b:'Визионер, который хочет, чтобы технологии освобождали человека для&nbsp;творчества и&nbsp;любви. Совладелица «Робота Володи»'},
+ {o:'idea-b-city.webp',d:'#ff6a1f',n:'Алексей Мальцев',r:'собственник строительного бизнеса',a:'Строил качественные объекты',b:'Создатель среды, который через архитектуру, культуру и&nbsp;дизайн формирует новый образ жизни'},
+ {o:'idea-b-station.webp',d:'#0b4a36',n:'Юлия Воликова',r:'основательница технологического стартапа Lumi',a:'Основательница функционального продукта',b:'Создала сильный бренд, сделала ребрендинг и&nbsp;перенесла фокус с&nbsp;поиска инвестиций на&nbsp;систему продаж'},
+ {o:'idea-b-dome.webp',d:'#ff6a1f',n:'Ирина Ольшанникова',r:'предприниматель и&nbsp;финансовый стратег',a:'Эксперт, готовый отказаться от&nbsp;своей идеи',b:'Автор методологии управления личным капиталом. Запустила программу «Стратегия на&nbsp;миллион» и&nbsp;строит образовательный бизнес'},
+ {o:'idea-kapitanov.webp',d:'#0b4a36',n:'Ирина Вахрушева',r:'предприниматель, ресторатор, основательница сети проектов',a:'Полностью погружена в&nbsp;операционное управление',b:'Передала управление операционному директору, создаёт пространство для&nbsp;жизни, семьи и&nbsp;новых проектов'}
+];
+$('#ks').innerHTML=K.map((k,n)=>`<article class="kc"><div class="pic${k.f?'':' av'}">${k.f?`<img class="ph0" src="img/${k.f}" alt="${k.n}" loading="lazy">`:`<span class="disc" style="background:${n%2?'#d6d6d2':'#e2e2de'}"></span><img class="obj" src="img/${k.o}" alt="" loading="lazy">`}</div><h3>${k.n}</h3><p class="role">${k.r}</p><div class="ba"><div class="b0"><span>Было</span><p>${k.a}</p></div><div class="b1"><span>Стало</span><p>${k.b}</p></div></div></article>`).join('');
+{const ks=$('#ks'),pv=$('#kPrev'),nx=$('#kNext');const step=()=>ks.querySelector('.kc').offsetWidth+parseFloat(getComputedStyle(ks).columnGap||24);
+ const upd=()=>{pv.disabled=ks.scrollLeft<4;nx.disabled=ks.scrollLeft>ks.scrollWidth-ks.clientWidth-4};
+ pv.addEventListener('click',()=>ks.scrollBy({left:-step(),behavior:reduce?'auto':'smooth'}));nx.addEventListener('click',()=>ks.scrollBy({left:step(),behavior:reduce?'auto':'smooth'}));
+ ks.addEventListener('scroll',upd,{passive:true});ks.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nx.click();if(e.key==='ArrowLeft')pv.click()});upd();}
+
+/* FAQ */
+const FAQ=[
+ ['Можно ли прийти без готовой идеи?','Да. Вы&nbsp;можете начать с&nbsp;вопроса о&nbsp;новом направлении, своём опыте и&nbsp;том, какую ценность хотите создавать.'],
+ ['Нужно ли проходить сезоны строго по&nbsp;порядку?','Нет. Вы&nbsp;выбираете фокус по&nbsp;своей задаче и&nbsp;рекомендациям диагностики. К&nbsp;нужным материалам можно возвращаться в&nbsp;течение участия.'],
+ ['Как устроена работа?','Общие практикумы, лекции и&nbsp;игровые форматы сочетаются с&nbsp;самостоятельными встречами шестёрки, индивидуальными практиками и&nbsp;действиями в&nbsp;своём проекте.'],
+ ['Мне нужно бросать действующий бизнес?','Нет. В&nbsp;Среду можно прийти с&nbsp;действующим бизнесом и&nbsp;работать с&nbsp;конкретным вопросом его развития или&nbsp;с&nbsp;новым направлением.'],
+ ['Будет&nbsp;ли у&nbsp;меня личное сопровождение Марисабель?','Основная работа организована через общие форматы и&nbsp;шестёрки. Индивидуальная работа с&nbsp;Марисабель не&nbsp;заявлена в&nbsp;составе этих тарифов.'],
+ ['Что произойдёт после оплаты?','Вы&nbsp;получите инструкцию по&nbsp;входу в&nbsp;Среду и&nbsp;доступу к&nbsp;предусмотренным вашим тарифом материалам и&nbsp;форматам.']
+];
+{const ul=$('#faq');ul.innerHTML=FAQ.map(f=>`<li><button class="tg" type="button" aria-expanded="false"><b>${f[0]}</b><i></i></button><div class="d"><div><p>${f[1]}</p></div></div></li>`).join('');
+ ul.addEventListener('click',e=>{const b=e.target.closest('.tg');if(!b)return;const L=b.parentNode,o=!L.classList.contains('on');L.classList.toggle('on',o);b.setAttribute('aria-expanded',o)});}
+
+/* текст по словам: проявляется при прокрутке */
+const splitWords=el=>{const walk=n=>{[...n.childNodes].forEach(c=>{if(c.nodeType===3){const parts=c.textContent.split(/([ \t\n]+)/),f=document.createDocumentFragment();parts.forEach(p=>{if(!p)return;if(/^[ \t\n]+$/.test(p))f.appendChild(document.createTextNode(p));else{const s=document.createElement('span');s.className='wd';s.textContent=p;f.appendChild(s)}});c.replaceWith(f)}else if(c.nodeType===1)walk(c)})};walk(el)};
+const RV=$$('[data-rv]').map(el=>{splitWords(el);return{el,w:[...el.querySelectorAll('.wd')],n:-1}});
+if(reduce)RV.forEach(r=>r.w.forEach(w=>w.classList.add('on')));
+else(function rv(){for(const r of RV){const b=r.el.getBoundingClientRect();if(b.bottom<-50||b.top>innerHeight+50)continue;const p=cl((innerHeight*.88-b.top)/(b.height+innerHeight*.3)),n=Math.round(p*r.w.length);if(n!==r.n){r.w.forEach((w,i)=>w.classList.toggle('on',i<n));r.n=n}}requestAnimationFrame(rv)})();
+
+/* заголовки по словам + появления */
+$$('[data-split]').forEach(h=>{const parts=h.innerHTML.split(/\s+/);h.innerHTML=parts.map((w,i)=>`<span class="w" style="--d:${(i*.08).toFixed(2)}s"><span>${w}</span></span>`).join(' ');h.classList.add('sp')});
+['introH','gainH','monthH','advH','casesH','priceH','faqH'].forEach(id=>{const h=document.getElementById(id);if(h)h.insertAdjacentHTML('beforeend','<span class="hslot" data-orb></span>')});
+$('.author .role').insertAdjacentHTML('beforeend','<span class="hslot" data-orb></span>');
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-v');io.unobserve(e.target)}}),{rootMargin:'0px 0px -4% 0px'});
+$$('[data-r],.sp,.venn .pic').forEach(el=>{if(el.closest('#top'))setTimeout(()=>el.classList.add('in-v'),reduce?0:300);else io.observe(el)});
+
+
+/* ШАР ИЗ ШАРОВ — общий рисовальщик для первого экрана и финала.
+   Вид: плотная гроздь глянцевых шариков, несколько капель срываются снизу.
+   Движение (по референсу): спокойное дыхание → сжатие в тугой шар → выброс завихрением → шар собирается и успокаивается */
+const mix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+const LV=[-.22,0,.1,.2,.3];   // уровни освещения: блик волны, фронт, глубже, ещё глубже, тыл
+const sprite=(c0,l)=>{const c=l<0?mix(c0,[255,255,255],-l):mix(c0,[28,16,10],l),S=96,h=S/2,s=document.createElement('canvas');s.width=s.height=S;const g=s.getContext('2d');
+ const disk=()=>{g.beginPath();g.arc(h,h,h-1,0,7);g.fill()};
+ let gr=g.createRadialGradient(h*.7,h*.6,h*.05,h,h,h);gr.addColorStop(0,`rgb(${mix(c,[255,255,255],.55)})`);gr.addColorStop(.38,`rgb(${mix(c,[255,255,255],.1)})`);gr.addColorStop(.8,`rgb(${c})`);gr.addColorStop(1,`rgb(${mix(c,[20,10,5],.38)})`);g.fillStyle=gr;disk();
+ gr=g.createRadialGradient(h*1.12,h*1.66,2,h*1.1,h*1.5,h*.72);gr.addColorStop(0,'rgba(255,255,255,.32)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;disk();
+ gr=g.createRadialGradient(h*.66,h*.54,0,h*.66,h*.54,h*.28);gr.addColorStop(0,'rgba(255,255,255,.95)');gr.addColorStop(.35,'rgba(255,255,255,.45)');gr.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=gr;disk();
+ return s};
+const STEPS=12;
+const pal=(C0,C1,C2)=>{const a=[];for(let k=0;k<=STEPS;k++){const t=k/STEPS,c=t<.5?mix(C0,C1,t/.5):mix(C1,C2,(t-.5)/.5);a.push(LV.map(l=>sprite(c,l)))}return a};
+const SG=LV.map(l=>sprite([52,140,104],l));
+const nz=(x,y,z,t)=>(Math.sin(x*2.1+y*1.3+t*.9)+Math.sin(y*2.7-z*1.7+t*1.13)+Math.sin(z*2.3+x*1.9-t*.77))/3;
+const e3=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,eo=k=>1-Math.pow(1-k,3);
+const CYC=10;
+// фаза цикла → [масштаб, турбулентность, раскрутка]
+const phase=c=>{
+ if(c<.4)return[1,.05,0];
+ if(c<.58){const k=e3((c-.4)/.18);return[1-.38*k,.05-.03*k,k]}
+ if(c<.67){const k=eo((c-.58)/.09);return[.62+.48*k,.02+.98*k,1]}
+ const k=(c-.67)/.33;return[1+.14*Math.exp(-k*4)*Math.cos(k*8),.05+.95*Math.exp(-k*3.4)*(1-k),Math.max(0,1-k*1.6)]};
+function Sphere(cv,o){
+ const ctx=cv.getContext('2d'),SPR=o.spr,tMin=o.tMin||0,tMax=o.tMax==null?1:o.tMax;let W,H,R,cx,cy,dpr,P=[],NS=1,ay=0,lt=0;const self={glow:0,burst:0,shift:0,calm:0,tap:0,ext:null};
+ const deep=f=>[f[0]<1?1-(1-f[0])*1.65:f[0],f[1]*1.15,f[2]];
+ const shell=(N,r0,r1,list)=>{const ga=Math.PI*(3-Math.sqrt(5));for(let i=0;i<N;i++){const y=1-2*(i+.5)/N,rr=Math.sqrt(1-y*y),a=i*ga,g=Math.random()<o.green;
+   list.push({x:Math.cos(a)*rr,y,z:Math.sin(a)*rr,r:r0+Math.random()*(r1-r0),s:g?.7+Math.random()*.15:.8+Math.random()*.42,g,tint:tMin+Math.random()*(tMax-tMin),lag:(y*.5+.5)*.05+Math.random()*.035,o:Math.random()*6.28,ox:0,oy:0})}};
+ const build=()=>{NS=innerWidth<700?o.nm:o.n;P=[];shell(NS,.9,1.01,P);shell(Math.round(NS*.28),.66,.76,P)};
+ const size=()=>{dpr=Math.min(2,devicePixelRatio||1);const b=cv.getBoundingClientRect();W=b.width;H=b.height;cv.width=W*dpr;cv.height=H*dpr;R=Math.min(W*(W<700?o.rm:o.r),H*o.rh);cx=W/2;cy=H*o.cy};
+ build();size();addEventListener('resize',size);
+ // капли, срывающиеся снизу
+ const D=[];for(let i=0;i<(o.drips||0);i++)D.push({l:1,w:Math.random()*3,x:0,s:1,k:0});
+ // курсор (только мышь): шарики разбегаются, внутри остаётся дырка
+ const M={x:-1e4,y:-1e4,on:0,a:0};
+ let LF=0;
+ if(o.hover){const fine=matchMedia('(hover:hover) and (pointer:fine)').matches,setP=(x,y)=>{const b=cv.getBoundingClientRect();M.x=x-b.left;M.y=y-b.top;M.on=1},inside=()=>Math.hypot(M.x-cx,M.y-cy-LF)<R*1.1;
+  if(fine){addEventListener('pointermove',e=>{if(e.pointerType==='mouse')setP(e.clientX,e.clientY)},{passive:true});document.documentElement.addEventListener('mouseleave',()=>{M.on=0});addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&!e.target.closest('a,button,input')){setP(e.clientX,e.clientY);if(inside())self.tap=1}})}
+  // телефон: палец раздвигает шарики, касание — всплеск
+  addEventListener('touchstart',e=>{const t=e.touches[0];clearTimeout(M.t);setP(t.clientX,t.clientY);if(inside())self.tap=1},{passive:true});
+  addEventListener('touchmove',e=>{const t=e.touches[0];setP(t.clientX,t.clientY)},{passive:true});
+  addEventListener('touchend',()=>{clearTimeout(M.t);M.t=setTimeout(()=>{M.on=0},300)},{passive:true});}
+ const ord=[];
+ self.draw=(now,{lift=0,scale=1,wave=1,speed=1}={})=>{
+  const t=now/1000,dt=Math.min(.05,lt?t-lt:0);lt=t;const gc=(t/CYC)%1,G=self.ext!=null?deep(phase(self.ext)):reduce?[1,.03,0]:phase(gc);ay+=dt*(.1+.6*G[2])*speed;
+  LF=lift;self.tap=Math.max(0,self.tap-dt*.9);const B=Math.max(self.burst,self.tap*self.tap*.85);
+  const br=1+.02*Math.sin(t*1.15)+B*.05,ax=.38,ca=Math.cos(ay),sa=Math.sin(ay),cb=Math.cos(ax),sb=Math.sin(ax),RR=R*br*scale,base=R*Math.sqrt(3.3/NS)*scale,q=t*.6;
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);ord.length=0;
+  const inS=M.on&&Math.hypot(M.x-cx,M.y-cy-lift)<RR*1.25;M.a+=((inS?1:0)-M.a)*Math.min(1,dt*5);const HR=RR*.32*M.a,HF=HR*1.9,ke=Math.min(1,dt*9);
+  if(self.glow>0){const g=ctx.createRadialGradient(cx,cy+lift,0,cx,cy+lift,RR*1.25);g.addColorStop(0,`rgba(255,170,110,${.55*self.glow})`);g.addColorStop(.5,`rgba(255,120,50,${.18*self.glow})`);g.addColorStop(1,'rgba(255,120,50,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H)}
+  for(let i=0;i<P.length;i++){const p=P[i],F0=self.ext!=null?deep(phase(Math.min(.999,self.ext+p.lag*.5))):reduce?G:phase((gc+p.lag)%1),c0=self.calm,F=c0?[F0[0]+(1-F0[0])*c0,F0[1]+(.05-F0[1])*c0,F0[2]*(1-c0)]:F0,s=F[0],T=F[1]+B*.45;
+   let hx=p.x*p.r*s,hy=p.y*p.r*s,hz=p.z*p.r*s;
+   if(T>.001){const X=p.x*1.7,Y=p.y*1.7,Z=p.z*1.7,nx=nz(X,Y,Z,q),ny=nz(Y+3,Z,X,q*1.1),nw=nz(Z+7,X,Y,q*.9),A=T*.36,out=1+T*.15*(1+nx);
+    hx=hx*out+nx*A;hy=hy*out+ny*A;hz=hz*out+nw*A;
+    const sw=T*1.7*(nx+.45)*(1-Math.abs(p.y)*.5),cs=Math.cos(sw),sn=Math.sin(sw),x0=hx;hx=x0*cs+hz*sn;hz=-x0*sn+hz*cs}
+   const x=hx*ca+hz*sa,z=-hx*sa+hz*ca,y2=hy*cb-z*sb,z2=hy*sb+z*cb,pul=1+.018*Math.sin(t*1.7+p.o);
+   p.px=cx+x*RR*pul;p.py=cy+lift+y2*RR*pul;p.pz=z2;
+   let tx=0,ty=0;if(HR>.5){const dx=p.px-M.x,dy=p.py-M.y,dd=Math.hypot(dx,dy)||1;if(dd<HF){const f=1-dd/HF,pu=f*f*(3-2*f)*HR*1.25*(.7+.45*(z2+1)/2);tx=dx/dd*pu;ty=dy/dd*pu}}
+   p.ox+=(tx-p.ox)*ke;p.oy+=(ty-p.oy)*ke;p.px+=p.ox;p.py+=p.oy;
+   const d=Math.max(0,Math.min(1,(z2/Math.max(.5,p.r*s)+1)/2)),ph=(y2*1.25+x*.55)*2.6-t*1.25,w=Math.pow(Math.max(0,Math.cos(ph)),6)*.8*wave;
+   p.d=d;p.sz=base*p.s*(.84+.26*d)*(.62+.38*Math.min(1,s));
+   p.lv=Math.max(0,Math.min(4,Math.round((1-d)*3.2+1-w*1.5-B*.6)));
+   p.k=Math.min(STEPS,Math.round(Math.min(1,Math.max(0,p.tint+self.shift))*STEPS));ord.push(i)}
+  ord.sort((a,b)=>P[a].pz-P[b].pz);
+  // капли: живут ~1.7 с, падают с ускорением и тают
+  for(const k of D){if(k.w>0){k.w-=dt;if(k.w<=0){k.l=0;k.x=(Math.random()-.5)*.7;k.s=.7+Math.random()*.35;k.k=Math.min(STEPS,Math.round((tMin+Math.random()*(tMax-tMin))*STEPS))}continue}
+   k.l+=dt/1.7;if(k.l>=1){k.w=1.5+Math.random()*3.5;continue}
+   k.px=cx+k.x*RR*.75;k.py=cy+lift+RR*(.9*G[0]+.7*k.l*k.l)-RR*.05*(1-Math.min(1,k.l*6));k.sz=base*k.s;k.a=Math.min(1,k.l*8)*Math.min(1,(1-k.l)/.35)}
+  return {ctx,P,ord,base,R:RR,cx,cy:cy+lift};
+ };
+ self.paint=(f,hide=-1,hideA=1,aMin=.92,aMax=1)=>{const {ctx,P,ord}=f;for(const i of ord){const p=P[i];let a=aMin+(aMax-aMin)*p.d;if(i===hide)a*=hideA;ctx.globalAlpha=a;ctx.drawImage(p.g?SG[p.lv]:SPR[p.k][p.lv],p.px-p.sz,p.py-p.sz,p.sz*2,p.sz*2)}
+  for(const k of D){if(k.w>0||!(k.a>0))continue;ctx.globalAlpha=k.a;ctx.drawImage(SPR[k.k][1],k.px-k.sz,k.py-k.sz,k.sz*2,k.sz*2)}
+  ctx.globalAlpha=1};
+ return self;
+}
+
+/* стеклянный заголовок: маска из текста + размытие того, что под буквами */
+{const hero=$('#top'),h1=$('#top .ttl'),box=$('#gls'),fr=box.querySelector('.fr'),cSh=box.querySelector('.sh'),cRim=box.querySelector('.rim');
+ const ok=true;
+ const draw=()=>{const W=hero.clientWidth,H=hero.clientHeight,d=Math.min(2,devicePixelRatio||1),cs=getComputedStyle(h1),fs=parseFloat(cs.fontSize),lh=fs*.82,mob=innerWidth<=800;
+  const lines=mob?['СРЕДА','MATERIUM']:['СРЕДА MATERIUM'],r=h1.getBoundingClientRect(),hr=hero.getBoundingClientRect(),cy=r.top-hr.top+r.height/2;
+  const font=`400 ${fs}px Bluescreens, Impact, sans-serif`;
+  const put=(ctx)=>{ctx.font=font;ctx.textAlign='center';ctx.textBaseline='middle';lines.forEach((t,k)=>ctx.fillText(t,W/2,cy+(k-(lines.length-1)/2)*lh+fs*.04))};
+  const mk=c=>{c.width=W*d;c.height=H*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,W,H);return x};
+  // маска
+  const m=document.createElement('canvas'),mx=mk(m);mx.fillStyle='#fff';put(mx);const url='url('+m.toDataURL()+')';fr.style.webkitMaskImage=fr.style.maskImage=url;
+  // тень снаружи букв
+  const sx=mk(cSh);sx.fillStyle='#000';sx.shadowColor='rgba(110,36,0,.32)';sx.shadowBlur=fs*.18;sx.shadowOffsetY=fs*.06;put(sx);sx.shadowColor='transparent';sx.globalCompositeOperation='destination-out';put(sx);
+  // кромка и блик
+  const rx=mk(cRim);rx.font=font;rx.lineJoin='round';
+  const g=rx.createLinearGradient(0,cy-lh*lines.length/2,0,cy+lh*lines.length/2);g.addColorStop(0,'rgba(255,255,255,.75)');g.addColorStop(.45,'rgba(255,255,255,.08)');g.addColorStop(1,'rgba(255,255,255,.35)');
+  rx.save();rx.globalCompositeOperation='source-over';rx.fillStyle=g;put(rx);rx.globalCompositeOperation='destination-in';rx.fillStyle='#000';rx.translate(0,fs*.035);put(rx);rx.restore();
+  rx.strokeStyle='rgba(255,255,255,.9)';rx.lineWidth=Math.max(1,fs*.008);lines.forEach((t,k)=>{rx.textAlign='center';rx.textBaseline='middle';rx.strokeText(t,W/2,cy+(k-(lines.length-1)/2)*lh+fs*.04)});
+  rx.strokeStyle='rgba(150,50,0,.22)';rx.lineWidth=Math.max(.8,fs*.004);lines.forEach((t,k)=>rx.strokeText(t,W/2,cy+(k-(lines.length-1)/2)*lh+fs*.04+fs*.006));
+  hero.classList.add('glass');box.classList.add('on')};
+ if(ok&&document.fonts){let tm;document.fonts.load('400 100px Bluescreens').then(()=>{draw();addEventListener('resize',()=>{clearTimeout(tm);tm=setTimeout(draw,150)})}).catch(()=>{})}}
+
+/* первый экран */
+const hero=$('#top'),heroSlot=$('#heroSlot');
+const S1=Sphere($('#cv'),{n:460,nm:260,r:.27,rm:.4,rh:.33,cy:.4,green:.012,drips:4,hover:1,spr:pal([255,232,218],[255,150,95],[244,84,24])});
+let heroVis=true;new IntersectionObserver(e=>{heroVis=e[0].isIntersecting},{rootMargin:'100px'}).observe(hero);
+let fall=-1;
+(function loop(now){if(heroVis){const f=S1.draw(now,{lift:-scrollY*.3,scale:1-cl(scrollY/innerHeight)*.06});
+  if(fall<0||scrollY<2){let best=-1e9;for(const i of f.ord){const p=f.P[i];const v=p.py+p.pz*f.R*.5;if(p.pz>.25&&v>best){best=v;fall=i}}}
+  const p=f.P[fall],sz=p.sz;heroSlot.style.left=p.px+'px';heroSlot.style.top=p.py+'px';heroSlot.style.width=heroSlot.style.height=(sz*2)+'px';
+  S1.paint(f,fall,1-cl((scrollY-6)/90))}
+ requestAnimationFrame(loop)})(performance.now());
+
+/* финал: заливка зелёным, шар Среды, шарик встраивается */
+const fin=$('#join'),finSlot=$('#finSlot'),fTtl=$('#join .ttl');const BG0=[242,242,240],BG1=[2,67,47];
+const S2=Sphere($('#cv2'),{n:520,nm:300,r:.25,rm:.38,rh:.26,cy:.49,green:0,tMax:.48,hover:1,spr:pal([18,82,58],[70,146,112],[255,130,64])});
+let finVis=false,finP=0;new IntersectionObserver(e=>{finVis=e[0].isIntersecting;if(!finVis&&fin.getBoundingClientRect().top>0){document.body.style.backgroundColor='';$('#price').style.opacity=1;hd.classList.remove('dk')}},{rootMargin:'200px'}).observe(fin);
+(function loop2(now){if(finVis){const r=fin.getBoundingClientRect(),H=fin.offsetHeight-innerHeight;finP=H>0?cl(-r.top/H):1;
+  const bg=sm(cl((innerHeight*.9-r.top)/(innerHeight*.9)));document.body.style.backgroundColor='rgb('+mix(BG0,BG1,bg)+')';fin.style.setProperty('--gl',sm(cl((bg-.5)/.5)).toFixed(3));$('#price').style.opacity=1-bg*.9;
+  hd.classList.toggle('dk',bg>.6&&r.bottom>innerHeight*.5);
+  const join=sm(cl((finP-.32)/.22));const core=sm(cl((finP-.24)/.14))*(1-sm(cl((finP-.48)/.3)));S2.ext=reduce?null:.4+cl((finP-.22)/.6)*.599;S2.glow=Math.max(core,join*.55);S2.shift=join*.5;S2.calm=0;S2.burst=0;
+  fin.classList.toggle('on',finP>.5);
+  const f=S2.draw(now,{scale:.85+bg*.15,speed:1+join*.6});S2.paint(f,-1,1,.88,1);
+  finSlot.style.top=(f.cy)+'px';fTtl.style.top=Math.max(innerHeight*.08,f.cy-f.R-fTtl.offsetHeight*.62)+'px';}
+ requestAnimationFrame(loop2)})(performance.now());
+
+/* шар-проводник: выпадает из первого шара, проходит год, встраивается в финальный */
+{const orb=$('#slOrb'),ic=$('#slIc');
+ const OBJ=['ivanov','b-city','anikina','b-mobius','kapitanov','b-station','tyurina','b-tower','marisabel','b-dome','balayants'].map(n=>'img/idea-'+n+'.webp');
+ ic.innerHTML=OBJ.map(s=>'<img src="'+s+'" alt="">').join('');const th=ic.querySelectorAll('img');let ti=0;const cyc=()=>{th.forEach((x,i)=>x.classList.toggle('show',i===ti));ti=(ti+1)%th.length};cyc();if(!reduce)setInterval(cyc,1600);
+ const slots=$$('[data-orb]').map(n=>({n,obj:n.hasAttribute('data-obj'),st:+(n.dataset.st||2),hero:n===heroSlot,fin:n===finSlot}));
+ let lastSz=0;
+ (function frame(){const c=innerHeight*.5,list=[];
+  slots.forEach(o=>{const r=o.n.getBoundingClientRect();if(!r.width)return;list.push({o,x:r.left+r.width/2,y:r.top+r.height/2,s:o.hero?r.width:o.fin?Math.min(innerWidth,innerHeight)*.16:Math.max(36,Math.min(r.width,innerWidth*.4))})});
+  list.sort((a,b)=>a.y-b.y);let tx=0,ty=0,ts=24,e=0;
+  if(list.length){let i=0;while(i<list.length-1&&list[i+1].y<=c)i++;const A=list[i],B=list[i+1]||null;
+   if(!B||c<=A.y){tx=A.x;ty=A.y;ts=A.s}
+   else{const gap=B.y-A.y,d=c-A.y;let tr=Math.min(gap,Math.max(gap*.6,innerHeight*.5));const hold=Math.min((gap-tr)/2,innerHeight*.12);tr=gap-2*hold;
+    e=sm(cl((d-hold)/Math.max(1,tr)));tx=A.x+(B.x-A.x)*e;ty=A.y+(B.y-A.y)*e;ts=(A.s+(B.s-A.s)*e)*(1-.2*Math.sin(Math.PI*e));
+    const bx=B.x-A.x,by=B.y-A.y,bl=Math.hypot(bx,by);if(bl>40){let nx=-by/bl,ny=bx/bl;if((nx>0?1:-1)!==((A.x+B.x)/2>innerWidth/2?-1:1)){nx=-nx;ny=-ny}const amp=Math.min(bl*.14,innerWidth*.12)*Math.sin(Math.PI*e);tx+=nx*amp;ty+=ny*amp}
+    ty=Math.max(ts*.5+8,Math.min(innerHeight-ts*.5-8,ty))}
+   const near=e<.005?A:(e>.995?B:null);orb.dataset.state=near&&near.o.st===3?3:2;orb.classList.toggle('has-obj',!!(near&&near.o.obj&&ts>50))}
+  // встраивание: в финале шарик сжимается и растворяется в центре большого шара
+  const merge=sm(cl((finP-.25)/.15));if(merge>0){ts*=1-merge*.75}
+  const op=cl((scrollY-6)/90)*(1-merge);
+  if(Math.abs(ts-lastSz)>.5){orb.style.width=orb.style.height=ts+'px';lastSz=ts}
+  orb.style.transform='translate3d('+(tx-ts/2).toFixed(1)+'px,'+(ty-ts/2).toFixed(1)+'px,0)';orb.style.opacity=op.toFixed(2);orb.classList.toggle('is-off',op<.02);
+  hd.classList.toggle('s',scrollY>20&&!hd.classList.contains('dk'));
+  requestAnimationFrame(frame)})();}
+
+
+}
+</script>
+</body>
+</html>

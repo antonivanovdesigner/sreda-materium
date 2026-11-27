@@ -1,0 +1,55 @@
+@keyframes sl-flow1{0%{transform:translate(-24%,16%) scale(.9)}50%{transform:translate(14%,-20%) scale(1.25)}100%{transform:translate(26%,10%) scale(1)}}
+@keyframes sl-flow2{0%{transform:translate(18%,-18%) scale(1.15)}50%{transform:translate(-26%,12%) scale(.85)}100%{transform:translate(-6%,24%) scale(1.1)}}
+@keyframes sl-flow3{0%{transform:translate(22%,10%) scale(.85)}50%{transform:translate(-18%,-24%) scale(1.25)}100%{transform:translate(10%,-10%) scale(1)}}
+@keyframes sl-flow4{0%{transform:translate(-26%,-18%) scale(.8)}100%{transform:translate(22%,16%) scale(1.25)}}
+@keyframes sl-bam{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
+@keyframes sl-spin{to{transform:rotate(360deg)}}
+:is(#allrecords,body) .sl-orb.mat .sl-orb__glass{overflow:visible;background:rgba(255,248,242,calc(.3*(1 - var(--mat))));box-shadow:inset 0 0 0 1px rgba(255,255,255,calc(.7*(1 - var(--mat))))}
+:is(#allrecords,body) .sl-orb.mat .sl-orb__halo,:is(#allrecords,body) .sl-orb.mat .sl-orb__shine,:is(#allrecords,body) .sl-orb.mat .sl-orb__aura{opacity:calc(1 - var(--mat))}
+:is(#allrecords,body) .sl-orb.mat .sl-orb__ic img{-webkit-mask-size:calc(100% + var(--mat)*400%);mask-size:calc(100% + var(--mat)*400%);-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+:is(#allrecords,body) .sl-orb.mat.has-obj .sl-orb__icb{opacity:calc(.8*(1 - var(--mat)))}
+:is(#allrecords,body) .sl-orb.mat.has-obj .sl-orb__ic{opacity:calc(.62 + var(--mat)*.38);inset:calc(22% - var(--mat)*20%)}
+:is(#allrecords,body) .sl-orb__icb{position:absolute;inset:24%;opacity:0;pointer-events:none;transition:opacity .35s;rotate:var(--roll,0deg)}
+:is(#allrecords,body) .sl-orb.has-obj .sl-orb__icb{opacity:.35}
+:is(#allrecords,body) .sl-orb__ic img{-webkit-mask-image:radial-gradient(circle,#000 52%,rgba(0,0,0,.6) 68%,transparent 84%);mask-image:radial-gradient(circle,#000 52%,rgba(0,0,0,.6) 68%,transparent 84%)}
+:is(#allrecords,body) .sl-orb__icb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.85);transition:opacity 1.2s,transform 1.2s;filter:blur(2px)}
+:is(#allrecords,body) .sl-orb__icb img.show{opacity:1;transform:none}
+:is(#allrecords,body) .sl-orbwrap{position:absolute;left:0;top:0;width:100%;height:0;overflow-x:clip;overflow-y:visible;pointer-events:none;z-index:40}
+:is(#allrecords,body) .sl-orb{backface-visibility:hidden}
+:is(#allrecords,body) .sl-orb{position:fixed;left:0;top:0;width:80px;height:80px;z-index:40;pointer-events:none;will-change:transform,opacity;transform-origin:0 0}
+:is(#allrecords,body) .sl-orb__cap{transform-origin:50% 0}
+:is(#allrecords,body) .sl-orb__halo{position:absolute;inset:-40%;border-radius:50%;background:radial-gradient(circle,rgba(255,150,90,.2) 0,rgba(255,170,120,.09) 38%,rgba(255,190,150,0) 66%);transition:opacity .8s,transform .8s}
+:is(#allrecords,body) .sl-orb__glass{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:rgba(255,250,246,.3);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),inset -10px -14px 30px rgba(150,70,20,.1),inset 8px 10px 24px rgba(255,255,255,.45),0 18px 40px rgba(60,20,0,.12);transition:filter .8s}
+:is(#allrecords,body) .sl-orb__aura{position:absolute;inset:-6%;will-change:transform;animation:sl-spin 24s linear infinite;transition:opacity .8s,transform .8s}
+:is(#allrecords,body) .sl-orb__aura i{position:absolute;border-radius:50%;will-change:transform}
+:is(#allrecords,body) .sl-orb__aura i:nth-child(1){left:6%;top:14%;width:70%;height:70%;background:radial-gradient(circle,rgba(255,150,90,.7) 0,rgba(255,160,110,.32) 42%,rgba(255,180,140,0) 70%);animation:sl-flow1 8s ease-in-out infinite alternate}
+:is(#allrecords,body) .sl-orb__aura i:nth-child(2){left:30%;top:24%;width:60%;height:60%;background:radial-gradient(circle,rgba(255,226,160,.85) 0,rgba(255,214,150,.35) 42%,rgba(255,220,170,0) 70%);animation:sl-flow2 10s ease-in-out infinite alternate}
+:is(#allrecords,body) .sl-orb__aura i:nth-child(3){left:18%;top:44%;width:58%;height:58%;background:radial-gradient(circle,rgba(255,120,130,.5) 0,rgba(255,140,140,.2) 42%,rgba(255,160,150,0) 70%);animation:sl-flow3 12s ease-in-out infinite alternate}
+:is(#allrecords,body) .sl-orb__aura i:nth-child(4){left:36%;top:40%;width:40%;height:40%;background:radial-gradient(circle,rgba(255,250,235,.9) 0,rgba(255,240,215,.35) 45%,rgba(255,240,220,0) 72%);animation:sl-flow4 7s ease-in-out infinite alternate}
+:is(#allrecords,body) .sl-orb__shine{position:absolute;inset:0;border-radius:50%;z-index:2;box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),inset 0 -6px 18px rgba(255,236,220,.45),inset 0 0 26px rgba(255,248,240,.35);background:radial-gradient(ellipse 22% 12% at 30% 18%,rgba(255,255,255,.85),rgba(255,255,255,0) 70%),radial-gradient(ellipse 30% 14% at 66% 84%,rgba(255,255,255,.35),rgba(255,255,255,0) 70%);pointer-events:none}
+:is(#allrecords,body) .sl-orb:not(.has-obj):not(.is-tiny) .sl-orb__glass{background:radial-gradient(circle at 50% 56%,rgba(255,150,95,.75) 0,rgba(255,180,130,.62) 45%,rgba(255,222,200,.7) 75%)}
+:is(#allrecords,body) .sl-orb.is-ghost .sl-orb__glass{background:rgba(255,250,246,.12)!important}
+:is(#allrecords,body) .sl-orb.is-ghost .sl-orb__aura{opacity:.3}
+:is(#allrecords,body) .sl-orb.is-ghost .sl-orb__halo{opacity:.5}
+:is(#allrecords,body) .sl-orb.is-dense .sl-orb__glass{background:radial-gradient(circle at 50% 56%,rgba(255,140,80,.95) 0,rgba(255,170,115,.85) 45%,rgba(255,214,186,.85) 75%)}
+:is(#allrecords,body) .sl-orb.is-dense .sl-orb__halo{opacity:.6}
+:is(#allrecords,body) .sl-orb.is-tiny .sl-orb__orb,:is(#allrecords,body) .sl-orb.is-tiny .sl-orb__halo{display:none}
+:is(#allrecords,body) .sl-orb__ic{position:absolute;inset:24%;opacity:0;transition:opacity .35s;rotate:var(--roll,0deg)}
+:is(#allrecords,body) .sl-orb.has-obj .sl-orb__ic{opacity:.85}
+:is(#allrecords,body) .sl-orb__aura{rotate:var(--roll,0deg)}
+:is(#allrecords,body) .sl-orb__ic img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transform:scale(.92);transition:opacity 1.2s,transform 1.2s}
+:is(#allrecords,body) .sl-orb__ic img.show{opacity:1;transform:none}
+:is(#allrecords,body) .sl-orb__ic svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:#fff;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;opacity:0;filter:blur(.4px);transform:scale(.8);transition:opacity .9s,transform .9s}
+:is(#allrecords,body) .sl-orb__ic svg.show{opacity:.9;transform:none}
+:is(#allrecords,body) .sl-orb__halo,:is(#allrecords,body) .sl-orb__shine,:is(#allrecords,body) .sl-orb__glass{transition:opacity .6s,box-shadow .6s,background .6s}
+:is(#allrecords,body) .sl-orb__orb{position:absolute;inset:-38%;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);opacity:0;transition:opacity .8s;animation:sl-spin 14s linear infinite}
+:is(#allrecords,body) .sl-orb__orb i{position:absolute;width:13%;height:13%;margin:-6.5% 0 0 -6.5%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#6fd1a8,#02432f 70%);box-shadow:0 0 10px rgba(111,209,168,.6)}
+:is(#allrecords,body) .sl-orb[data-state="3"] .sl-orb__orb{opacity:1}
+:is(#allrecords,body) .sl-orb__cap{position:absolute;left:50%;top:calc(100% + 14px);transform:translateX(-50%);white-space:nowrap;font:700 clamp(12px,.8vw,17px)/1.2 'Plumb',sans-serif;color:var(--or,#ff4e00);opacity:0;transition:opacity .5s}
+:is(#allrecords,body) .sl-orb.has-idea .sl-orb__cap{opacity:1}
+:is(#allrecords,body) .sl-orb[data-state="3"] .sl-orb__cap{color:#fff}
+:is(#allrecords,body) .sl-orb.bam .sl-orb__glass,:is(#allrecords,body) .sl-orb.bam .sl-orb__halo{animation:sl-bam 1.6s ease-in-out}
+:is(#allrecords,body) .sl-orb.is-off .sl-orb__aura,:is(#allrecords,body) .sl-orb.is-off .sl-orb__aura i{animation-play-state:paused}
+:is(#allrecords,body) .sl-orb__orb{animation:none}
+:is(#allrecords,body) .sl-orb.bam .sl-orb__glass{animation:none}
+:is(#allrecords,body) .sl-orb__aura,:is(#allrecords,body) .sl-orb__aura i{animation:none}
