@@ -278,10 +278,12 @@ body.mo .menu nav a{opacity:1;transform:none}
 @keyframes maR{0%,20%{transform:translateX(0)}40%,92%{transform:translateX(-38%)}100%{transform:translateX(0)}}
 
 /* 6. Advisory Board */
-.feat{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,110px);align-items:center;margin-top:clamp(48px,5vw,100px)}
-.feat>img{width:100%;aspect-ratio:1;object-fit:cover;object-position:50% 25%;border-radius:clamp(18px,1.6vw,30px)}
-.feat .h2{font-size:clamp(44px,5vw,120px);margin:10px 0 clamp(18px,1.6vw,28px)}
-.feat .dots{margin-top:clamp(18px,1.6vw,28px);color:var(--mute);font-size:clamp(16px,1.1vw,21px)}
+.advtop{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,120px);align-items:start}
+.feat{display:grid;gap:clamp(14px,1.2vw,22px);max-width:540px;justify-self:end;width:100%}
+.feat .nm{font-family:"Bluescreens";font-weight:400;text-transform:uppercase;font-size:clamp(34px,3vw,64px);line-height:.9;margin:6px 0 0}
+.feat>img{width:100%;aspect-ratio:4/4.2;object-fit:cover;object-position:50% 25%;border-radius:clamp(18px,1.6vw,30px)}
+.feat>div{display:grid;gap:clamp(12px,1vw,18px)}
+.feat .dots{margin-top:4px;color:var(--mute);font-size:clamp(16px,1.1vw,21px)}
 .idea{display:grid;grid-template-columns:clamp(56px,4vw,72px) 1fr;gap:16px;align-items:center;padding:14px 18px 14px 14px;border-radius:20px;background:#fff;font-size:clamp(16px,1.15vw,22px);line-height:1.4;box-shadow:0 30px 60px -44px rgba(0,0,0,.3)}
 .idea span{aspect-ratio:1;border-radius:50%;background:var(--bg);display:grid;place-items:center;overflow:hidden}
 .idea img{width:72%;height:72%;object-fit:contain}
@@ -402,7 +404,7 @@ body.cl .mk{background:none}
  .hero .sub{white-space:normal;max-width:15em}
  [data-rv]{text-wrap:pretty}.intro .big,.quote .big,.mani .big{font-size:26px;line-height:1.18}
  .hero .ttl{white-space:normal;font-size:27vw;line-height:.82;top:38%}
- .author .grid,.feat{grid-template-columns:1fr}.feat>img{max-width:440px}.author img{max-width:440px}
+ .author .grid,.advtop{grid-template-columns:1fr}.feat{justify-self:start;max-width:440px}.author img{max-width:440px}
  .ppl,.can{grid-template-columns:1fr}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.fact{min-height:0;gap:16px;padding:20px}.fact b{font-size:44px}.fact span{font-size:15px}
 }
 @media (max-width:600px){
@@ -684,6 +686,7 @@ body.cl .mk{background:none}
 <!-- 6. ADVISORY BOARD -->
 <section class="sec" id="people">
   <div class="in">
+    <div class="advtop">
     <div class="head">
       <p class="lab" data-r>Спикеры</p>
       <h2 class="h" id="advH" data-split>Advisory Board <em>Среды</em></h2>
@@ -692,12 +695,12 @@ body.cl .mk{background:none}
     <article class="feat" data-r>
       <img src="img/ppl-tregulova.webp" alt="Зельфира Трегулова">
       <div>
-        <p class="lab" style="color:var(--or)">Хедлайнер</p>
-        <h3 class="h2">Зельфира Трегулова</h3>
+                <h3 class="nm">Зельфира Трегулова</h3>
         <div class="idea"><span><img src="img/idea-tregulova.webp" alt=""></span><p>Поможет увидеть масштаб идеи и&nbsp;понять, как представить её&nbsp;так, чтобы привлечь аудиторию, партнёров и&nbsp;деньги.</p></div>
         <ul class="dots"><li>Искусствовед, куратор масштабных международных выставочных проектов</li><li>Создательница первых в&nbsp;России выставок-блокбастеров</li><li>Экс-генеральный директор Третьяковской галереи</li></ul>
       </div>
     </article>
+    </div>
   </div>
   <div class="in ks-top" style="margin-top:clamp(56px,5vw,96px)"><p class="lab">Ещё 9&nbsp;экспертов</p><div class="nav2"><button class="arr" type="button" id="aPrev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button class="arr" type="button" id="aNext" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
   <div class="ks" id="adv" tabindex="0" aria-label="Advisory Board" style="margin-top:clamp(20px,2vw,32px)"></div>
@@ -1053,7 +1056,7 @@ function Sphere(cv,o){
 
 /* первый экран */
 const hero=$('#top'),heroSlot=$('#heroSlot');
-const S1=Sphere($('#cv'),{n:460,nm:260,r:.27,rm:.4,rh:.33,cy:.4,green:.012,drips:4,hover:1,spr:pal([255,232,218],[255,150,95],[244,84,24])});
+const S1=Sphere($('#cv'),{n:460,nm:260,r:.27,rm:.4,rh:.33,cy:.4,green:.012,drips:4,spr:pal([255,232,218],[255,150,95],[244,84,24])});
 let heroVis=true;new IntersectionObserver(e=>{heroVis=e[0].isIntersecting},{rootMargin:'100px'}).observe(hero);
 let fall=-1;
 (function loop(now){if(heroVis){const f=S1.draw(now,{lift:-scrollY*.3,scale:1-cl(scrollY/innerHeight)*.06});
@@ -1064,14 +1067,54 @@ let fall=-1;
 
 /* финал: заливка зелёным, шар Среды, шарик встраивается */
 const fin=$('#join'),finSlot=$('#finSlot'),fTtl=$('#join .ttl');const BG0=[242,242,240],BG1=[2,67,47];
-const S2=Sphere($('#cv2'),{n:520,nm:300,r:.25,rm:.38,rh:.26,cy:.49,green:0,tMax:.48,hover:1,spr:pal([18,82,58],[70,146,112],[255,130,64])});
+/* ФИНАЛ: планета из точек (по видео-референсу). Вид с полюса, спираль Фибоначчи, яркое ядро.
+   Цикл: распад → сжатие в плотный шар → удержание → взрыв с завихрением и рукавами → большая ровная сфера → снова распад */
+function DotSphere(cv,o){
+ const ctx=cv.getContext('2d');let W,H,R,cx,cy,dpr,P=[],lt=0,rot=0;const self={glow:0};
+ const DOT=(()=>{const c=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d'),r=g.createRadialGradient(16,16,0,16,16,16);r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.45,'rgba(255,255,255,.9)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,32,32);return c})();
+ const DOTO=(()=>{const c=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d'),r=g.createRadialGradient(16,16,0,16,16,16);r.addColorStop(0,'rgba(255,220,190,1)');r.addColorStop(.45,'rgba(255,140,70,.9)');r.addColorStop(1,'rgba(255,120,50,0)');g.fillStyle=r;g.fillRect(0,0,32,32);return c})();
+ const build=()=>{const N=innerWidth<700?o.nm:o.n,ga=Math.PI*(3-Math.sqrt(5));P=[];
+  for(let i=0;i<N;i++){const y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),a=i*ga;P.push({x:Math.cos(a)*r,y,z:Math.sin(a)*r,lag:(1-Math.abs(y))*.05+Math.random()*.03,o:Math.random()<.07,s:.8+Math.random()*.5,k:Math.random()})}};
+ const size=()=>{dpr=Math.min(2,devicePixelRatio||1);const b=cv.getBoundingClientRect();W=b.width;H=b.height;cv.width=W*dpr;cv.height=H*dpr;R=Math.min(W*(W<700?o.rm:o.r),H*o.rh);cx=W/2;cy=H*o.cy};
+ build();size();addEventListener('resize',size);
+ const E=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,EO=k=>1-Math.pow(1-k,3),L=(a,b,k)=>a+(b-a)*k;
+ const CY=o.cycle||7;
+ // фаза → [масштаб, разлёт]
+ const ph=c=>{if(c<.25){const k=E(c/.25);return[L(1.12,.42,k),L(.55,.04,k)]}
+  if(c<.38)return[.42,.04];
+  if(c<.56){const k=EO((c-.38)/.18);return[L(.42,1.22,k),L(.04,1.25,k)]}
+  if(c<.8){const k=E((c-.56)/.24);return[L(1.22,1,k),L(1.25,.03,k)]}
+  if(c<.9)return[1,.03];
+  const k=E((c-.9)/.1);return[L(1,1.12,k),L(.03,.55,k)]};
+ const nz=(x,y,z,t)=>(Math.sin(x*2.3+y*1.1+t*.9)+Math.sin(y*2.9-z*1.6+t*1.2)+Math.sin(z*2.1+x*1.8-t*.8))/3;
+ self.draw=(now,{scale=1}={})=>{const t=now/1000,dt=Math.min(.05,lt?t-lt:0);lt=t;rot+=dt*.22;
+  const gc=reduce?.85:(t/CY)%1,RR=R*scale,ax=1.32,cb=Math.cos(ax),sb=Math.sin(ax),cr=Math.cos(rot),sr=Math.sin(rot),q=t*.7;
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+  // ядро
+  const cg=ctx.createRadialGradient(cx,cy,0,cx,cy,RR*.5);cg.addColorStop(0,`rgba(255,250,240,${.55+.35*self.glow})`);cg.addColorStop(.12,`rgba(255,220,190,${.22+.3*self.glow})`);cg.addColorStop(.5,`rgba(255,150,90,${.06+.12*self.glow})`);cg.addColorStop(1,'rgba(255,150,90,0)');ctx.fillStyle=cg;ctx.fillRect(cx-RR,cy-RR,RR*2,RR*2);
+  const base=Math.max(1.1,RR*.0085);
+  for(const p of P){const F=ph(Math.min(.9999,(gc+p.lag)%1)),s=F[0],T=F[1];
+   let x=p.x*s,y=p.y*s,z=p.z*s;
+   if(T>.002){const X=p.x*1.6,Y=p.y*1.6,Z=p.z*1.6,n1=nz(X,Y,Z,q),n2=nz(Y+4,Z,X,q*1.1),n3=nz(Z+8,X,Y,q*.9),out=1+T*.2*(1+n1)+T*.28*Math.max(0,p.x+.2)*Math.max(0,n2+.3);
+    x=x*out+n1*T*.3;y=y*out+n2*T*.22;z=z*out+n3*T*.3;
+    const sw=T*2.1*(n2+.5),c=Math.cos(sw),sn=Math.sin(sw),x0=x;x=x0*c-z*sn;z=x0*sn+z*c}
+   // вращение вокруг оси полюса, затем наклон: полюс смотрит на нас
+   const x1=x*cr-z*sr,z1=x*sr+z*cr,y2=y*cb-z1*sb,z2=y*sb+z1*cb;
+   const px=cx+x1*RR,py=cy+y2*RR,d=Math.max(0,Math.min(1,(z2/Math.max(.4,s)+1)/2));
+   const sz=base*p.s*(.55+.75*d),a=(.18+.82*d)*(p.o?1:.92);
+   ctx.globalAlpha=a;ctx.drawImage(p.o?DOTO:DOT,px-sz*1.6,py-sz*1.6,sz*3.2,sz*3.2)}
+  ctx.globalAlpha=1;return{cy,R:RR,cx}};
+ return self;
+}
+
+const S2=DotSphere($('#cv2'),{n:1500,nm:950,r:.25,rm:.4,rh:.27,cy:.5,cycle:7});
 let finVis=false,finP=0;new IntersectionObserver(e=>{finVis=e[0].isIntersecting;if(!finVis&&fin.getBoundingClientRect().top>0){document.body.style.backgroundColor='';$('#price').style.opacity=1;hd.classList.remove('dk')}},{rootMargin:'200px'}).observe(fin);
 (function loop2(now){if(finVis){const r=fin.getBoundingClientRect(),H=fin.offsetHeight-innerHeight;finP=H>0?cl(-r.top/H):1;
   const bg=sm(cl((innerHeight*.9-r.top)/(innerHeight*.9)));document.body.style.backgroundColor='rgb('+mix(BG0,BG1,bg)+')';fin.style.setProperty('--gl',sm(cl((bg-.5)/.5)).toFixed(3));$('#price').style.opacity=1-bg*.9;
   hd.classList.toggle('dk',bg>.6&&r.bottom>innerHeight*.5);
-  const join=sm(cl((finP-.32)/.22));const core=sm(cl((finP-.24)/.14))*(1-sm(cl((finP-.48)/.3)));S2.ext=reduce?null:.4+cl((finP-.22)/.6)*.599;S2.glow=Math.max(core,join*.55);S2.shift=join*.5;S2.calm=0;S2.burst=0;
+  const join=sm(cl((finP-.32)/.22));S2.glow=join;
   fin.classList.toggle('on',finP>.5);
-  const f=S2.draw(now,{scale:.85+bg*.15,speed:1+join*.6});S2.paint(f,-1,1,.88,1);
+  const f=S2.draw(now,{scale:.85+bg*.15});
   finSlot.style.top=(f.cy)+'px';fTtl.style.top=Math.max(innerHeight*.08,f.cy-f.R-fTtl.offsetHeight*.62)+'px';}
  requestAnimationFrame(loop2)})(performance.now());
 
@@ -1092,7 +1135,7 @@ let finVis=false,finP=0;new IntersectionObserver(e=>{finVis=e[0].isIntersecting;
     ty=Math.max(ts*.5+8,Math.min(innerHeight-ts*.5-8,ty))}
    const near=e<.005?A:(e>.995?B:null);orb.dataset.state=near&&near.o.st===3?3:2;orb.classList.toggle('has-obj',!!(near&&near.o.obj&&ts>50))}
   // встраивание: в финале шарик сжимается и растворяется в центре большого шара
-  const merge=sm(cl((finP-.25)/.15));if(merge>0){ts*=1-merge*.75}
+  const merge=sm(cl((finP-.3)/.18));if(merge>0){ts*=1-merge*.75}
   const op=cl((scrollY-6)/90)*(1-merge);
   if(Math.abs(ts-lastSz)>.5){orb.style.width=orb.style.height=ts+'px';lastSz=ts}
   orb.style.transform='translate3d('+(tx-ts/2).toFixed(1)+'px,'+(ty-ts/2).toFixed(1)+'px,0)';orb.style.opacity=op.toFixed(2);orb.classList.toggle('is-off',op<.02);
