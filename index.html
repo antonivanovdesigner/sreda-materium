@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Среда MATERIUM</title>
 <meta name="description" content="Годовая программа для предпринимателей и создателей: превратить опыт и идеи в востребованные проекты, найти союзников и зарабатывать на том, что интересно.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Среда MATERIUM">
+<meta property="og:description" content="Создавайте то, во что верите, с теми, с кем вам по пути">
+<meta property="og:url" content="https://sreda-materium.vercel.app/">
+<meta property="og:image" content="https://sreda-materium.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="675">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="orb.css">
 <style>
 /*
@@ -87,10 +94,10 @@ body.mo .menu nav a{opacity:1;transform:none}
 .gls{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity 1.4s var(--ease) .3s}
 .gls.on{opacity:1}
 .gls canvas{position:absolute;inset:0;width:100%;height:100%}
-.gls .fr{position:absolute;inset:0;background:#fff;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.gls .fr{position:absolute;inset:0;background:linear-gradient(180deg,#1b1b1b 35%,#5b2309 100%);-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 .gls .rim{display:none}
 .hero.glass .ttl{color:transparent!important;mix-blend-mode:normal!important}
-.hero .ttl{position:absolute;left:0;right:0;top:40%;transform:translateY(-50%);z-index:3;pointer-events:none;text-align:center;font-size:clamp(96px,19vw,460px);line-height:.8;color:rgba(168,50,0,.66);mix-blend-mode:multiply;white-space:nowrap}
+.hero .ttl{position:absolute;left:0;right:0;top:40%;transform:translateY(-50%);z-index:3;pointer-events:none;text-align:center;font-size:clamp(96px,19vw,460px);line-height:.8;color:#1b1b1b;white-space:nowrap}
 .hero .foot{position:absolute;left:0;right:0;bottom:clamp(32px,6vh,80px);z-index:3;text-align:center;padding:0 20px;display:grid;justify-items:center;gap:clamp(20px,2.2vw,34px)}
 .hero .sub{font-weight:500;font-size:clamp(21px,2vw,38px);line-height:1.2;letter-spacing:-.01em;white-space:nowrap}
 .hero .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -110,7 +117,7 @@ body.mo .menu nav a{opacity:1;transform:none}
 .fact span{font-size:clamp(17px,1.2vw,23px);line-height:1.35;font-weight:500}
 
 /* 2. переход: одна большая фраза на экран */
-.mani{padding:var(--sp) 0 0;text-align:center}
+.mani{padding:var(--sp) 0 calc(var(--sp)*.6);text-align:center}
 .mani .big{font-size:clamp(32px,4.4vw,96px);max-width:14em;margin:0 auto;line-height:1.08}
 .mani .slot{display:block;width:clamp(48px,4vw,80px);height:clamp(48px,4vw,80px);margin:0 auto clamp(28px,3vw,56px)}
 
@@ -207,6 +214,31 @@ body.mo .menu nav a{opacity:1;transform:none}
 .sbox{background:#fff;border-radius:clamp(26px,2.6vw,48px);padding:clamp(22px,3vw,60px) clamp(22px,3.4vw,68px) clamp(28px,3.4vw,68px);margin-top:clamp(40px,4vw,80px);box-shadow:0 1px 2px rgba(0,0,0,.03),0 50px 100px -60px rgba(0,0,0,.28)}
 .sbox .stabs{margin:0 0 clamp(32px,3vw,56px)}
 .sbox .why{background:var(--bg);box-shadow:none}
+.cont{position:relative;container-type:inline-size;aspect-ratio:1000/720;margin:0 auto clamp(28px,3vw,56px);max-width:1100px}
+.cont canvas,.cont svg{position:absolute;inset:0;width:100%;height:100%}
+.cont svg{overflow:visible}
+.cont .orb0{fill:none;stroke:rgba(255,78,0,.18);stroke-width:12;stroke-linecap:round}
+.cont .orb1{fill:none;stroke:var(--or);stroke-width:3.2;stroke-linecap:round}
+.cont .orb2{fill:none;stroke:#fff;stroke-width:3.4;stroke-dasharray:2 46;stroke-linecap:round;opacity:.9;animation:orbf 3s linear infinite}
+@keyframes orbf{to{stroke-dashoffset:-48}}
+.cont .otx{fill:var(--or);font-size:24px;font-weight:700;letter-spacing:.01em;font-family:'Plumb',sans-serif}
+.cont .cdot{fill:var(--ink)}
+.cont .ray .hit{stroke:transparent;stroke-width:44;cursor:pointer;pointer-events:stroke}
+.cont .ray .ln{stroke:var(--ink);stroke-width:2.4;opacity:.6;transition:stroke .4s,opacity .4s,stroke-width .4s;pointer-events:none}
+.cont .ray.on .ln,.cont .ray.hov .ln{stroke:var(--or);opacity:1;stroke-width:3.4}
+.cont.hv .ray.on:not(.hov) .ln{stroke:var(--ink);opacity:.6;stroke-width:2.4}
+.cont .rl{all:unset;position:absolute;cursor:pointer;font-weight:700;font-size:max(11px,2.3cqw);line-height:1.12;color:var(--ink);white-space:nowrap;transition:color .3s;z-index:3}
+.cont .rl:hover,.cont .rl.hov,.cont .rl.on{color:var(--or)}
+.cont .rl:focus-visible{outline:2px solid var(--or);outline-offset:4px;border-radius:4px}
+.cont .cq{position:absolute;margin:0;width:19.5%;transform:translate(-50%,-50%);text-align:center;display:grid;gap:.45em;font-size:max(10px,1.45cqw);line-height:1.3;color:var(--ink);pointer-events:none;text-wrap:balance}
+.cont .cq small,.qlist small{font-size:.85em;color:var(--mute)}
+.cont .cslot{position:absolute;width:6cqw;aspect-ratio:1;transform:translate(-50%,-50%);z-index:2}
+.qlist{display:none}
+@media (max-width:700px){.cont{width:calc(100% + 24px);margin-left:-12px;margin-right:-12px}.cont .cq{display:none}.cont .rl{font-size:10px}.cont .otx{font-size:28px}
+.qlist{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 28px}.qlist p{margin:0;background:var(--bg);border-radius:16px;padding:14px;display:grid;gap:6px;font-size:13px;line-height:1.3}}
+.rtag{margin-top:clamp(14px,1.2vw,22px);display:inline-block;padding:10px 16px;border-radius:999px;background:rgba(255,78,0,.08);color:var(--or);font-weight:700;font-size:clamp(14px,.95vw,17px);line-height:1.3}
+.pane:not(:has(>div+div)){grid-template-columns:minmax(0,1fr)}
+
 .pane>div:first-child .btn{margin-top:clamp(28px,2.6vw,48px)}
 .panes{display:grid}
 .pane{grid-area:1/1;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,120px);opacity:0;visibility:hidden;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease),visibility .6s}
@@ -278,7 +310,7 @@ body.mo .menu nav a{opacity:1;transform:none}
 @keyframes maR{0%,20%{transform:translateX(0)}40%,92%{transform:translateX(-38%)}100%{transform:translateX(0)}}
 
 /* 6. Advisory Board */
-.advtop{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,120px);align-items:start}
+.advtop{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,5vw,120px);align-items:end}.advtop .lead{justify-self:end}.advg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(36px,3vw,56px) clamp(16px,1.4vw,28px);margin-top:clamp(48px,5vw,100px)}.advg .sk{flex:none;min-width:0}.advg .sk h3{font-size:clamp(24px,1.75vw,38px);text-wrap:balance}.advg .sk .idea{grid-template-columns:36px 1fr;gap:10px;padding:8px 10px 8px 8px}.advg .sk .idea span{width:36px;height:36px}@media (max-width:1180px){.advg{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:700px){.advg{grid-template-columns:1fr;gap:0}.advg .sk{display:grid;grid-template-columns:104px 1fr;column-gap:16px;row-gap:8px;padding:22px 0;border-top:1px solid var(--line);align-items:start}.advg .sk .ph1{grid-area:1/1/3/2;border-radius:14px}.advg .sk h3{grid-area:1/2;font-size:26px;margin:0;align-self:end}.advg .sk .rg{grid-area:2/2;align-self:start}.advg .sk .idea{grid-area:3/1/4/3;margin-top:8px}.advg .sk .loc{position:static;display:inline-block;margin:0;padding:0;background:none;color:var(--mute);font-size:12px}.advg .sk .ph1 .loc{display:none}.advg .sk .rg{font-size:14px}}
 .feat{display:grid;gap:clamp(14px,1.2vw,22px);max-width:540px;justify-self:end;width:100%}
 .feat .nm{font-family:"Bluescreens";font-weight:400;text-transform:uppercase;font-size:clamp(34px,3vw,64px);line-height:.9;margin:6px 0 0}
 .feat>img{width:100%;aspect-ratio:4/4.2;object-fit:cover;object-position:50% 25%;border-radius:clamp(18px,1.6vw,30px)}
@@ -338,7 +370,7 @@ body.mo .menu nav a{opacity:1;transform:none}
 .card .row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:clamp(20px,1.8vw,32px);border-top:1px solid var(--line);flex-wrap:wrap}
 .card .row b{display:block;font-size:clamp(20px,1.5vw,28px)}
 .card .row small{display:block;color:var(--mute);font-size:14px}
-.card.ac{box-shadow:0 0 0 1.5px var(--ink),0 40px 80px -50px rgba(0,0,0,.22)}
+.card.ac{box-shadow:0 0 0 1.5px var(--ink),0 40px 80px -50px rgba(0,0,0,.22)}.both{margin-top:clamp(16px,1.6vw,32px);background:var(--card);border-radius:clamp(24px,2.2vw,40px);padding:clamp(28px,3vw,56px) clamp(32px,3vw,60px);display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,2fr);gap:16px clamp(32px,4vw,80px)}.both .dots{display:grid;grid-template-columns:1fr 1fr;gap:12px clamp(24px,3vw,56px);font-size:clamp(16px,1.1vw,21px);line-height:1.45}.both .camp{grid-column:2;padding-top:clamp(16px,1.4vw,24px);border-top:1px solid var(--line);color:var(--mute);font-size:clamp(15px,1vw,19px)}.both .camp b{color:var(--ink)}@media (max-width:800px){.both{grid-template-columns:1fr}.both .dots{grid-template-columns:1fr}.both .camp{grid-column:1}}
 .faq{margin-top:var(--sp);text-align:left}
 .faq .acc{margin-top:clamp(40px,4vw,80px)}
 .faq .head{margin:0;text-align:left;justify-items:start;max-width:none}
@@ -368,10 +400,10 @@ body.mo .menu nav a{opacity:1;transform:none}
 .fin .bar{position:absolute;left:50%;bottom:clamp(32px,6vh,80px);z-index:3;width:min(92vw,820px);transform:translate(-50%,30px);opacity:0;transition:opacity 1s var(--ease),transform 1s var(--ease);text-align:center}
 .fin.on .ttl{opacity:1;transform:none}
 .fin.on .bar{opacity:1;transform:translate(-50%,0)}
-.fin .bar p{color:#fff;font-weight:700;font-size:clamp(20px,1.7vw,34px);line-height:1.25;margin-bottom:8px;text-wrap:balance}
+.fin .bar p{color:#fff;font-weight:700;font-size:clamp(20px,1.7vw,34px);line-height:1.25;margin-bottom:clamp(20px,2vw,32px);text-wrap:balance}
 .fin .bar p+p{color:rgba(255,255,255,.75);font-weight:400;font-size:clamp(17px,1.3vw,26px);margin-bottom:clamp(20px,2vw,32px)}
 footer{padding:40px 0 48px;color:rgba(255,255,255,.6);font-size:15px;background:var(--gr)}
-footer .in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+footer .in{display:grid;grid-template-columns:1fr auto auto;align-items:start;gap:clamp(24px,4vw,80px)}footer .fl{display:grid;gap:16px;justify-items:start}footer .req{line-height:1.55;font-size:14px}footer .req b{display:block;color:#fff;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}footer nav{flex-direction:column;gap:10px!important}footer nav a:hover{color:#fff}@media (max-width:800px){footer .in{grid-template-columns:1fr}}
 footer img{height:40px;width:auto;filter:invert(1);opacity:.85}
 footer nav{display:flex;gap:24px;flex-wrap:wrap}
 
@@ -404,7 +436,7 @@ body.cl .mk{background:none}
  .hero .sub{white-space:normal;max-width:15em}
  [data-rv]{text-wrap:pretty}.intro .big,.quote .big,.mani .big{font-size:26px;line-height:1.18}
  .hero .ttl{white-space:normal;font-size:27vw;line-height:.82;top:38%}
- .author .grid,.advtop{grid-template-columns:1fr}.feat{justify-self:start;max-width:440px}.author img{max-width:440px}
+ .author .grid,.advtop{grid-template-columns:1fr}.advtop .lead{justify-self:start}.author img{max-width:440px}
  .ppl,.can{grid-template-columns:1fr}.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.fact{min-height:0;gap:16px;padding:20px}.fact b{font-size:44px}.fact span{font-size:15px}
 }
 @media (max-width:600px){
@@ -560,8 +592,9 @@ body.cl .mk{background:none}
 
 <!-- 1б. О ПРОГРАММЕ -->
 <section class="intro sec" id="about"><div class="in">
-  <p class="big" data-rv>ГОДОВАЯ ПРОГРАММА для&nbsp;предпринимателей и&nbsp;создателей, которые хотят <em>превратить свой опыт и&nbsp;идеи в&nbsp;востребованные проекты</em>, <em>найти союзников</em> и&nbsp;<em>зарабатывать на&nbsp;том, что действительно интересно</em> им и&nbsp;нужно людям</p>
-  <h2 class="h2" id="introH" data-split style="margin-top:clamp(64px,6vw,120px);font-size:clamp(40px,4.4vw,104px)">В&nbsp;<em>Среде</em> вы&nbsp;сможете</h2>
+  <h2 class="h2" data-split style="font-size:clamp(44px,5.6vw,140px);max-width:14em">Раскрывайте свою <em>гениальность</em> и&nbsp;меняйте жизнь день за&nbsp;днём</h2>
+  <p class="big" data-rv style="margin-top:calc(var(--sp)*.8)">MATERIUM&nbsp;— среда для&nbsp;предпринимателей и&nbsp;создателей, которые хотят <em>превратить свой опыт и&nbsp;идеи в&nbsp;востребованные проекты</em>, <em>найти союзников</em> и&nbsp;<em>зарабатывать на&nbsp;том, что действительно интересно</em> им и&nbsp;нужно людям</p>
+  <h2 class="h2" id="introH" data-split style="margin-top:var(--sp);font-size:clamp(40px,4.4vw,104px)">В&nbsp;<em>Среде</em> вы&nbsp;сможете</h2>
   <ul class="can" style="margin-top:clamp(16px,1.4vw,26px)">
     <li data-r><i></i><span>Найти своё направление и&nbsp;понять, какую ценность вы&nbsp;можете создавать для&nbsp;других на&nbsp;ближайшие 5–10&nbsp;лет</span></li>
     <li data-r style="--d:.08s"><i></i><span>Проверять идеи на&nbsp;практике и&nbsp;получать чёткую стратегию их&nbsp;монетизации в&nbsp;предпринимательском окружении, которое не&nbsp;купишь за&nbsp;деньги</span></li>
@@ -574,7 +607,6 @@ body.cl .mk{background:none}
     <div class="fact" data-r style="--d:.2s"><b>Онлайн</b><span>Встречи с&nbsp;Марисабель и&nbsp;спикерами мирового уровня</span></div>
     <div class="fact" data-r style="--d:.3s"><b>Офлайн</b><span>Резиденции на&nbsp;Бали и&nbsp;в&nbsp;Угличе, однодневный кемп на&nbsp;Бали в&nbsp;январе</span></div>
   </div>
-  <div class="cta" data-r><a class="btn q" href="#program">Программа Среды</a></div>
 </div></section>
 
 <!-- 2. ПЕРЕХОД -->
@@ -587,7 +619,7 @@ body.cl .mk{background:none}
   <div class="head">
     <p class="lab" data-r>Для кого</p>
     <h2 class="h" data-split><em>Среда</em> точно для&nbsp;вас, если…</h2>
-    <p class="lead" data-r>Выберите ситуацию, в&nbsp;которой узнаёте себя. В&nbsp;Среду можно прийти с&nbsp;действующим бизнесом, новой идеей или&nbsp;вопросом о&nbsp;том, что создавать дальше.</p>
+    <p class="lead" data-r>Выберите ситуацию, в&nbsp;которой узнаёте себя.<br>В&nbsp;Среду можно прийти с&nbsp;действующим бизнесом, новой идеей или&nbsp;вопросом о&nbsp;том, что создавать дальше.</p>
   </div>
   <div class="sxs" id="sxs" data-r></div>
 </div></section>
@@ -600,7 +632,6 @@ body.cl .mk{background:none}
 
 <section class="quote"><div class="in">
   <p class="big" data-rv><em>Аутентичность</em> помогает быть понятным другим. Из&nbsp;совместного опыта рождается <em>доверие</em>, из&nbsp;доверия&nbsp;— <em>сотрудничество</em>, а&nbsp;из&nbsp;сотрудничества могут вырасти <em>проекты, влияние и&nbsp;новые деньги</em></p>
-  <div data-r><a class="btn" href="#program">Посмотреть программу</a></div>
 </div></section>
 
 <!-- 5. ПРОГРАММА -->
@@ -608,7 +639,7 @@ body.cl .mk{background:none}
   <div class="head">
     <p class="lab" data-r>Программа</p>
     <h2 class="h" data-split>Что внутри <em>Среды</em></h2>
-    <p class="lead" data-r>Год, в&nbsp;котором вы&nbsp;сделаете свой проект востребованным, пойдёте в&nbsp;медийность и&nbsp;масштаб в&nbsp;сильнейшем окружении людей, которое не&nbsp;купишь за&nbsp;деньги</p>
+    <p class="lead" data-r>Движение по&nbsp;методу MATERIUM, чтобы сделать свой проект востребованным, пойти в&nbsp;медийность и&nbsp;масштаб</p>
   </div>
   <div class="venn">
     <div class="pic" data-r>
@@ -643,12 +674,25 @@ body.cl .mk{background:none}
 
   <div class="seasons" id="seasons">
     <div class="top">
-      <div class="head"><p class="lab" data-r>Маршрут года</p><h2 class="h2" data-split style="font-size:clamp(48px,6vw,150px)">4&nbsp;сезона <em>Среды</em> MATERIUM</h2></div>
+      <div class="head"><p class="lab" data-r>Маршрут года</p><h2 class="h2" data-split style="font-size:clamp(48px,6vw,150px)">Непрерывное развитие в&nbsp;<em>Среде</em> MATERIUM</h2>
+      <p class="lead" data-r style="margin-top:clamp(18px,1.6vw,30px)">Раскрытие и&nbsp;капитализация вашей гениальности. Каждый сезон вы&nbsp;движетесь сразу по&nbsp;четырём направлениям: начинаете с&nbsp;того, что важнее сейчас, а&nbsp;искусство коммуникации связывает их&nbsp;в&nbsp;единый круг</p></div>
     </div>
     <div class="sbox" data-r>
-    <div class="stabs" id="stabs" role="tablist" aria-label="Сезоны">
+    <div class="cont" id="cont">
+      <canvas id="cv3" aria-hidden="true"></canvas>
+      <svg viewBox="0 0 1000 720" aria-hidden="true"><defs>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker>
+<marker id="ao" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0 0L10 5L0 10z" fill="#ff4e00"/></marker>
+<path id="tp" d="M241.8 315.1A264 264 0 0 1 527.6 107.4"/></defs>
+<path class="orb0" d="M252.4 335.2A250 250 0 1 1 257.4 430.5"/><path class="orb1" d="M252.4 335.2A250 250 0 1 1 257.4 430.5" marker-end="url(#ao)"/><path class="orb2" d="M252.4 335.2A250 250 0 1 1 257.4 430.5"/>
+<text class="otx"><textPath href="#tp" startOffset="2%">Искусство коммуникации</textPath></text>
+<g class="ray" data-i="0"><line class="hit" x1="500" y1="370" x2="200" y2="370"/><line class="ln" x1="500" y1="370" x2="200" y2="370" marker-end="url(#ah)"/></g><g class="ray" data-i="1"><line class="hit" x1="500" y1="370" x2="500" y2="70"/><line class="ln" x1="500" y1="370" x2="500" y2="70" marker-end="url(#ah)"/></g><g class="ray" data-i="2"><line class="hit" x1="500" y1="370" x2="800" y2="370"/><line class="ln" x1="500" y1="370" x2="800" y2="370" marker-end="url(#ah)"/></g><g class="ray" data-i="3"><line class="hit" x1="500" y1="370" x2="500" y2="670"/><line class="ln" x1="500" y1="370" x2="500" y2="670" marker-end="url(#ah)"/></g><circle cx="500" cy="370" r="6" class="cdot"/></svg>
+      <button class="rl" type="button" data-i="1" style="left:50.00%;top:7.78%;transform:translate(-50%,-100%);text-align:center">Большая идея и&nbsp;продукт</button><button class="rl" type="button" data-i="3" style="left:50.00%;top:95.00%;transform:translate(-50%,0);text-align:center">Культурный капитал</button><button class="rl" type="button" data-i="0" style="left:18.20%;top:51.39%;transform:translate(-100%,-50%);text-align:right">Аутентичность<br>и&nbsp;гениальность</button><button class="rl" type="button" data-i="2" style="left:81.80%;top:51.39%;transform:translate(0,-50%);text-align:left">Деньги<br>и&nbsp;продюсирование</button><p class="cq" style="left:38.80%;top:36.11%"><span>Энергия, искра, радость</span><span>Самоактуализация и&nbsp;воплощение замысла</span></p><p class="cq" style="left:61.20%;top:35.83%"><span>Импульс, ускорение, новые возможности</span><small>Boost · Speed&nbsp;up · Pop-up</small></p><p class="cq" style="left:38.80%;top:66.94%"><span>Понимание культурного кода</span><span>Свобода создавать по&nbsp;своим правилам</span></p><p class="cq" style="left:61.40%;top:67.78%"><span>Символический, интеллектуальный, репутационный, отношенческий, социальный капитал</span><span>Влияние и&nbsp;наследие</span></p>
+      <div class="slot cslot" id="sSlot" data-orb data-obj style="left:50.00%;top:51.39%"></div>
+    </div>
+    <div class="qlist"><p><span>Энергия, искра, радость</span><span>Самоактуализация и&nbsp;воплощение замысла</span></p><p><span>Импульс, ускорение, новые возможности</span><small>Boost · Speed&nbsp;up · Pop-up</small></p><p><span>Понимание культурного кода</span><span>Свобода создавать по&nbsp;своим правилам</span></p><p><span>Символический, интеллектуальный, репутационный, отношенческий, социальный капитал</span><span>Влияние и&nbsp;наследие</span></p></div>
+    <div class="stabs" id="stabs" role="tablist" aria-label="Лучи Среды">
       <div class="ln"><i id="sFill"></i></div>
-      <div class="slot" id="sSlot" data-orb data-obj></div>
     </div>
     <div class="panes" id="panes"></div>
     </div>
@@ -687,23 +731,14 @@ body.cl .mk{background:none}
 <section class="sec" id="people">
   <div class="in">
     <div class="advtop">
-    <div class="head">
-      <p class="lab" data-r>Спикеры</p>
-      <h2 class="h" id="advH" data-split>Advisory Board <em>Среды</em></h2>
+      <div class="head">
+        <p class="lab" data-r>Спикеры</p>
+        <h2 class="h" id="advH" data-split>Advisory Board <em>Среды</em></h2>
+      </div>
       <p class="lead" data-r>Мы&nbsp;соединяем вас с&nbsp;теми, кто строил большое: от&nbsp;Третьяковской галереи до&nbsp;агрохолдинга на&nbsp;45&nbsp;000 гектаров. Их&nbsp;взгляд на&nbsp;вашу идею проявит её&nbsp;масштаб и&nbsp;карту нелинейных ходов</p>
     </div>
-    <article class="feat" data-r>
-      <img src="img/ppl-tregulova.webp" alt="Зельфира Трегулова">
-      <div>
-                <h3 class="nm">Зельфира Трегулова</h3>
-        <div class="idea"><span><img src="img/idea-tregulova.webp" alt=""></span><p>Поможет увидеть масштаб идеи и&nbsp;понять, как представить её&nbsp;так, чтобы привлечь аудиторию, партнёров и&nbsp;деньги.</p></div>
-        <ul class="dots"><li>Искусствовед, куратор масштабных международных выставочных проектов</li><li>Создательница первых в&nbsp;России выставок-блокбастеров</li><li>Экс-генеральный директор Третьяковской галереи</li></ul>
-      </div>
-    </article>
-    </div>
+    <div class="advg" id="adv" aria-label="Advisory Board"></div>
   </div>
-  <div class="in ks-top" style="margin-top:clamp(56px,5vw,96px)"><p class="lab">Ещё 9&nbsp;экспертов</p><div class="nav2"><button class="arr" type="button" id="aPrev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button class="arr" type="button" id="aNext" aria-label="Вперёд"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
-  <div class="ks" id="adv" tabindex="0" aria-label="Advisory Board" style="margin-top:clamp(20px,2vw,32px)"></div>
 </section>
 
 <!-- 7. РЕЗУЛЬТАТЫ -->
@@ -744,28 +779,37 @@ body.cl .mk{background:none}
       <p class="txt" style="color:var(--ink)">Для тех, кто хочет познакомиться с&nbsp;методом и&nbsp;людьми, выбрать задачу и&nbsp;начать работу в&nbsp;Среде.</p>
       <p class="lab">Что входит</p>
       <ul class="dots">
-        <li>Диагностика на&nbsp;входе и&nbsp;рекомендации для&nbsp;работы со&nbsp;своей задачей</li>
-        <li>Практикумы, лекторий и&nbsp;игровые форматы в&nbsp;течение оплаченного периода</li>
-        <li>Участие в&nbsp;шестёрке и&nbsp;протоколы самостоятельных встреч</li>
-        <li>Индивидуальные практики и&nbsp;дневник</li>
-        <li>Доступ к&nbsp;приложению MATERIUM на&nbsp;срок участия</li>
-        <li>Повторная диагностика по&nbsp;итогам трёх месяцев</li>
+        <li>Диагностика шести ролей и&nbsp;потенциала твоей идеи, проекта или бизнеса&nbsp;— на&nbsp;входе и&nbsp;по итогам сезона</li>
+        <li>Персональные рекомендации в&nbsp;приложении под&nbsp;твою задачу на&nbsp;сезон</li>
+        <li>3 воркшопа с&nbsp;Марисабель, 3 встречи лектория о&nbsp;культуре и&nbsp;предпринимательстве, 3 игровые лаборатории</li>
+        <li>Подбор шестёрки по&nbsp;результатам диагностики и&nbsp;задачам сезона. Еженедельные самостоятельные встречи по&nbsp;протоколам</li>
+        <li>Участие в&nbsp;Ассамблее в&nbsp;статусе «Создатель». Возможность представить проект и&nbsp;получить разбор от&nbsp;Advisory Board по&nbsp;специальной цене</li>
       </ul>
-      <div class="row"><div><b class="mk">Цена уточняется</b><small class="mk">Условия рассрочки и&nbsp;минимальный платёж&nbsp;— скоро</small></div><a class="btn q" href="#join">Войти на&nbsp;сезон</a></div>
+      <div class="row"><div><b class="mk">90&nbsp;000&nbsp;₽</b><small class="mk">Бронь места&nbsp;— 5&nbsp;000&nbsp;₽</small></div><a class="btn q" href="#popup:tarif1">Войти на&nbsp;сезон</a></div>
     </div>
     <div class="card ac" data-r style="--d:.12s">
       <div class="top"><h3>Год</h3><span class="dur">12&nbsp;месяцев</span></div>
-      <p class="txt" style="color:var(--ink)">Годовое участие: все четыре сезона и&nbsp;время, чтобы узнать друг друга и&nbsp;попробовать сотрудничество.</p>
+      <p class="txt" style="color:var(--ink)">Годовое участие: четыре сезона, чтобы узнать друг друга и&nbsp;создать устойчивые партнёрские отношения.</p>
       <p class="lab">Что входит</p>
       <ul class="dots">
-        <li>Всё, что предусмотрено сезонным участием, в&nbsp;течение 12&nbsp;месяцев</li>
-        <li>Работа с&nbsp;темами всех четырёх сезонов и&nbsp;возможность возвращаться к&nbsp;ним под&nbsp;свою задачу</li>
-        <li>Несколько циклов проверки гипотез, обратной связи и&nbsp;доработки проекта</li>
-        <li>Повторная диагностика в&nbsp;конце каждого сезона</li>
-        <li>Продолжительное взаимодействие с&nbsp;участниками: время узнать друг друга и&nbsp;попробовать сотрудничество</li>
+        <li>Диагностика шести ролей и&nbsp;потенциала твоей идеи, проекта или бизнеса&nbsp;— в&nbsp;начале и&nbsp;в&nbsp;конце каждого сезона</li>
+        <li>Персональные рекомендации в&nbsp;приложении под&nbsp;твою задачу на&nbsp;сезон. Индивидуальные сессии с&nbsp;командой MATERIUM&nbsp;— разбор результатов диагностики</li>
+        <li>12 воркшопов с&nbsp;Марисабель, 12 встреч лектория о&nbsp;культуре и&nbsp;предпринимательстве, 12 игровых лабораторий</li>
+        <li>Подбор шестёрки по&nbsp;ролям и&nbsp;задачам каждого сезона. Еженедельные самостоятельные встречи по&nbsp;протоколам</li>
+        <li>Участие в&nbsp;Ассамблее в&nbsp;статусе Special Guest. Возможность представить проект и&nbsp;получить разбор от&nbsp;Advisory Board</li>
       </ul>
-      <div class="row"><div><b class="mk">Цена уточняется</b><small class="mk">Условия рассрочки и&nbsp;минимальный платёж&nbsp;— скоро</small></div><a class="btn" href="#join">Присоединиться на&nbsp;год</a></div>
+      <div class="row"><div><b class="mk">290&nbsp;000&nbsp;₽</b><small class="mk">Бронь места&nbsp;— 10&nbsp;000&nbsp;₽</small></div><a class="btn" href="#popup:tarif2">Присоединиться на&nbsp;год</a></div>
     </div>
+  </div>
+  <div class="both" data-r>
+    <p class="lab">В&nbsp;оба тарифа входят</p>
+    <ul class="dots">
+        <li>Полный доступ к&nbsp;приложению MATERIUM на&nbsp;срок участия</li>
+        <li>Индивидуальные практики и&nbsp;личный дневник в&nbsp;приложении</li>
+        <li>Культурные маршруты MATERIUM и&nbsp;доступ к&nbsp;«Голому чату»</li>
+        <li>Возможность создать исследовательский хаб и&nbsp;запустить свою лабораторию</li>
+    </ul>
+    <p class="camp"><b>Кемп MATERIUM на&nbsp;Бали в&nbsp;январе</b> доступен участникам обоих тарифов. Билет приобретается отдельно.</p>
   </div>
   <div class="faq">
     <div class="head"><p class="lab" data-r>Вопросы</p><h2 class="h" data-split id="faqH">FAQ</h2></div>
@@ -780,16 +824,15 @@ body.cl .mk{background:none}
   <div class="slot" id="finSlot" data-orb></div>
   <div class="bar">
     <p>Создавайте то, во&nbsp;что верите, с&nbsp;теми, с&nbsp;кем вам по&nbsp;пути</p>
-    <p>Среда MATERIUM&nbsp;= дом, у&nbsp;которого нет границ</p>
-    <a class="btn" href="#price">Выбрать участие</a>
+    <a class="btn" href="#price">Присоединиться к&nbsp;Среде</a>
   </div>
 </div></section>
 </main>
 
 <footer><div class="in">
-  <img src="img/logo.svg" alt="MATERIUM — лаборатория лидеров будущего">
-  <nav><a href="#top">Политика</a><a href="#top">Оферта</a><a href="#top">Написать куратору</a></nav>
-  <span>© 2026 MATERIUM</span>
+  <div class="fl"><img src="img/logo.svg" alt="MATERIUM — лаборатория лидеров будущего"><span>© 2026 MATERIUM</span></div>
+  <nav><a href="https://docs.google.com/document/d/1xI0_7iP9eT4NgYhWsCHWqVNsJeSW1-97/edit?usp=sharing&amp;ouid=103116784671023015835&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">Политика обработки персональных данных</a><a href="https://marisabela.getcourse.ru/Oferta_sreda" target="_blank" rel="noopener">Оферта</a><a href="https://t.me/m/CJ7Efb3cOGYy" target="_blank" rel="noopener">Написать куратору</a></nav>
+  <div class="req"><b>Реквизиты</b>ИП&nbsp;Жуйков Егор Максимович<br>ИНН&nbsp;860231389200<br>ОГРНИП&nbsp;326860000090326</div>
 </div></footer>
 
 <div class="sl-orb" id="slOrb" data-state="0" aria-hidden="true">
@@ -864,19 +907,52 @@ gT.innerHTML=GAIN.map((g,i)=>`<article class="gc" data-r style="--d:${(i%3*.08).
 
 /* СЕЗОНЫ */
 const SEAS=[
- {n:'Аутентичность и&nbsp;гениальность',s:'Понять, что вы&nbsp;хотите создавать и&nbsp;на&nbsp;какие свои способности можете опереться.',p:['Исследование талантов, опыта и&nbsp;собственной ключевой компетенции, которая ляжет в&nbsp;основу востребованного продукта','«Фильтр аутентичности»: как выбирать подходящие идеи, проекты и&nbsp;предложения, которые будут актуальны в&nbsp;ближайшие 5–10&nbsp;лет','Исследование ядра личности: что принесёт вам медийность, аудиторию и&nbsp;масштаб','Практики внимания: как замечать собственные решения и&nbsp;причины, по&nbsp;которым вы&nbsp;их&nbsp;принимаете','Диагностика ролей и&nbsp;выбор навыков для&nbsp;развития'],w:'Сформулируете своё направление, которое сделаете востребованным в&nbsp;2027 году, и&nbsp;критерии, по&nbsp;которым будете выбирать проекты и&nbsp;партнёров.'},
+ {n:'Аутентичность и&nbsp;гениальность',s:'Понять, что вы&nbsp;хотите создавать и&nbsp;на&nbsp;какие свои способности можете опереться.',p:['Диагностика ролей и&nbsp;выбор навыков для&nbsp;развития','Исследование талантов, опыта и&nbsp;собственной ключевой компетенции, которая ляжет в&nbsp;основу востребованного продукта','«Фильтр аутентичности»: как выбирать подходящие идеи, проекты и&nbsp;предложения, которые будут актуальны в&nbsp;ближайшие 5–10&nbsp;лет','Исследование ядра личности: что принесёт вам медийность, аудиторию и&nbsp;масштаб','Практики внимания: как замечать собственные решения и&nbsp;причины, по&nbsp;которым вы&nbsp;их&nbsp;принимаете'],w:'Сформулируете своё направление, которое сделаете востребованным в&nbsp;2027 году, и&nbsp;критерии, по&nbsp;которым будете выбирать проекты и&nbsp;партнёров.'},
  {n:'Большая идея и&nbsp;продукт',s:'Придать замыслу форму, которая станет востребована.',p:['Насмотренность и&nbsp;сильное окружение как источники новых решений','Креативная концепция «я&nbsp;+&nbsp;время»: связь собственного замысла с&nbsp;происходящим вокруг. Поможет сделать продукт востребованным и&nbsp;прибыльным даже в&nbsp;условиях кризиса','Исследование большой идеи и&nbsp;её&nbsp;ценности для&nbsp;других: опираем идею на&nbsp;материю и&nbsp;реальные запросы людей','Тест первых прототипов до&nbsp;вложений: определите точки роста продукта и&nbsp;сделаете продукт, который поможет вам стать лидером в&nbsp;своей нише','Проверка гипотез, определение платящих сегментов и&nbsp;истинных потребностей вашей целевой аудитории'],w:'Создаёте концепцию продукта на&nbsp;стыке миссии, вашей аутентичности и&nbsp;истинного запроса людей, за&nbsp;решение которого вам будут платить.'},
  {n:'Деньги и&nbsp;продюсирование',s:'',p:['Экономика создателей: за&nbsp;что люди готовы платить именно вам','Способы монетизации и&nbsp;проверка бизнес-гипотез','Как создать MVP&nbsp;— минимальную версию продукта для&nbsp;проверки спроса, без&nbsp;вложений и&nbsp;инвестиций','Первый выход на&nbsp;рынок и&nbsp;анализ обратной связи','Продюсирование: как соединять людей, ресурсы и&nbsp;действия вокруг проекта','Дорожная карта развития: как превратить идею в&nbsp;работающий бизнес и&nbsp;сделать этот бизнес масштабным'],w:'Получите стратегию продвижения и&nbsp;монетизации вашего продукта в&nbsp;условиях кризиса, которую сможете реализовать прямо сейчас, опираясь на&nbsp;опыт предпринимателей с&nbsp;вашей точкой&nbsp;Б.'},
  {n:'Культурный капитал',s:'',p:['Расширить круг идей и&nbsp;людей, на&nbsp;которые вы&nbsp;можете опереться в&nbsp;построении продукта с&nbsp;большой миссией','Культура, искусство и&nbsp;новые картины мира как источники проектных решений','Насмотренность и&nbsp;способность замечать возможности за&nbsp;пределами своей отрасли','Новые формы сотрудничества на&nbsp;пересечении бизнеса, культуры и&nbsp;творчества в&nbsp;окружении людей, в&nbsp;которое невозможно попасть случайно','Долгосрочный взгляд: какие проекты и&nbsp;образ жизни вы&nbsp;хотите создавать и&nbsp;монетизировать в&nbsp;ближайшие 5–10&nbsp;лет'],w:'Находите новых партнёров и&nbsp;единомышленников для&nbsp;развития своего проекта, чтобы создавать новое и&nbsp;востребованное вместе, усиливая друг друга.'}
 ];
+
+/* КОНТИНУУМ: среда-сфера, частицы по осям и по кругу коммуникации */
+const RAY={a:0,h:-1};
+(()=>{const cv=$('#cv3'),box=$('#cont'),x=cv.getContext('2d');const W=1000,H=720,C=[500,370],RR=250;
+ const E=[[200,370],[500,70],[800,370],[500,670]];
+ const N=700,P=[],ga=Math.PI*(3-Math.sqrt(5));for(let i=0;i<N;i++){const y=1-2*(i+.5)/N,r=Math.sqrt(1-y*y),t=ga*i;P.push([Math.cos(t)*r,y,Math.sin(t)*r])}
+ const pts=[];E.forEach((e,i)=>{for(let k=0;k<18;k++)pts.push({r:i,t:Math.random(),v:.05+Math.random()*.07,o:(Math.random()-.5)*10,s:.6+Math.random()*.9})});
+ const orb=[];for(let k=0;k<26;k++)orb.push({a:Math.random()*6.283,v:.18+Math.random()*.12,s:.7+Math.random()*1.1,o:(Math.random()-.5)*8});
+ let w=0,h=0,k=1,dpr=1,vis=false,last=0,glow=[0,0,0,0];
+ const size=()=>{dpr=Math.min(2,devicePixelRatio||1);w=box.clientWidth;h=box.clientHeight;cv.width=w*dpr;cv.height=h*dpr;k=w/W};
+ size();addEventListener('resize',size);
+ new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)requestAnimationFrame(fr)}).observe(box);
+ const fr=now=>{if(!vis)return;const dt=Math.min(.05,(now-(last||now))/1000);last=now;const sp=reduce?0:1;
+  x.setTransform(dpr*k,0,0,dpr*k,0,0);x.clearRect(0,0,W,H);
+  const T=now/1000,R=330+Math.sin(T*.6)*8,ry=T*.1,cy=Math.cos(ry),sy=Math.sin(ry),tl=.38,ct=Math.cos(tl),st=Math.sin(tl);
+  for(const p of P){let X=p[0]*cy+p[2]*sy,Z=-p[0]*sy+p[2]*cy,Y=p[1];const Y2=Y*ct-Z*st;Z=Y*st+Z*ct;const d=(Z+1)/2;
+   x.globalAlpha=.06+d*.26;x.fillStyle='#8f8f8b';x.beginPath();x.arc(C[0]+X*R,C[1]+Y2*R,.9+d*1.5,0,6.283);x.fill()}
+  const act=RAY.h>=0?RAY.h:RAY.a;
+  for(let i=0;i<4;i++)glow[i]+=((i===act?1:0)-glow[i])*Math.min(1,dt*5);
+  for(const q of pts){const e=E[q.r],g=glow[q.r];
+   q.t+=q.v*dt*(1+g*1.6)*sp;if(q.t>1){q.t-=1;q.o=(Math.random()-.5)*10}
+   const dx=e[0]-C[0],dy=e[1]-C[1],L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L,tt=q.t*.94;
+   const px=C[0]+dx*tt+nx*q.o*(1-tt),py=C[1]+dy*tt+ny*q.o*(1-tt),fade=Math.sin(Math.PI*Math.min(1,q.t*1.05)),s=q.s*(2+g*2.2);
+   if(g>.05){x.globalAlpha=fade*g*.12;x.fillStyle='#ff4e00';x.beginPath();x.arc(px,py,s*2.4,0,6.283);x.fill()}
+   x.globalAlpha=fade*(.3+g*.7);x.fillStyle=g>.5?'#ff4e00':'#1b1b1b';x.beginPath();x.arc(px,py,s,0,6.283);x.fill()}
+  // круговой луч: частицы по часовой
+  for(const q of orb){q.a-=q.v*dt*sp;const a=q.a,r=RR+q.o,px=C[0]+Math.cos(a)*r,py=C[1]-Math.sin(a)*r;
+   let deg=((a*180/Math.PI)%360+360)%360;const gap=deg>172&&deg<194?0:1;
+   x.globalAlpha=.16*gap;x.fillStyle='#ff4e00';x.beginPath();x.arc(px,py,q.s*3.4,0,6.283);x.fill();
+   x.globalAlpha=.85*gap;x.beginPath();x.arc(px,py,q.s*1.5,0,6.283);x.fill()}
+  x.globalAlpha=1;requestAnimationFrame(fr)};
+})();
 const stabs=$('#stabs');
-stabs.insertAdjacentHTML('beforeend',SEAS.map((s,i)=>`<button class="st-b" type="button" role="tab" aria-selected="false"><span>Сезон ${i+1}</span><b>${s.n}</b></button>`).join(''));
-$('#panes').innerHTML=SEAS.map((s,i)=>`<div class="pane" role="tabpanel" aria-label="Сезон ${i+1}"><div><h3 class="h2">${s.n}</h3>${s.s?`<p class="lead">${s.s}</p>`:''}<a class="btn" href="#price">Попасть в&nbsp;Среду</a></div><div><ul class="dots">${li(s.p)}</ul><div class="why"><b>С&nbsp;чем работаете</b>${s.w}</div></div></div>`).join('');
+stabs.insertAdjacentHTML('beforeend',SEAS.map((s,i)=>`<button class="st-b" type="button" role="tab" aria-selected="false"><span>Луч 0${i+1}</span><b>${s.n}</b></button>`).join(''));
+$('#panes').innerHTML=SEAS.map((s,i)=>`<div class="pane" role="tabpanel" aria-label="${s.n}"><div><h3 class="h2">${s.n}</h3>${s.s?`<p class="lead">${s.s}</p>`:''}${s.a?`<p class="rtag">${s.a}</p>`:''}<a class="btn" href="#price">Попасть в&nbsp;Среду</a></div>${s.p.length?`<div><ul class="dots">${li(s.p)}</ul>${s.w?`<div class="why"><b>С&nbsp;чем работаете</b>${s.w}</div>`:''}</div>`:''}</div>`).join('');
 const sb=$$('.st-b'),panes=$$('.pane'),sFill=$('#sFill'),sSlot=$('#sSlot');let sCur=0;
-const ink=i=>{const b=sb[i],t=b.querySelector('b');const w=Math.min(b.offsetWidth-8,t.scrollWidth||b.offsetWidth);sFill.style.left=b.offsetLeft+'px';sFill.style.width=w+'px';sSlot.style.left=(b.offsetLeft+w)+'px'};
-const season=(i,fromBtn)=>{sCur=i;sb.forEach((b,j)=>{b.classList.toggle('on',j===i);b.classList.toggle('done',j<i);b.setAttribute('aria-selected',j===i)});panes.forEach((p,j)=>p.classList.toggle('on',j===i));ink(i);stabs.scrollTo({left:Math.max(0,sb[i].offsetLeft-24),behavior:reduce?'auto':'smooth'});
+const ink=i=>{const b=sb[i],t=b.querySelector('b');const w=Math.min(b.offsetWidth-8,t.scrollWidth||b.offsetWidth);sFill.style.left=b.offsetLeft+'px';sFill.style.width=w+'px'};
+const season=(i,fromBtn)=>{sCur=i;sb.forEach((b,j)=>{b.classList.toggle('on',j===i);b.setAttribute('aria-selected',j===i)});panes.forEach((p,j)=>p.classList.toggle('on',j===i));$$('#cont .ray,#cont .rl').forEach(r=>r.classList.toggle('on',+r.dataset.i===i));RAY.a=i;ink(i);stabs.scrollTo({left:Math.max(0,sb[i].offsetLeft-24),behavior:reduce?'auto':'smooth'});
  if(fromBtn){const t=$('#stabs').getBoundingClientRect().top;if(t<0)scrollBy({top:t-100,behavior:reduce?'auto':'smooth'})}};
 sb.forEach((b,i)=>b.addEventListener('click',()=>season(i)));
+$$('#cont .ray,#cont .rl').forEach(r=>{r.addEventListener('click',()=>season(+r.dataset.i));r.addEventListener('mouseenter',()=>{RAY.h=+r.dataset.i;$('#cont').classList.add('hv');$$('#cont .ray,#cont .rl').forEach(q=>q.classList.toggle('hov',q.dataset.i===r.dataset.i))});r.addEventListener('mouseleave',()=>{RAY.h=-1;$('#cont').classList.remove('hv');$$('#cont .hov').forEach(q=>q.classList.remove('hov'))})});
 stabs.addEventListener('keydown',e=>{if(e.key==='ArrowRight')season(Math.min(3,sCur+1));if(e.key==='ArrowLeft')season(Math.max(0,sCur-1))});
 season(0);addEventListener('resize',()=>season(sCur));
 
@@ -894,6 +970,7 @@ $('#bento').innerHTML=FMT.map((f,i)=>`<li class="fr" data-r><svg class="ic" view
 
 /* ADVISORY BOARD — данные Ассамблеи */
 const ADV=[
+ ['ppl-tregulova.webp','tregulova','Зельфира Трегулова','Москва','Искусствовед, куратор масштабных международных выставочных проектов. Создательница первых в&nbsp;России выставок-блокбастеров. Экс-генеральный директор Третьяковской галереи','Поможет увидеть масштаб идеи и&nbsp;понять, как представить её&nbsp;так, чтобы привлечь аудиторию, партнёров и&nbsp;деньги.'],
  ['ppl-anikina3.webp','anikina','Евгения Аникина','Дубай','Сооснователь EntSpace&nbsp;— экосистемы для&nbsp;компаний с&nbsp;оборотом от&nbsp;$1&nbsp;млн до&nbsp;$100&nbsp;млн. Архитектор предпринимательских образовательных программ, в&nbsp;том числе «СКОЛКОВО Практикум»','Поможет увидеть в&nbsp;вашей идее бизнес-логику, реакцию людей и&nbsp;слабые места, которые важно проверить.'],
  ['ppl-komarov.webp','komarov','Алексей Комаров','Дубай','Сооснователь EntSpace. Стратег по&nbsp;развитию бизнеса. Экс-ведущий проектной работы и&nbsp;игрового режима «СКОЛКОВО Практикум»','Поможет определить, на&nbsp;каком этапе находится ваша идея и&nbsp;какой следующий ход приведёт её&nbsp;к&nbsp;росту.'],
  ['ppl-nedostoev.webp','nedostoev','Павел Недостоев','Москва','Художник, креатор и&nbsp;предприниматель. Сооснователь PANTERRA, DEPARTAMENT, EVENT&nbsp;MBA, «Юности&nbsp;83» и&nbsp;Fonoteca Listening Bar','Поможет сохранить авторскую силу идеи, сделав её&nbsp;понятной аудитории и&nbsp;жизнеспособной для&nbsp;бизнеса.'],
@@ -904,11 +981,10 @@ const ADV=[
  ['ppl-solo.webp','solo','Татьяна Соло','Санкт-Петербург','Предприниматель и&nbsp;энергокоуч, основатель Школы энергокоучинга, автор книг','Поможет увидеть, хватит&nbsp;ли автору идеи фокуса, энергии и&nbsp;способности вовлечь других.'],
  ['ppl-gerankin.webp','gerankin','Евгений Геранькин','Санкт-Петербург','Предприниматель и&nbsp;цифровой психолог, основатель Института цифровой психологии','Поможет увидеть, как собрать вокруг своей идеи сообщество и&nbsp;создать модель монетизации.']
 ];
-$('#adv').innerHTML=ADV.map(p=>`<article class="sk"><div class="ph1"><img src="img/${p[0]}" alt="${p[2]}" loading="lazy"><span class="loc">${p[3]}</span></div><h3>${p[2]}</h3><div class="idea"><span><img src="img/idea-${p[1]}.webp" alt="" loading="lazy"></span><p>${p[5]}</p></div><p class="rg">${p[4]}</p></article>`).join('');
+$('#adv').innerHTML=ADV.map((p,i)=>`<article class="sk" data-r style="--d:${(i%5*.06).toFixed(2)}s"><div class="ph1"><img src="img/${p[0]}" alt="${p[2]}" loading="lazy"><span class="loc">${p[3]}</span></div><h3>${p[2]}</h3><div class="idea"><span><img src="img/idea-${p[1]}.webp" alt="" loading="lazy"></span><p>${p[5]}</p></div><p class="rg">${p[4]}</p></article>`).join('');
 const carousel=(ks,pv,nx)=>{const step=()=>ks.firstElementChild.offsetWidth+24;const upd=()=>{pv.disabled=ks.scrollLeft<4;nx.disabled=ks.scrollLeft>ks.scrollWidth-ks.clientWidth-4};
  pv.addEventListener('click',()=>ks.scrollBy({left:-step(),behavior:reduce?'auto':'smooth'}));nx.addEventListener('click',()=>ks.scrollBy({left:step(),behavior:reduce?'auto':'smooth'}));
  ks.addEventListener('scroll',upd,{passive:true});ks.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nx.click();if(e.key==='ArrowLeft')pv.click()});upd();addEventListener('resize',upd)};
-carousel($('#adv'),$('#aPrev'),$('#aNext'));
 
 /* РЕЗУЛЬТАТЫ: 12 историй; у кого нет фото — мраморный объект на круге */
 const K=[
@@ -935,7 +1011,7 @@ $('#ks').innerHTML=K.map((k,n)=>`<article class="kc"><div class="pic${k.f?'':' a
 const FAQ=[
  ['Можно ли прийти без готовой идеи?','Да. Вы&nbsp;можете начать с&nbsp;вопроса о&nbsp;новом направлении, своём опыте и&nbsp;том, какую ценность хотите создавать.'],
  ['Нужно ли проходить сезоны строго по&nbsp;порядку?','Нет. Вы&nbsp;выбираете фокус по&nbsp;своей задаче и&nbsp;рекомендациям диагностики. К&nbsp;нужным материалам можно возвращаться в&nbsp;течение участия.'],
- ['Как устроена работа?','Общие практикумы, лекции и&nbsp;игровые форматы сочетаются с&nbsp;самостоятельными встречами шестёрки, индивидуальными практиками и&nbsp;действиями в&nbsp;своём проекте.'],
+ ['Как устроена работа?','Общие воркшопы, лекторий и&nbsp;игровые лаборатории сочетаются с&nbsp;самостоятельными встречами шестёрки, индивидуальными практиками и&nbsp;действиями в&nbsp;своём проекте.'],
  ['Мне нужно бросать действующий бизнес?','Нет. В&nbsp;Среду можно прийти с&nbsp;действующим бизнесом и&nbsp;работать с&nbsp;конкретным вопросом его развития или&nbsp;с&nbsp;новым направлением.'],
  ['Будет&nbsp;ли у&nbsp;меня личное сопровождение Марисабель?','Основная работа организована через общие форматы и&nbsp;шестёрки. Индивидуальная работа с&nbsp;Марисабель не&nbsp;заявлена в&nbsp;составе этих тарифов.'],
  ['Что произойдёт после оплаты?','Вы&nbsp;получите инструкцию по&nbsp;входу в&nbsp;Среду и&nbsp;доступу к&nbsp;предусмотренным вашим тарифом материалам и&nbsp;форматам.']
@@ -1044,7 +1120,7 @@ function Sphere(cv,o){
   // маска
   const m=document.createElement('canvas'),mx=mk(m);mx.fillStyle='#fff';put(mx);const url='url('+m.toDataURL()+')';fr.style.webkitMaskImage=fr.style.maskImage=url;
   // тень снаружи букв
-  const sx=mk(cSh);sx.fillStyle='#000';sx.shadowColor='rgba(110,36,0,.32)';sx.shadowBlur=fs*.18;sx.shadowOffsetY=fs*.06;put(sx);sx.shadowColor='transparent';sx.globalCompositeOperation='destination-out';put(sx);
+  const sx=mk(cSh);sx.fillStyle='#000';sx.shadowColor='rgba(255,246,240,.85)';sx.shadowBlur=fs*.16;sx.shadowOffsetY=0;put(sx);sx.shadowColor='transparent';sx.globalCompositeOperation='destination-out';put(sx);
   // кромка и блик
   const rx=mk(cRim);rx.font=font;rx.lineJoin='round';
   const g=rx.createLinearGradient(0,cy-lh*lines.length/2,0,cy+lh*lines.length/2);g.addColorStop(0,'rgba(255,255,255,.75)');g.addColorStop(.45,'rgba(255,255,255,.08)');g.addColorStop(1,'rgba(255,255,255,.35)');
@@ -1052,7 +1128,7 @@ function Sphere(cv,o){
   rx.strokeStyle='rgba(255,255,255,.9)';rx.lineWidth=Math.max(1,fs*.008);lines.forEach((t,k)=>{rx.textAlign='center';rx.textBaseline='middle';rx.strokeText(t,W/2,cy+(k-(lines.length-1)/2)*lh+fs*.04)});
   rx.strokeStyle='rgba(150,50,0,.22)';rx.lineWidth=Math.max(.8,fs*.004);lines.forEach((t,k)=>rx.strokeText(t,W/2,cy+(k-(lines.length-1)/2)*lh+fs*.04+fs*.006));
   hero.classList.add('glass');box.classList.add('on')};
- if(ok&&document.fonts){let tm;document.fonts.load('400 100px Bluescreens').then(()=>{draw();addEventListener('resize',()=>{clearTimeout(tm);tm=setTimeout(draw,150)})}).catch(()=>{})}}
+ if(ok&&document.fonts){let tm;const go=()=>{draw();addEventListener('resize',()=>{clearTimeout(tm);tm=setTimeout(draw,150)})};document.fonts.load('400 100px Bluescreens').then(go,go)}}
 
 /* первый экран */
 const hero=$('#top'),heroSlot=$('#heroSlot');
